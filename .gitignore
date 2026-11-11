@@ -28,6 +28,7 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-# Temporary test screenshots
-screenshot*.png
+# Temporary test screenshots and backups
+*.png
+*.bak
 

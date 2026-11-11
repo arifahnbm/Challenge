@@ -46,16 +46,8 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
   position:fixed; inset:0; width:100%; height:100%;
   display:block; z-index:0; background:#fdf0f4;
 }
-#grain{
-  position:fixed; inset:-1px; z-index:60; pointer-events:none;
-  opacity:.022; mix-blend-mode:multiply;
-  background-repeat:repeat; background-size:180px 180px;
-}
-#vignette{
-  position:fixed; inset:0; z-index:55; pointer-events:none;
-  background:radial-gradient(125% 95% at 50% 42%, transparent 65%, rgba(255,225,235,.25) 100%);
-  opacity:0.6;
-}
+#grain{ display:none !important; }
+#vignette{ display:none !important; }
 .page{ position:relative; z-index:10; }
 
 /* ============================================================= type */
@@ -67,7 +59,7 @@ button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
 h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .display{
   text-transform:uppercase; line-height:1.055; letter-spacing:-.012em;
-  font-weight:400; text-shadow:0 2px 34px rgba(3,6,8,.72);
+  font-weight:400; text-shadow:none;
 }
 .h-hero{ font-size:clamp(26px,3.05vw,46px); }
 .h-sec{ font-size:clamp(30px,4.0vw,60px); }
@@ -164,13 +156,12 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 
 /* ============================================================= hero */
 .hero{ position:relative; min-height:100svh; padding:0 var(--pad); display:flex; flex-direction:column; }
-.hero::before{ content:''; position:absolute; left:0; right:0; top:0; height:46%; pointer-events:none;
-  background:linear-gradient(rgba(3,6,9,.72), rgba(3,6,9,.34) 46%, transparent); }
+.hero::before{ display:none !important; }
 .hero-top{ padding-top:calc(var(--nav-h) + clamp(12px,2.6vh,34px)); max-width:min(560px,46vw); position:relative; z-index:2; }
 .hero-top .eyebrow{ display:flex; align-items:center; gap:10px; margin-bottom:20px; }
 .hero-top .eyebrow .dot{ width:5px; height:5px; border-radius:50%; background:var(--vermilion); box-shadow:0 0 10px var(--vermilion); }
 .hero h1{ margin-bottom:18px; }
-.hero-sub{ max-width:322px; text-shadow:0 1px 26px rgba(3,6,8,.95); }
+.hero-sub{ max-width:322px; text-shadow:none; }
 .hero-spacer{ flex:1 1 auto; min-height:clamp(140px,26vh,300px); }
 .hero-foot{ padding-bottom:clamp(22px,4.2vh,42px); position:relative; z-index:2; }
 .hero-cue{ display:flex; align-items:center; justify-content:flex-end; gap:12px; margin-bottom:14px;
@@ -187,7 +178,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .chip .tx{ min-width:0; padding-top:3px; }
 .chip b{ display:block; font-size:10px; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
   color:var(--bone-dim); margin-bottom:6px; transition:color .4s;
-  text-shadow:0 1px 16px rgba(3,6,8,.9); }
+  text-shadow:none; }
 .chip p{ margin:0; font-size:11px; line-height:1.5; color:#7d8781; max-width:22ch;
   transition:color .4s; }
 .chip:hover .num{ color:var(--ember); transform:translate3d(0,-2px,0); }
@@ -202,10 +193,10 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   transition:transform .8s var(--ease-out);
 }
 .peek-fr{ display:block; aspect-ratio:16/10;
-  background:linear-gradient(180deg, rgba(3,6,9,.04) 24%, rgba(3,6,9,.48) 100%),
+  background:linear-gradient(180deg, rgba(255,255,255,.05) 24%, rgba(253,240,244,.42) 100%),
     url('secret-pathways-assets/generated/kage-sanmon-preview.webp') center / cover no-repeat;
-  outline:1px solid rgba(223,231,224,.16); outline-offset:-1px;
-  box-shadow:0 34px 70px -30px rgba(0,0,0,.9); transition:outline-color .5s; }
+  outline:1px solid rgba(90,40,60,.12); outline-offset:-1px;
+  box-shadow:0 24px 50px -20px rgba(90,40,60,.18); transition:outline-color .5s; }
 .peek:hover{ transform:translate3d(0,-5px,0); }
 .peek:hover .peek-fr{ outline-color:rgba(223,231,224,.42); }
 .peek-play{ position:absolute; top:0; right:0; left:0; bottom:auto; aspect-ratio:16/10;
@@ -229,21 +220,15 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .sec{ position:relative; padding:clamp(88px,15vh,190px) var(--pad); }
 .sec::before{
   content:''; position:absolute; inset:-22% -4%; z-index:-1; pointer-events:none;
-  background:radial-gradient(110% 62% at 30% 50%, rgba(4,7,10,.88), rgba(4,7,10,.62) 42%, rgba(4,7,10,.18) 74%, rgba(4,7,10,0));
-  /* A chapter's scrim is there to hold its own copy off the sanctuary, and it
-     is inset -22% so its edges never land as a seam. That overshoot, plus the
-     section's top padding, means it was washing most of a screen of scene
-     above the chapter — the frame stayed masked long after the hero had let
-     go of it. The mask takes the top of it back off: nothing at the very top,
-     full strength by the time the chapter's own first line arrives. */
+  background:radial-gradient(110% 62% at 30% 50%, rgba(253,240,244,.85), rgba(253,240,244,.55) 42%, rgba(253,240,244,.20) 74%, transparent);
   -webkit-mask-image:linear-gradient(transparent, #000 44%);
           mask-image:linear-gradient(transparent, #000 44%);
 }
-#pathways::before{ background:radial-gradient(108% 64% at 50% 50%, rgba(4,7,10,.70), rgba(4,7,10,.44) 50%, rgba(4,7,10,0)); }
-#eternity::before{ background:radial-gradient(82% 58% at 50% 46%, rgba(4,7,10,.26), rgba(4,7,10,.66) 56%, rgba(4,7,10,.90) 82%, rgba(4,7,10,0)); }
+#pathways::before{ background:radial-gradient(108% 64% at 50% 50%, rgba(253,240,244,.75), rgba(253,240,244,.45) 50%, transparent); }
+#eternity::before{ background:radial-gradient(82% 58% at 50% 46%, rgba(253,240,244,.35), rgba(253,240,244,.65) 56%, rgba(253,240,244,.85) 82%, transparent); }
 .foot::before{
   content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
-  background:linear-gradient(rgba(4,7,10,.55), rgba(4,7,10,.94) 40%, rgba(4,7,10,.98));
+  background:linear-gradient(rgba(253,240,244,.65), rgba(253,240,244,.88) 40%, rgba(253,240,244,.96));
 }
 .sec-head{ display:flex; align-items:baseline; gap:16px; margin-bottom:clamp(30px,5vh,66px); }
 .sec-head .k{ font-size:10px; font-weight:500; letter-spacing:.24em; text-transform:uppercase; color:var(--muted); }
@@ -254,7 +239,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .gate-grid{ display:grid; grid-template-columns:minmax(0,1.02fr) minmax(0,1fr); gap:clamp(28px,5vw,90px); align-items:start; }
 .gate-grid h2{ max-width:11ch; }
 .gate-copy{ padding-top:6px; }
-.gate-copy .lead{ font-size:clamp(15px,1.16vw,19px); line-height:1.66; color:#c2cdc5; text-shadow:0 1px 20px rgba(3,6,8,.9); }
+.gate-copy .lead{ font-size:clamp(15px,1.16vw,19px); line-height:1.66; color:var(--bone-dim); text-shadow:none; }
 .gate-copy .lead + p{ margin-top:20px; }
 .arrowlink{ display:inline-flex; align-items:center; gap:12px; margin-top:34px;
   font-size:11px; font-weight:500; letter-spacing:.2em; text-transform:uppercase; color:var(--bone); }
@@ -285,21 +270,21 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .card:hover .card-fr{ outline-color:rgba(223,231,224,.30); }
 .card:nth-child(1) .card-fr{
   background:
-    linear-gradient(180deg,rgba(3,6,9,.04) 36%,rgba(3,6,9,.72) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.05) 36%,rgba(253,240,244,.55) 100%),
     url('secret-pathways-assets/generated/kage-approach.webp') center / cover no-repeat;
 }
 .card:nth-child(2) .card-fr{
   background:
-    linear-gradient(180deg,rgba(3,6,9,.06) 36%,rgba(3,6,9,.74) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.05) 36%,rgba(253,240,244,.55) 100%),
     url('secret-pathways-assets/generated/kage-lantern-court.webp') center / cover no-repeat;
 }
 .card:nth-child(3) .card-fr{
   background:
-    linear-gradient(180deg,rgba(3,6,9,.05) 36%,rgba(3,6,9,.74) 100%),
+    linear-gradient(180deg,rgba(255,255,255,.05) 36%,rgba(253,240,244,.55) 100%),
     url('secret-pathways-assets/generated/kage-moonwater.webp') center / cover no-repeat;
 }
 .card-fr::after{ content:''; position:absolute; inset:0;
-  background:linear-gradient(transparent 46%, rgba(4,6,9,.80)); pointer-events:none; }
+  background:linear-gradient(transparent 46%, rgba(253,240,244,.72)); pointer-events:none; }
 /* The fabric overdraws its card by CL_BLEED on every side so the billow and
    the contact shadow have somewhere to go, so the frame cannot clip it. The
    card's outline is not here at all: it is drawn in the cloth shader, where it
@@ -381,7 +366,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .card-lab{ position:absolute; left:16px; right:16px; bottom:14px; z-index:2;
   display:flex; align-items:flex-end; justify-content:space-between; gap:10px; }
 .card-lab b{ font-size:clamp(13px,1.15vw,17px); font-weight:400; letter-spacing:.02em; text-transform:uppercase; }
-.card-lab .jp{ font-size:11px; letter-spacing:.3em; color:rgba(223,231,224,.62); }
+.card-lab .jp{ font-size:11px; letter-spacing:.3em; color:var(--muted); }
 .card-ar{ position:absolute; top:14px; right:14px; z-index:2; width:26px; height:26px;
   opacity:0; transform:translate3d(-4px,4px,0); transition:.5s var(--ease-out); }
 .card:hover .card-ar{ opacity:1; transform:none; }
@@ -408,8 +393,8 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .les:hover .k{ color:var(--vermilion); }
 .les h3{ font-size:clamp(16px,1.5vw,23px); font-weight:400; letter-spacing:-.005em; }
 .les h3 em{ font-style:normal; font-family:'NotoJP',sans-serif; font-size:.72em; color:var(--muted); margin-left:12px; letter-spacing:.24em; }
-.les p{ margin:0; font-size:13px; line-height:1.6; color:#909b95; text-shadow:0 1px 16px rgba(3,6,8,.92); }
-.les .t{ text-align:right; font-size:11px; letter-spacing:.14em; color:#8b958f; font-variant-numeric:tabular-nums; text-shadow:0 1px 16px rgba(3,6,8,.92); }
+.les p{ margin:0; font-size:13px; line-height:1.6; color:var(--bone-dim); text-shadow:none; }
+.les .t{ text-align:right; font-size:11px; letter-spacing:.14em; color:var(--muted); font-variant-numeric:tabular-nums; text-shadow:none; }
 .les .bar{ position:absolute; left:0; bottom:-1px; height:1px; width:100%; background:var(--vermilion);
   transform:scaleX(0); transform-origin:left; transition:transform .7s var(--ease-out); }
 .les:hover .bar{ transform:scaleX(1); }
@@ -475,7 +460,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   .nav-links{
     display:flex; position:fixed; top:0; right:0; bottom:0; width:min(84vw,360px);
     padding:calc(var(--nav-h) + 28px) var(--pad) 34px; flex-direction:column; align-items:flex-start; gap:0;
-    background:rgba(3,6,9,.98); border-left:1px solid var(--line-soft);
+    background:rgba(253,240,244,.98); border-left:1px solid var(--line-soft);
     transform:translate3d(100%,0,0); opacity:0; visibility:hidden; pointer-events:none;
     transition:transform .65s var(--ease-out), opacity .4s, visibility 0s linear .65s;
   }
@@ -595,7 +580,7 @@ body[data-layout-curriculum="b"] .cur{
 }
 body[data-layout-curriculum="b"] .les{
   display:flex; flex-direction:column; align-items:flex-start; min-height:250px;
-  padding:24px; gap:14px; border:0; background:rgba(5,7,10,.84); overflow:hidden;
+  padding:24px; gap:14px; border:0; background:rgba(253,240,244,.84); overflow:hidden;
 }
 body[data-layout-curriculum="b"] .les:nth-child(-n+2){ grid-column:span 3; }
 body[data-layout-curriculum="b"] .les:nth-child(n+3){ grid-column:span 2; }
@@ -3761,10 +3746,10 @@ function clothPlate(img, w, h) {
   const dw = img.width * s, dh = img.height * s;
   x.drawImage(img, (c.width - dw) / 2, (c.height - dh) / 2, dw, dh);
   let g = x.createLinearGradient(0, 0, 0, c.height);
-  g.addColorStop(.36, 'rgba(3,6,9,.05)'); g.addColorStop(1, 'rgba(3,6,9,.73)');
+  g.addColorStop(.36, 'rgba(255,255,255,.05)'); g.addColorStop(1, 'rgba(253,240,244,.55)');
   x.fillStyle = g; x.fillRect(0, 0, c.width, c.height);
   g = x.createLinearGradient(0, 0, 0, c.height);
-  g.addColorStop(.46, 'rgba(4,6,9,0)'); g.addColorStop(1, 'rgba(4,6,9,.80)');
+  g.addColorStop(.46, 'rgba(253,240,244,0)'); g.addColorStop(1, 'rgba(253,240,244,.72)');
   x.fillStyle = g; x.fillRect(0, 0, c.width, c.height);
   return c;
 }
@@ -3893,7 +3878,7 @@ function initPost() {
     uniforms: {
       tS: { value: null }, tB: { value: null }, uRes: { value: new THREE.Vector2(w, h) },
       uT: { value: 0 }, uBloom: { value: .24 }, uCA: { value: 0.6 }, uGrain: { value: .004 },
-      uVig: { value: .12 }, uExp: { value: 1.18 }, uFade: { value: 1 }, uSat: { value: 1.10 }
+      uVig: { value: 0.0 }, uExp: { value: 1.20 }, uFade: { value: 1 }, uSat: { value: 1.10 }
     },
     vertexShader: QUAD_VS,
     fragmentShader:
