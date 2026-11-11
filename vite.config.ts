@@ -13,5 +13,8 @@ export default defineConfig({
   server: {
     port: 5173,
     open: false,
+    watch: {
+      ignored: ["**/*.png", "**/screenshot*"],
+    },
   },
 });
