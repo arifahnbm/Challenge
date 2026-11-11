@@ -349,13 +349,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   radial-gradient(120% 80% at 50% 0%, rgba(120,150,158,.16), transparent 60%), #05070a;
   background-attachment:fixed; }
 .no-webgl .peek-fr{ background:linear-gradient(160deg,#162326,#0b1013 55%,#241010); }
-.no-webgl .word-fb{
-  display:block; position:absolute; left:0; right:0; bottom:16%; z-index:1;
-  font-family:'Wordmark','Onest',sans-serif; font-weight:600; font-size:21.4vw; line-height:.78;
-  letter-spacing:.052em; text-align:center; pointer-events:none;
-  background:linear-gradient(#e2ece5, #97a89c); -webkit-background-clip:text; background-clip:text;
-  color:transparent;
-}
+.no-webgl .word-fb{ display:none !important; }
 /* The live hero has no foot scrim, but the fallback still needs one: there it
    stands on a bright CSS sky rather than a night scene, and the chips and the
    wordmark have nothing else holding them off it. So this carries the whole
@@ -3020,6 +3014,7 @@ function buildWordmark() {
     WORD.glyphs.push(mesh);
   });
   group.position.z = WORD_Z;
+  group.visible = false;
   scene.add(group);
   WORD.group = group;
   WORD.ink = { xMin: xMin, xMax: xMax, cx: (xMin + xMax) / 2, w: xMax - xMin, asc: ascMax };
@@ -4533,13 +4528,14 @@ function updateWorld(dt) {
 
   /* the type rises from behind the grass, then dissolves as you close on it */
   if (WORD.group) {
+    WORD.group.visible = false;
     const near = smooth(0.02, 0.92, RIG.smooth);
     WORD.glyphs.forEach((g, i) => {
       const st = clamp((WORD.reveal - i * .075) / .62, 0, 1);
       const e = easeOut(st);
       g.position.y = g.userData.baseY - (1 - e) * (WORD.ink.asc * 1.15);
-      g.material.opacity = e * (1 - near * .96);
-      g.visible = g.material.opacity > .004;
+      g.material.opacity = 0;
+      g.visible = false;
     });
   }
   /* the cut-out layers dissolve as the camera reaches them, so the path can
