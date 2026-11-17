@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Kage — Where stillness reveals the unseen</title>
 <meta name="description" content="A five-chapter night walk through a Kyoto mountain temple. Charred cypress, lantern light and a vermilion moon, rendered live in WebGL.">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' fill='%2305070a'/%3E%3Ccircle cx='16' cy='17' r='8' fill='%23e0231c'/%3E%3Crect x='4' y='8' width='24' height='2.6' fill='%23dfe7e0'/%3E%3Crect x='7' y='13' width='18' height='2' fill='%23dfe7e0'/%3E%3C/svg%3E">
+<link rel="icon" type="image/png" href="secret-pathways-assets/sakura-logo.png">
 <link rel="stylesheet" href="secret-pathways-assets/fonts.css">
 <style>
 /* ============================================================= tokens */
@@ -99,6 +99,8 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .body{ font-size:14px; line-height:1.68; color:#585046; font-weight:300; text-shadow:0 1px 10px rgba(255,255,255,.6); }
 .num{ font-size:clamp(26px,2.5vw,36px); font-weight:300; letter-spacing:-.02em; color:var(--bone); font-variant-numeric:tabular-nums; }
 
+
+
 /* ============================================================= reveal */
 [data-rv]{ opacity:0; }
 [data-rv="up"]{ transform:translate3d(0,26px,0); }
@@ -125,8 +127,8 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 }
 #pre.done{ opacity:0; visibility:hidden; pointer-events:none; }
 .pre-in{ width:min(420px,74vw); text-align:center; }
-.pre-mark{ margin:0 auto 26px; width:44px; height:44px; opacity:.9; }
-.pre-mark svg{ width:100%; height:100%; display:block; }
+.pre-mark{ margin:0 auto 26px; width:44px; height:44px; opacity:.95; }
+.pre-mark svg, .pre-mark img{ width:100%; height:100%; display:block; object-fit:contain; }
 .pre-jp{ font-size:12px; letter-spacing:.5em; color:var(--bone-dim); margin-bottom:20px; }
 .pre-bar{ position:relative; height:1px; background:rgba(223,231,224,.14); overflow:hidden; }
 .pre-bar i{ position:absolute; inset:0 100% 0 0; background:var(--bone); transition:right .35s linear; }
@@ -163,8 +165,16 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 }
 .nav.stuck::after{ opacity:1; }
 .nav.hide{ transform:translate3d(0,-101%,0); }
-.brand{ display:flex; align-items:center; gap:11px; flex:0 0 auto; }
-.brand svg{ width:34px; height:34px; display:block; }
+.brand{ display:flex; align-items:center; gap:11px; flex:0 0 auto; text-decoration:none; }
+.brand svg, .brand img{ width:34px; height:34px; display:block; object-fit:contain; }
+.brand-logo{
+  width:34px; height:34px; display:block; object-fit:contain;
+  filter:drop-shadow(0 2px 6px rgba(224,35,28,.14));
+  transition:transform .45s var(--ease-out);
+}
+.brand:hover .brand-logo{
+  transform:rotate(18deg) scale(1.08);
+}
 .brand-tx{ display:flex; flex-direction:column; line-height:1; gap:3px; }
 .brand-tx b{ font-size:12px; font-weight:500; letter-spacing:.26em; }
 .brand-tx i{ font-style:normal; font-size:8px; letter-spacing:.34em; color:var(--muted); }
@@ -232,23 +242,62 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .hero-cue .track{ width:46px; height:1.5px; background:rgba(224,35,28,.25); position:relative; overflow:hidden; border-radius:1px; }
 .hero-cue .track i{ position:absolute; inset:0; background:var(--vermilion); transform-origin:left;
   animation:cue 2.8s var(--ease-io) infinite; }
-.chapters{
-  display:grid; grid-template-columns:repeat(4,1fr); gap:clamp(14px,2.4vw,40px);
-  border-top:1px solid var(--line-soft); padding-top:18px;
+.hero-stamps{
+  display:flex; align-items:flex-start; gap:clamp(16px, 2.2vw, 24px);
+  border-top:1px solid var(--line-soft); padding-top:16px; margin-top:4px;
 }
-.chip{ display:flex; gap:14px; align-items:flex-start; cursor:pointer; }
-.chip .num{ line-height:1; flex:0 0 auto; transition:color .4s, transform .5s var(--ease-out); }
-.chip .tx{ min-width:0; padding-top:3px; }
-.chip b{ display:block; font-size:10px; font-weight:500; letter-spacing:.2em; text-transform:uppercase;
-  color:var(--bone-dim); margin-bottom:6px; transition:color .4s;
-  text-shadow:none; }
-.chip p{ margin:0; font-size:11px; line-height:1.5; color:#7d8781; max-width:22ch;
-  transition:color .4s; }
-.chip:hover .num{ color:var(--ember); transform:translate3d(0,-2px,0); }
-.chip:hover b{ color:var(--bone); }
-.chip:hover p{ color:var(--bone-dim); }
-.chip.on .num{ color:var(--ember); }
-.chip.on b{ color:var(--bone); }
+.stamp-link{
+  display:flex; flex-direction:column; align-items:center; gap:8px;
+  text-decoration:none; cursor:pointer; color:var(--bone);
+  transition:transform .35s var(--ease-out);
+}
+.stamp-link:hover{
+  transform:translate3d(0,-4px,0);
+}
+.stamp-box{
+  width:48px; height:48px; border:1.5px solid var(--vermilion);
+  border-radius:6px; color:var(--vermilion); display:grid; place-items:center;
+  background:rgba(255,252,253,.94); backdrop-filter:blur(8px); -webkit-backdrop-filter:blur(8px);
+  box-shadow:0 2px 8px rgba(224,35,28,.18);
+  position:relative; transition:all .3s cubic-bezier(.16,1,.3,1);
+}
+.stamp-box::after{
+  content:''; position:absolute; inset:2.5px;
+  border:1px dashed rgba(224,35,28,.35); border-radius:4px;
+  pointer-events:none; transition:border-color .3s;
+}
+.stamp-link:hover .stamp-box{
+  background:var(--vermilion); color:#fff; border-color:var(--vermilion);
+  box-shadow:0 6px 18px rgba(224,35,28,.32);
+}
+.stamp-link:hover .stamp-box::after{
+  border-color:rgba(255,255,255,.45);
+}
+.stamp-tx{
+  font-family:'Cinzel','Onest',sans-serif; font-weight:700; font-size:15px;
+  letter-spacing:.06em; color:var(--vermilion); line-height:1;
+  transition:color .3s;
+}
+.stamp-link:hover .stamp-tx{
+  color:#fff;
+}
+.stamp-icon{
+  display:block; fill:var(--vermilion); transition:fill .3s;
+}
+.stamp-link:hover .stamp-icon{
+  fill:#fff;
+}
+.stamp-meta{
+  text-align:center;
+}
+.stamp-title{
+  display:block; font-size:10px; font-weight:600; letter-spacing:.16em;
+  text-transform:uppercase; color:var(--bone);
+  text-shadow:0 1px 8px rgba(255,255,255,.9); transition:color .3s;
+}
+.stamp-link:hover .stamp-title{
+  color:var(--vermilion);
+}
 /* the floating window: a generated Sanmon still carried over the hero */
 .peek{
   position:absolute; z-index:2; right:clamp(78px,11vw,190px); top:clamp(132px,25vh,238px);
@@ -590,8 +639,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   html.nav-open,html.nav-open body{ overflow:hidden; }
   .rail{ display:none; }
   .hero-side{ display:none; }
-  .chapters{ grid-template-columns:repeat(2,1fr); gap:18px 14px; }
-  .chip p{ font-size:10px; }
+  .hero-stamps{ gap:14px; }
   .cards{ grid-template-columns:1fr; gap:14px; }
   .card:nth-child(2),.card:nth-child(3){ transform:none; }
   .gate-stats{ flex-wrap:wrap; gap:20px 34px; }
@@ -618,13 +666,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 body[data-layout-hero="b"] .hero-top{ margin-left:0; max-width:min(590px,46vw); }
 body[data-layout-hero="b"] .hero-foot{ width:min(480px,40vw); margin-left:0; }
 body[data-layout-hero="b"] .hero-cue{ justify-content:flex-start; }
-body[data-layout-hero="b"] .chapters{ grid-template-columns:repeat(4,minmax(0,1fr)); gap:12px; }
-body[data-layout-hero="b"] .chip{ position:relative; flex-direction:column; gap:0; }
-body[data-layout-hero="b"] .chip .num{ font-size:clamp(29px,3.1vw,48px); }
-body[data-layout-hero="b"] .chip .tx{
-  position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0);
-  clip-path:inset(50%); white-space:nowrap;
-}
+body[data-layout-hero="b"] .hero-stamps{ justify-content:flex-start; }
 /* the live window drops into the open right corner, away from the reading
    column and the oversized 3-D wordmark */
 body[data-layout-hero="b"] .peek{
@@ -710,7 +752,8 @@ body[data-layout-footer="b"] .foot-brand{
   grid-column:1 / -1; display:grid; grid-template-columns:70px minmax(0,1fr); align-items:center;
   padding-bottom:34px; margin-bottom:8px; border-bottom:1px solid var(--line-soft);
 }
-body[data-layout-footer="b"] .foot-brand svg{ width:54px; height:54px; }
+body[data-layout-footer="b"] .foot-brand svg,
+body[data-layout-footer="b"] .foot-brand img{ width:50px; height:50px; object-fit:contain; }
 body[data-layout-footer="b"] .foot-brand p{
   margin:0; max-width:48ch; font-size:clamp(18px,2vw,30px); line-height:1.35; color:var(--bone-dim);
 }
@@ -979,10 +1022,7 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
 <div id="pre">
   <div class="pre-in">
     <div class="pre-mark">
-      <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
-        <circle cx="22" cy="24" r="9.5" stroke="#e0231c" stroke-width="1.2"/>
-        <path d="M6 12h32M9.5 17h25M22 8v28" stroke="#dfe7e0" stroke-width="1.2"/>
-      </svg>
+      <img src="secret-pathways-assets/sakura-logo.png" alt="Logo Sakura" class="pre-logo" width="44" height="44" />
     </div>
     <div class="pre-jp jp">影の道</div>
     <div class="pre-bar"><i id="pre-fill"></i></div>
@@ -995,11 +1035,7 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
 <!-- ============================================================ nav -->
 <header class="nav" id="nav">
   <a class="brand" href="#top" data-cursor>
-    <svg viewBox="0 0 44 44" fill="none" aria-hidden="true">
-      <circle cx="22" cy="25" r="8.6" fill="#e0231c" fill-opacity=".9"/>
-      <path d="M5 13h34M9 18.4h26M22 8.5v27" stroke="#dfe7e0" stroke-width="1.5"/>
-      <path d="M14 35.5h16" stroke="#dfe7e0" stroke-width="1.2" stroke-opacity=".6"/>
-    </svg>
+    <img src="secret-pathways-assets/sakura-logo.png" alt="Arifah Machi" class="brand-logo" width="34" height="34" />
     <span class="brand-tx"><b>ARIFAH MACHI</b><i>PORTFOLIO OF ARIFAH</i></span>
   </a>
   <nav class="nav-links" id="navlinks">
@@ -1028,15 +1064,37 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
 
   <div class="hero-foot">
     <div class="hero-cue" data-rv="fade"><span class="role-track-wrap"><span id="role-rotator" class="role-rotator">Software Developer</span></span><span class="track"><i></i></span></div>
-    <div class="chapters" id="chips">
-      <div class="chip" data-chip="0" data-rv="up" data-cursor><span class="num">01</span>
-        <span class="tx"><b>Thresholds</b><p>Discover the hidden gates that open on to deeper paths.</p></span></div>
-      <div class="chip" data-chip="1" data-rv="up" data-cursor><span class="num">02</span>
-        <span class="tx"><b>Still Gardens</b><p>Witness the courts where silence gently unfolds.</p></span></div>
-      <div class="chip" data-chip="2" data-rv="up" data-cursor><span class="num">03</span>
-        <span class="tx"><b>Sacred Craft</b><p>Embrace the hands and heritage that shape devotion.</p></span></div>
-      <div class="chip" data-chip="3" data-rv="up" data-cursor><span class="num">04</span>
-        <span class="tx"><b>Night Rituals</b><p>Explore the rites that awaken when the day is done.</p></span></div>
+    <div class="hero-stamps" id="hero-stamps" data-rv="up">
+      <a class="stamp-link" href="#cv" target="_blank" rel="noopener noreferrer" data-cursor aria-label="Curriculum Vitae" title="Curriculum Vitae">
+        <div class="stamp-box">
+          <span class="stamp-tx">CV</span>
+        </div>
+        <div class="stamp-meta">
+          <span class="stamp-title">CV</span>
+        </div>
+      </a>
+
+      <a class="stamp-link" href="https://github.com" target="_blank" rel="noopener noreferrer" data-cursor aria-label="GitHub Profile" title="GitHub">
+        <div class="stamp-box">
+          <svg class="stamp-icon" viewBox="0 0 24 24" width="22" height="22" fill="currentColor" aria-hidden="true">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+        </div>
+        <div class="stamp-meta">
+          <span class="stamp-title">GitHub</span>
+        </div>
+      </a>
+
+      <a class="stamp-link" href="https://linkedin.com" target="_blank" rel="noopener noreferrer" data-cursor aria-label="LinkedIn Profile" title="LinkedIn">
+        <div class="stamp-box">
+          <svg class="stamp-icon" viewBox="0 0 24 24" width="20" height="20" fill="currentColor" aria-hidden="true">
+            <path d="M19 0h-14c-2.761 0-5 2.239-5 5v14c0 2.761 2.239 5 5 5h14c2.762 0 5-2.239 5-5v-14c0-2.761-2.238-5-5-5zm-11 19h-3v-11h3v11zm-1.5-12.268c-.966 0-1.75-.79-1.75-1.764s.784-1.764 1.75-1.764 1.75.79 1.75 1.764-.783 1.764-1.75 1.764zm13.5 12.268h-3v-5.604c0-3.368-4-3.113-4 0v5.604h-3v-11h3v1.765c1.396-2.586 7-2.777 7 2.476v6.759z"/>
+          </svg>
+        </div>
+        <div class="stamp-meta">
+          <span class="stamp-title">LinkedIn</span>
+        </div>
+      </a>
     </div>
   </div>
 
@@ -1247,10 +1305,7 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
   </div>
   <div class="foot-grid">
     <div class="foot-brand">
-      <svg viewBox="0 0 44 44" fill="none" width="34" height="34" aria-hidden="true">
-        <circle cx="22" cy="25" r="8.6" fill="#e0231c" fill-opacity=".9"/>
-        <path d="M5 13h34M9 18.4h26M22 8.5v27" stroke="#dfe7e0" stroke-width="1.5"/>
-      </svg>
+      <img src="secret-pathways-assets/sakura-logo.png" alt="Logo Sakura" class="foot-logo" width="46" height="46" />
       <p>A five-chapter night walk through a Kyoto mountain temple. Three illustrated garden field notes
         sit inside a live Three.js sanctuary.</p>
     </div>
@@ -4295,11 +4350,11 @@ function wireHeroExit() {
   const hero = $('#hero'); if (!hero) return;
   /* at = where in the exit it starts, span = how long it takes to go */
   const seq = [
-    { el: $('.peek'),      at: .00, span: .26, blur: 10 },
-    { el: $('.hero-cue'),  at: .10, span: .30, shift: true },
-    ...$$('.chip').map((el, i) => ({ el: el, at: .20 + i * .10, span: .30, shift: true })),
-    { el: $('.chapters'),  at: .60, span: .30 },  /* shifting it carries the chips twice */
-    { el: $('.hero-side'), at: .70, span: .30 }   /* its transform is the centring -50% */
+    { el: $('.peek'),         at: .00, span: .26, blur: 10 },
+    { el: $('.hero-cue'),     at: .10, span: .30, shift: true },
+    { el: $('.hero-top'),     at: .15, span: .35, shift: true },
+    { el: $('#hero-stamps'),  at: .20, span: .30, shift: true },
+    { el: $('.hero-side'),    at: .70, span: .30 }   /* its transform is the centring -50% */
   ].filter(o => o.el);
   let on = false;
   const apply = () => {
@@ -4759,6 +4814,7 @@ function boot() {
   let i = 0;
   const step = () => {
     const j = JOBS[i];
+    console.log('[kage] step ' + i + ': ' + j[0]);
     const done = () => {
       i++;
       const p = i / JOBS.length;
@@ -4771,6 +4827,7 @@ function boot() {
     catch (err) {
       console.error('[kage] job "' + j[0] + '" failed', err);
       if (i <= 1) return fallback(err);          /* no renderer, no scene */
+      return done();
     }
     (r && r.then) ? r.then(done, done) : done();
   };
@@ -4792,7 +4849,7 @@ function startGreetingRotator() {
   const el = document.getElementById('greeting-rotator');
   if (!el || el.dataset.rotatorStarted) return;
   el.dataset.rotatorStarted = 'true';
-  const greetings = ['Hi!', 'こんにちは', 'Halo'];
+  const defaultGreetings = ['Hi!', 'こんにちは', 'Halo'];
   let idx = 0;
 
   setInterval(() => {
@@ -4800,8 +4857,9 @@ function startGreetingRotator() {
     el.classList.add('slide-out');
 
     setTimeout(() => {
-      idx = (idx + 1) % greetings.length;
-      el.textContent = greetings[idx];
+      const list = (window.__greetings && window.__greetings.length) ? window.__greetings : defaultGreetings;
+      idx = (idx + 1) % list.length;
+      el.textContent = list[idx];
       el.classList.remove('slide-out');
       el.classList.add('slide-pre-in');
 
@@ -4817,7 +4875,7 @@ function startRoleRotator() {
   const el = document.getElementById('role-rotator');
   if (!el || el.dataset.rotatorStarted) return;
   el.dataset.rotatorStarted = 'true';
-  const roles = ['Software Developer', 'AI Engineer', 'UI/UX Designer'];
+  const defaultRoles = ['Software Developer', 'AI Engineer', 'UI/UX Designer'];
   let idx = 0;
 
   setInterval(() => {
@@ -4825,8 +4883,9 @@ function startRoleRotator() {
     el.classList.add('slide-out');
 
     setTimeout(() => {
-      idx = (idx + 1) % roles.length;
-      el.textContent = roles[idx];
+      const list = (window.__roles && window.__roles.length) ? window.__roles : defaultRoles;
+      idx = (idx + 1) % list.length;
+      el.textContent = list[idx];
       el.classList.remove('slide-out');
       el.classList.add('slide-pre-in');
 
@@ -4837,6 +4896,52 @@ function startRoleRotator() {
     }, 380);
   }, 3000);
 }
+
+function applyPortfolioData(data) {
+  if (!data) return;
+  if (data.brand) {
+    if (data.brand.name) {
+      const b = document.querySelector('.brand-tx b'); if (b) b.textContent = data.brand.name;
+    }
+    if (data.brand.sub) {
+      const i = document.querySelector('.brand-tx i'); if (i) i.textContent = data.brand.sub;
+    }
+    if (data.brand.logo) {
+      document.querySelectorAll('.brand-logo, .foot-logo, .pre-logo').forEach(img => { img.src = data.brand.logo; });
+    }
+  }
+  if (data.hero) {
+    if (data.hero.chapter) {
+      const eye = document.querySelector('.hero-top .eyebrow');
+      if (eye) eye.innerHTML = '<span class="dot"></span> ' + data.hero.chapter;
+    }
+    if (data.hero.bio) {
+      const bio = document.querySelector('.hero-sub'); if (bio) bio.textContent = data.hero.bio;
+    }
+    if (data.hero.name) {
+      const nameLines = document.querySelectorAll('.hero-top h1 .mask-line span');
+      if (nameLines && nameLines[1]) nameLines[1].textContent = data.hero.name;
+    }
+    if (Array.isArray(data.hero.greetings) && data.hero.greetings.length) {
+      window.__greetings = data.hero.greetings;
+    }
+    if (Array.isArray(data.hero.roles) && data.hero.roles.length) {
+      window.__roles = data.hero.roles;
+    }
+  }
+  if (data.stamps && Array.isArray(data.stamps)) {
+    const stampLinks = document.querySelectorAll('.stamp-link');
+    data.stamps.forEach((s, idx) => {
+      if (stampLinks[idx] && s.href) stampLinks[idx].href = s.href;
+    });
+  }
+}
+
+window.addEventListener('message', (ev) => {
+  if (ev.data && ev.data.type === 'INIT_PORTFOLIO') {
+    applyPortfolioData(ev.data.portfolioData);
+  }
+});
 
 function start() {
   startGreetingRotator();
