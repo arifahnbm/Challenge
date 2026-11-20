@@ -18,10 +18,11 @@ export const portfolioData = {
 
   // Navigation Links
   navigation: [
-    { label: "Temples", jp: "伽藍", href: "#gate" },
-    { label: "Gardens", jp: "庭園", href: "#pathways" },
-    { label: "Rituals", jp: "神事", href: "#lessons" },
-    { label: "Afterlight", jp: "残光", href: "#eternity" },
+    { label: "Greeting", jp: "挨拶", href: "#hero" },
+    { label: "About", jp: "概要", href: "#gate" },
+    { label: "Projects", jp: "作品", href: "#pathways" },
+    { label: "Award & Experience", jp: "実績", href: "#lessons" },
+    { label: "Contact", jp: "連絡", href: "#eternity" },
   ],
 
   // Hero Section Content
@@ -52,7 +53,7 @@ export const portfolioData = {
       title: "GitHub",
       fullTitle: "GitHub Profile",
       jp: "開発集",
-      href: "https://github.com/",
+      href: "https://github.com/arifahnbm",
       isExternal: true,
     },
     {
@@ -77,6 +78,31 @@ export const portfolioData = {
     titleJp: "有葉 · ARIFAH",
     subtitle: "Creative Work",
   },
+
+  // Education (Section 01 The Summary)
+  education: {
+    degree: "Bachelor of Applied Computer Science",
+    institution: "Banyuwangi State Polytechnic",
+    period: "Aug 2023 – Present",
+    location: "Banyuwangi, Indonesia",
+    gpa: "3.71",
+    gpaScale: "4.00",
+  },
+
+  // Summary / Bio (Section 01 The Summary)
+  summary: {
+    lead: "Hi! I'm Arifah Nur Basyiroh Machi, a student at Banyuwangi State Polytechnic, majoring in Business and Informatics, specializing in UI/UX design, Next.js, Laravel, MySQL, and Flutter.",
+    body: "Familiar with project-based learning, I'm learning how to develop web and mobile applications. I'm continuously developing my technical and teamwork skills to become a responsive, solution-oriented developer, ready to face the challenges of the digital era.",
+  },
+
+  // Key Strengths / Skills (Section 01 The Summary)
+  skills: [
+    { title: "Adaptability", category: "Soft Skill" },
+    { title: "Continuous Learning", category: "Growth Mindset" },
+    { title: "Time Management", category: "Efficiency & Focus" },
+    { title: "Problem Solving", category: "Solution-Oriented" },
+    { title: "Communication", category: "Teamwork & Clarity" },
+  ],
 
   // Footer Information
   footer: {
