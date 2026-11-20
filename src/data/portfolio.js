@@ -8,6 +8,10 @@
  * - Social Links (CV, GitHub, LinkedIn)
  */
 
+import { projects } from './projects.js';
+
+export { projects };
+
 export const portfolioData = {
   // Brand Header
   brand: {
@@ -103,6 +107,9 @@ export const portfolioData = {
     { title: "Problem Solving", category: "Solution-Oriented" },
     { title: "Communication", category: "Teamwork & Clarity" },
   ],
+
+  // Featured Projects (Section 02 The Creations)
+  projects: projects,
 
   // Footer Information
   footer: {

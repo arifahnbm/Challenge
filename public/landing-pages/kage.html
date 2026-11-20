@@ -613,36 +613,265 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   color: var(--bone-dim);
 }
 
-/* — chapter II: pathways cards */
-.cards{ display:grid; grid-template-columns:repeat(3,1fr); gap:clamp(10px,1.4vw,22px); align-items:start; }
-.card{ position:relative; cursor:pointer; }
-.card:nth-child(1){ transform:translateY(0); }
-.card:nth-child(2){ transform:translateY(clamp(26px,5vw,74px)); }
-.card:nth-child(3){ transform:translateY(clamp(52px,10vw,148px)); }
-/* the frame is a hole punched in the page — the scene is rendered straight
-   into this rectangle with a scissored viewport, so each card is a live
-   window onto a different corner of the sanctuary */
-.card-fr{
-  position:relative; aspect-ratio:4/5; background:transparent;
-  outline:1px solid var(--line-soft); outline-offset:-1px;
-  transition:outline-color .5s var(--ease);
+/* ================================================= chapter II: horizontal project track */
+#pathways.sec,
+#pathways.sec-horizontal-wrapper,
+#pathways{
+  position:relative !important;
+  min-height:220vh;
+  padding:0 !important;
+  box-sizing:border-box;
+  overflow:visible !important;
+  overflow-x:visible !important;
+  overflow-y:visible !important;
 }
-.card:hover .card-fr{ outline-color:rgba(223,231,224,.30); }
-.card:nth-child(1) .card-fr{
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.05) 36%,rgba(253,240,244,.55) 100%),
-    url('secret-pathways-assets/generated/kage-approach.webp') center / cover no-repeat;
+.horizontal-sticky-container{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100vh;
+  overflow:hidden;
+  display:flex;
+  flex-direction:column;
+  justify-content:flex-start;
+  padding-top:clamp(74px, 11vh, 108px);
+  padding-bottom:clamp(20px, 3.5vh, 40px);
+  box-sizing:border-box;
+  z-index:2;
+  will-change:transform;
 }
-.card:nth-child(2) .card-fr{
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.05) 36%,rgba(253,240,244,.55) 100%),
-    url('secret-pathways-assets/generated/kage-lantern-court.webp') center / cover no-repeat;
+.horizontal-sticky-container .sec-head{
+  padding-left:var(--pad);
+  padding-right:var(--pad);
+  margin-bottom:clamp(14px, 2.2vh, 26px);
+  display:flex;
+  align-items:center;
+  flex-shrink:0;
 }
-.card:nth-child(3) .card-fr{
-  background:
-    linear-gradient(180deg,rgba(255,255,255,.05) 36%,rgba(253,240,244,.55) 100%),
-    url('secret-pathways-assets/generated/kage-moonwater.webp') center / cover no-repeat;
+.horizontal-scroll-hint{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  font-size:11px;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  color:var(--vermilion);
+  margin-left:26px;
+  opacity:.88;
 }
+.horizontal-scroll-hint svg{
+  animation:hint-bounce-x 1.6s ease-in-out infinite alternate;
+}
+@keyframes hint-bounce-x{
+  from{ transform:translateX(0); }
+  to{ transform:translateX(6px); }
+}
+.cards-horizontal-viewport{
+  width:100%;
+  flex:1 1 auto;
+  min-height:0;
+  overflow:hidden;
+  position:relative;
+  display:flex;
+  align-items:center;
+}
+.cards-horizontal-track{
+  display:flex;
+  flex-direction:row;
+  align-items:stretch;
+  gap:clamp(20px, 2.5vw, 38px);
+  padding-left:var(--pad);
+  padding-right:clamp(100px, 22vw, 320px);
+  will-change:transform;
+  transition:transform 0.06s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* — project card */
+.project-card{
+  flex:0 0 clamp(330px, 31vw, 430px);
+  width:clamp(330px, 31vw, 430px);
+  background:rgba(255, 252, 253, 0.94);
+  backdrop-filter:blur(16px);
+  -webkit-backdrop-filter:blur(16px);
+  border:1px solid rgba(224, 35, 28, 0.20);
+  border-radius:20px;
+  overflow:hidden;
+  box-shadow:0 12px 32px rgba(40, 22, 30, 0.08), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+  display:flex;
+  flex-direction:column;
+  transition:transform .45s var(--ease-out), border-color .45s, box-shadow .45s;
+  box-sizing:border-box;
+}
+.project-card:hover{
+  transform:translateY(-6px);
+  border-color:rgba(224, 35, 28, 0.45);
+  box-shadow:0 18px 40px rgba(224, 35, 28, 0.14), 0 1px 0 rgba(255, 255, 255, 0.9) inset;
+}
+.project-card-media{
+  position:relative;
+  width:100%;
+  aspect-ratio:16 / 10;
+  background:#f4dbe2;
+  overflow:hidden;
+}
+.project-cover-img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+  transition:transform .65s var(--ease-out);
+}
+.project-card:hover .project-cover-img{
+  transform:scale(1.05);
+}
+.project-card-overlay{
+  position:absolute;
+  inset:0;
+  background:linear-gradient(180deg, rgba(40,22,30,.05) 0%, transparent 45%, rgba(40,22,30,.40) 100%);
+  pointer-events:none;
+}
+.project-card-badges{
+  position:absolute;
+  top:12px;
+  left:12px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  z-index:2;
+}
+.project-badge{
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  padding:3px 8px;
+  border-radius:6px;
+  backdrop-filter:blur(8px);
+  -webkit-backdrop-filter:blur(8px);
+  background:rgba(255, 255, 255, 0.92);
+  color:var(--bone);
+  border:1px solid rgba(120, 40, 70, 0.14);
+}
+.project-badge.badge-mobile{
+  background:rgba(224, 35, 28, 0.90);
+  color:#fff;
+  border-color:transparent;
+}
+.project-badge.badge-website{
+  background:rgba(32, 105, 205, 0.88);
+  color:#fff;
+  border-color:transparent;
+}
+.project-badge.badge-design{
+  background:rgba(142, 42, 122, 0.88);
+  color:#fff;
+  border-color:transparent;
+}
+.project-index{
+  position:absolute;
+  bottom:10px;
+  right:14px;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.12em;
+  color:#fff;
+  text-shadow:0 1px 4px rgba(0,0,0,0.65);
+  z-index:2;
+}
+.project-card-body{
+  padding:18px 20px 20px;
+  display:flex;
+  flex-direction:column;
+  flex:1 1 auto;
+}
+.project-header{
+  display:flex;
+  align-items:baseline;
+  justify-content:space-between;
+  gap:10px;
+  margin-bottom:6px;
+}
+.project-title{
+  font-size:clamp(17px, 1.35vw, 21px);
+  font-weight:600;
+  letter-spacing:-.01em;
+  color:var(--bone);
+  margin:0;
+}
+.project-year{
+  font-size:11px;
+  font-weight:500;
+  letter-spacing:.1em;
+  color:var(--muted);
+}
+.project-desc{
+  font-size:12.5px;
+  line-height:1.55;
+  color:var(--bone-dim);
+  margin:0 0 12px 0;
+  display:-webkit-box;
+  -webkit-line-clamp:2;
+  -webkit-box-orient:vertical;
+  overflow:hidden;
+}
+.project-tech-list{
+  display:flex;
+  flex-wrap:wrap;
+  gap:5px;
+  margin-bottom:14px;
+}
+.project-tech-tag{
+  font-size:10px;
+  font-weight:500;
+  padding:2px 7px;
+  border-radius:5px;
+  background:rgba(120, 40, 70, 0.05);
+  color:var(--bone-dim);
+  border:1px solid rgba(120, 40, 70, 0.10);
+}
+.project-card-foot{
+  margin-top:auto;
+  padding-top:12px;
+  border-top:1px solid var(--line-soft);
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:10px;
+}
+.project-role-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+  font-size:11px;
+  color:var(--muted);
+}
+.project-role-tag svg{
+  color:var(--vermilion);
+}
+.project-links{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.project-link-btn{
+  width:30px;
+  height:30px;
+  border-radius:50%;
+  border:1px solid var(--line);
+  display:grid;
+  place-items:center;
+  color:var(--bone);
+  transition:all .35s var(--ease);
+}
+.project-link-btn:hover{
+  background:var(--vermilion);
+  border-color:var(--vermilion);
+  color:#fff;
+  transform:translateY(-2px);
+}
+.cards{ display:none; }
+.card{ display:none; }
 .card-fr::after{ content:''; position:absolute; inset:0;
   background:linear-gradient(transparent 46%, rgba(253,240,244,.72)); pointer-events:none; }
 /* The fabric overdraws its card by CL_BLEED on every side so the billow and
@@ -652,6 +881,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .cloth-out{ position:absolute; pointer-events:none; z-index:1; }
 .on-cloth{ background:none !important; outline:0 !important; overflow:visible; }
 .on-cloth::after{ display:none; }
+.project-card-media.on-cloth .project-cover-img{ opacity:0 !important; }
 
 /* ------------------------------------------------- the lights in the stills
    The three plates each have one source in them — two blood moons and a lit
@@ -1460,50 +1690,39 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
 </section>
 
 <!-- ============================================================ chapter II -->
-<section class="sec" id="pathways" data-cam="2">
-  <!-- foreground: the garden frames the mosaic from the sides and the two lower corners -->
-  <div class="fg" data-fg="pathways" aria-hidden="true">
-    <span class="fg-el fg-sakura fg-el--sway" data-fg-in="left">
-      <img src="secret-pathways-assets/foreground/png/sakura-branch.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-    </span>
-    <span class="fg-el fg-leaves fg-el--sway" data-fg-in="right">
-      <img src="secret-pathways-assets/foreground/png/maple-leaves.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
-    </span>
-    <span class="fg-el fg-lantern" data-fg-in="up">
-      <img src="secret-pathways-assets/foreground/png/stone-lantern.webp" alt="" width="1024" height="1499" loading="lazy" decoding="async">
-    </span>
-    <span class="fg-el fg-bush" data-fg-in="up">
-      <img src="secret-pathways-assets/foreground/png/garden-bush.webp" alt="" width="1717" height="876" loading="lazy" decoding="async">
-    </span>
-  </div>
-  <div class="sec-head" data-rv="fade">
-    <span class="k"><b>02</b> The Creations</span><span class="rule"></span><span class="k jp">創作</span>
-  </div>
-  <div class="cards" id="cards">
-    <article class="card" data-rv="up" data-view="0" data-cursor>
-      <div class="card-fr" data-frame>
-                <span class="card-ar"><svg viewBox="0 0 14 14" fill="none"><path d="M3 11 11 3M5 3h6v6" stroke="#dfe7e0" stroke-width="1.3"/></svg></span>
-        <i class="glow" style="--gx:80.2%; --gy:23.9%; --gr:22%; --gt:6.1s; --gt2:9.7s; --gc1:rgba(255,142,108,.50); --gc2:rgba(212,56,38,.24)"></i>
-        <div class="card-lab"><b>Approach</b><span class="jp">参道</span></div>
+<section class="sec sec-horizontal-wrapper" id="pathways" data-cam="2">
+  <div class="horizontal-sticky-container">
+    <!-- foreground: the garden frames the scene -->
+    <div class="fg" data-fg="pathways" aria-hidden="true">
+      <span class="fg-el fg-sakura fg-el--sway" data-fg-in="left">
+        <img src="secret-pathways-assets/foreground/png/sakura-branch.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+      </span>
+      <span class="fg-el fg-leaves fg-el--sway" data-fg-in="right">
+        <img src="secret-pathways-assets/foreground/png/maple-leaves.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
+      </span>
+      <span class="fg-el fg-lantern" data-fg-in="up">
+        <img src="secret-pathways-assets/foreground/png/stone-lantern.webp" alt="" width="1024" height="1499" loading="lazy" decoding="async">
+      </span>
+      <span class="fg-el fg-bush" data-fg-in="up">
+        <img src="secret-pathways-assets/foreground/png/garden-bush.webp" alt="" width="1717" height="876" loading="lazy" decoding="async">
+      </span>
+    </div>
+
+    <div class="sec-head" data-rv="fade">
+      <span class="k"><b>02</b> The Creations</span><span class="rule"></span><span class="k jp">創作</span>
+      <div class="horizontal-scroll-hint" aria-hidden="true">
+        <span>Scroll down to explore</span>
+        <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7"/>
+        </svg>
       </div>
-      <div class="card-meta"><span>The long climb</span><span>01 / 03</span></div>
-    </article>
-    <article class="card" data-rv="up" data-view="1" data-cursor>
-      <div class="card-fr" data-frame>
-                <span class="card-ar"><svg viewBox="0 0 14 14" fill="none"><path d="M3 11 11 3M5 3h6v6" stroke="#dfe7e0" stroke-width="1.3"/></svg></span>
-        <i class="glow glow--flame" style="--gx:70.5%; --gy:47.2%; --gr:14%; --gt:3.7s; --gt2:5.3s; --gc1:rgba(255,198,124,.62); --gc2:rgba(226,118,40,.30)"></i>
-        <div class="card-lab"><b>Lanterns</b><span class="jp">灯籠</span></div>
+    </div>
+
+    <div class="cards-horizontal-viewport">
+      <div class="cards-horizontal-track" id="cards-track">
+        <!-- Rendered dynamically by renderProjectCards() -->
       </div>
-      <div class="card-meta"><span>Lantern court</span><span>02 / 03</span></div>
-    </article>
-    <article class="card" data-rv="up" data-view="2" data-cursor>
-      <div class="card-fr" data-frame>
-                <span class="card-ar"><svg viewBox="0 0 14 14" fill="none"><path d="M3 11 11 3M5 3h6v6" stroke="#dfe7e0" stroke-width="1.3"/></svg></span>
-        <i class="glow" style="--gx:48.0%; --gy:16.8%; --gr:20%; --gt:7.3s; --gt2:11.2s; --gc1:rgba(255,138,104,.52); --gc2:rgba(208,54,36,.24)"></i>
-        <div class="card-lab"><b>Moonwater</b><span class="jp">月影</span></div>
-      </div>
-      <div class="card-meta"><span>The wet court</span><span>03 / 03</span></div>
-    </article>
+    </div>
   </div>
 </section>
 
@@ -4214,10 +4433,14 @@ function clothPlate(img, w, h) {
 
 function buildCardCloth() {
   if (COARSE) return;                     /* no pointer to brush it with */
-  $$('.cards .card-fr').forEach(fr => {
-    const url = (getComputedStyle(fr).backgroundImage.match(/url\(["']?([^"')]+)/) || [])[1];
+  const medias = $$('.project-card-media, .cards .card-fr');
+  medias.forEach(fr => {
+    if (fr.querySelector('.cloth-out')) return;
+    const imgEl = fr.querySelector('.project-cover-img');
+    const url = imgEl ? (imgEl.getAttribute('src') || imgEl.src) : (getComputedStyle(fr).backgroundImage.match(/url\(["']?([^"')]+)/) || [])[1];
     if (!url) return;
     const img = new Image();
+    img.crossOrigin = 'anonymous';
     img.onload = () => {
       const dpr = Math.min(devicePixelRatio || 1, 2);
       let plate = null, pw = 0, ph = 0;
@@ -4229,14 +4452,15 @@ function buildCardCloth() {
       const out = document.createElement('canvas');
       out.className = 'cloth-out'; out.setAttribute('aria-hidden', 'true');
       fr.appendChild(out);
-      const inst = createCloth(out, get, { wind: 3, speed: .5, amplitude: 30, drape: 40,
-        brush: 2.05, brushSize: 150, damping: 1, light: .5, sheen: .1, shadow: .25,
-        cornerRadius: 20, perspective: 1200, pin: 'top' });
+      const inst = createCloth(out, get, { wind: 2.8, speed: .5, amplitude: 28, drape: 35,
+        brush: 2.2, brushSize: 140, damping: 1, light: .5, sheen: .12, shadow: .25,
+        cornerRadius: 16, perspective: 1200, pin: 'top' });
       /* only hide the card's own painting once the fabric is really carrying it */
       if (!inst) { out.remove(); return; }
       fr.classList.add('on-cloth');
-      const card = fr.closest('.card') || fr;
-      card.addEventListener('pointerenter', () => inst.setEdge(.185), { passive: true });
+      if (imgEl) imgEl.style.opacity = '0';
+      const card = fr.closest('.project-card, .card') || fr;
+      card.addEventListener('pointerenter', () => inst.setEdge(.22), { passive: true });
       card.addEventListener('pointerleave', () => inst.setEdge(.048), { passive: true });
     };
     img.onerror = () => {};
@@ -4453,14 +4677,39 @@ function measure() {
   anchors = SECS.map((el, i) => {
     if (i === 0) return 0;
     if (i === SECS.length - 1) return maxScroll;
-    return clamp(el.offsetTop + el.offsetHeight * .5 - vpH() * .5, 0, maxScroll);
+    if (el.id === 'pathways') return el.offsetTop;
+    return clamp(el.offsetTop, 0, maxScroll);
   });
   for (let i = 1; i < anchors.length; i++) anchors[i] = Math.max(anchors[i], anchors[i - 1] + 1);
 }
 function progressFor(y) {
   if (y <= anchors[0]) return 0;
-  for (let i = 0; i < anchors.length - 1; i++)
-    if (y <= anchors[i + 1]) return i + (y - anchors[i]) / (anchors[i + 1] - anchors[i]);
+  if (y <= anchors[1]) {
+    return (y - anchors[0]) / Math.max(1, anchors[1] - anchors[0]);
+  }
+  const pathwaysEl = document.getElementById('pathways');
+  const pTop = pathwaysEl ? pathwaysEl.offsetTop : anchors[2];
+  const pDist = pathwaysEl ? Math.max(0, pathwaysEl.offsetHeight - vpH()) : 0;
+  
+  if (y < pTop) {
+    return 1 + (y - anchors[1]) / Math.max(1, pTop - anchors[1]);
+  }
+  if (y <= pTop + pDist) {
+    /* 100% frozen / sticky at Waypoint 2.0 while scrolling horizontal cards! */
+    return 2.0;
+  }
+  
+  const exitTop = pTop + pDist;
+  const lessonsTop = anchors[3] || maxScroll;
+  if (y < lessonsTop) {
+    return 2.0 + (y - exitTop) / Math.max(1, lessonsTop - exitTop);
+  }
+  
+  for (let i = 3; i < anchors.length - 1; i++) {
+    if (y <= anchors[i + 1]) {
+      return i + (y - anchors[i]) / Math.max(1, anchors[i + 1] - anchors[i]);
+    }
+  }
   return anchors.length - 1;
 }
 
@@ -5045,6 +5294,7 @@ function frame(now) {
       else if (avg < .0138 && PERF.scale < 1) { PERF.scale = Math.min(1, PERF.scale + .08); resize(); }
     }
   }
+  updateHorizontalTrack(scrollY);
   RIG.prog = progressFor(scrollY);
   RIG.smooth = REDUCE ? RIG.prog : damp(RIG.smooth, RIG.prog, 5.2, dt);
   RIG.mx = damp(RIG.mx, RIG.tmx, 2.6, dt);
@@ -5273,8 +5523,170 @@ function startRoleRotator() {
   }, 3000);
 }
 
+const DEFAULT_PROJECTS = [
+  {
+    id: "dineqr",
+    title: "DineQR",
+    description: "Smart QR-based digital restaurant ordering and real-time management dashboard system.",
+    image: "/images/projects/dineqr.webp",
+    categories: ["Website", "Mobile"],
+    tech: ["Next.js", "Laravel", "MySQL", "Tailwind CSS"],
+    role: "Fullstack Developer & UI/UX",
+    year: "2024",
+    githubLink: "https://github.com/arifahnbm",
+    demoLink: ""
+  },
+  {
+    id: "fluensy",
+    title: "Fluensy",
+    description: "AI-powered influencer marketing platform helping MSMEs discover matched creators with optimal ROI.",
+    image: "/images/projects/fluensy.webp",
+    categories: ["Design", "Website", "Mobile"],
+    tech: ["React", "Next.js", "Tailwind CSS", "Figma", "Python"],
+    role: "UI/UX Designer & Frontend Developer",
+    year: "2024",
+    githubLink: "https://github.com/arifahnbm",
+    demoLink: ""
+  },
+  {
+    id: "satulangkah",
+    title: "SatuLangkah",
+    description: "Focus and productivity app delivering manageable micro-steps to overcome overwhelm and build continuous momentum.",
+    image: "/images/projects/satulangkah.webp",
+    categories: ["Design", "Website", "Mobile"],
+    tech: ["Next.js", "Flutter", "Tailwind CSS", "Figma"],
+    role: "UI/UX Designer & Mobile Developer",
+    year: "2024",
+    githubLink: "https://github.com/arifahnbm",
+    demoLink: ""
+  },
+  {
+    id: "tbmate",
+    title: "TBMATE",
+    description: "Tuberculosis medication tracker and adherence companion app featuring supportive avatars and automatic dosage reminders.",
+    image: "/images/projects/tbmate.webp",
+    categories: ["Mobile", "Design"],
+    tech: ["Flutter", "Dart", "Firebase", "Figma"],
+    role: "Mobile Developer & UI/UX",
+    year: "2024",
+    githubLink: "https://github.com/arifahnbm",
+    demoLink: ""
+  }
+];
+
+function updateHorizontalTrack(y) {
+  const pathways = document.getElementById('pathways');
+  const stickyContainer = pathways ? pathways.querySelector('.horizontal-sticky-container') : null;
+  const track = document.getElementById('cards-track');
+  if (!pathways || !stickyContainer || !track) return;
+  
+  const pTop = pathways.offsetTop;
+  const pDist = Math.max(0, pathways.offsetHeight - window.innerHeight);
+  if (pDist <= 0) {
+    track.style.transform = 'none';
+    return;
+  }
+  
+  const maxX = Math.max(0, track.scrollWidth - window.innerWidth + 80);
+  
+  if (y < pTop) {
+    stickyContainer.style.position = 'absolute';
+    stickyContainer.style.top = '0px';
+    stickyContainer.style.bottom = 'auto';
+    stickyContainer.style.left = '0px';
+    stickyContainer.style.width = '100%';
+    track.style.transform = 'translate3d(0, 0, 0)';
+  } else if (y >= pTop && y <= pTop + pDist) {
+    stickyContainer.style.position = 'fixed';
+    stickyContainer.style.top = '0px';
+    stickyContainer.style.bottom = 'auto';
+    stickyContainer.style.left = '0px';
+    stickyContainer.style.width = '100%';
+    const ratio = (y - pTop) / pDist;
+    track.style.transform = `translate3d(-${(ratio * maxX).toFixed(1)}px, 0, 0)`;
+  } else {
+    stickyContainer.style.position = 'absolute';
+    stickyContainer.style.top = 'auto';
+    stickyContainer.style.bottom = '0px';
+    stickyContainer.style.left = '0px';
+    stickyContainer.style.width = '100%';
+    track.style.transform = `translate3d(-${maxX.toFixed(1)}px, 0, 0)`;
+  }
+}
+
+function adjustPathwaysHeight() {
+  const pathways = document.getElementById('pathways');
+  const track = document.getElementById('cards-track');
+  if (!pathways || !track) return;
+  
+  requestAnimationFrame(() => {
+    const maxX = Math.max(0, track.scrollWidth - window.innerWidth + 80);
+    const totalH = window.innerHeight + maxX;
+    pathways.style.height = `${totalH}px`;
+    measure();
+  });
+}
+
+function renderProjectCards(list) {
+  const track = document.getElementById('cards-track');
+  if (!track) return;
+  const projs = (Array.isArray(list) && list.length) ? list : DEFAULT_PROJECTS;
+  const total = projs.length;
+
+  track.innerHTML = projs.map((p, idx) => {
+    const cats = Array.isArray(p.categories) ? p.categories : [];
+    const tech = Array.isArray(p.tech) ? p.tech : [];
+    const indexStr = `${String(idx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
+    const badgeHtml = cats.map(c => `<span class="project-badge badge-${c.toLowerCase()}">${c}</span>`).join('');
+    const techHtml = tech.map(t => `<span class="project-tech-tag">${t}</span>`).join('');
+    
+    return `
+      <article class="project-card" data-project-id="${p.id}" data-cursor>
+        <div class="project-card-inner">
+          <div class="project-card-media">
+            <img src="${p.image}" alt="${p.title}" class="project-cover-img" loading="lazy" />
+            <div class="project-card-overlay"></div>
+            <div class="project-card-badges">${badgeHtml}</div>
+            <div class="project-index">${indexStr}</div>
+          </div>
+          <div class="project-card-body">
+            <div class="project-header">
+              <h3 class="project-title">${p.title}</h3>
+              <span class="project-year">${p.year || ''}</span>
+            </div>
+            <p class="project-desc">${p.description || ''}</p>
+            <div class="project-tech-list">${techHtml}</div>
+            <div class="project-card-foot">
+              <div class="project-role-tag">
+                <svg viewBox="0 0 16 16" width="12" height="12" fill="currentColor" aria-hidden="true"><path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"/></svg>
+                <span>${p.role || 'Developer'}</span>
+              </div>
+              <div class="project-links">
+                ${p.githubLink ? `
+                  <a href="${p.githubLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="View Source Code" data-cursor>
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
+                  </a>` : ''}
+                ${p.demoLink ? `
+                  <a href="${p.demoLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="Live Preview" data-cursor>
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                  </a>` : ''}
+              </div>
+            </div>
+          </div>
+        </div>
+      </article>
+    `;
+  }).join('');
+
+  adjustPathwaysHeight();
+  setTimeout(buildCardCloth, 80);
+}
+
 function applyPortfolioData(data) {
   if (!data) return;
+  if (data.projects && Array.isArray(data.projects)) {
+    renderProjectCards(data.projects);
+  }
   if (data.brand) {
     if (data.brand.name) {
       const b = document.querySelector('.brand-tx b'); if (b) b.textContent = data.brand.name;
@@ -5364,11 +5776,13 @@ window.addEventListener('message', (ev) => {
 });
 
 function start() {
+  renderProjectCards(DEFAULT_PROJECTS);
   startGreetingRotator();
   startRoleRotator();
   initGpaScramble();
-  addEventListener('resize', () => { resize(); }, { passive: true });
-  addEventListener('orientationchange', () => setTimeout(resize, 250));
+  addEventListener('scroll', () => { updateHorizontalTrack(window.scrollY); }, { passive: true });
+  addEventListener('resize', () => { adjustPathwaysHeight(); updateHorizontalTrack(window.scrollY); resize(); }, { passive: true });
+  addEventListener('orientationchange', () => setTimeout(() => { adjustPathwaysHeight(); resize(); }, 250));
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { running = false; }
     else if (!running) { running = true; tPrev = performance.now(); queue(); }
