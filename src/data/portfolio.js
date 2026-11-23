@@ -9,8 +9,9 @@
  */
 
 import { projects } from './projects.js';
+import { awardsAndExperiences } from './awardsExperiences.js';
 
-export { projects };
+export { projects, awardsAndExperiences };
 
 export const portfolioData = {
   // Brand Header
@@ -110,6 +111,9 @@ export const portfolioData = {
 
   // Featured Projects (Section 02 The Creations)
   projects: projects,
+
+  // Awards & Experiences (Section 03 The Journey)
+  awardsAndExperiences: awardsAndExperiences,
 
   // Footer Information
   footer: {

@@ -123,7 +123,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 #pre{
   position:fixed; inset:0; z-index:100; background:#fdf0f4;
   display:flex; align-items:center; justify-content:center;
-  transition:opacity .8s var(--ease), visibility .8s;
+  transition:opacity .35s var(--ease), visibility .35s;
 }
 #pre.done{ opacity:0; visibility:hidden; pointer-events:none; }
 .pre-in{ width:min(420px,74vw); text-align:center; }
@@ -1463,6 +1463,626 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
   [data-rv]{ opacity:1 !important; transform:none !important; }
   .mask-line > span,.word{ opacity:1 !important; transform:none !important; }
 }
+
+
+/* =====================================================================
+   Award & Experience Flippable Book + Draggable Magnifying Glass
+   Extracted from ThreeUI Meng To Sketchbook
+   ===================================================================== */
+
+.award-book-container {
+  width: 100%;
+  max-width: 1100px;
+  margin: 0 auto;
+  position: relative;
+  z-index: 10;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.sb-wrap {
+  display: grid;
+  justify-items: center;
+  gap: 20px;
+  width: 100%;
+  position: relative;
+  z-index: 2;
+}
+
+.sb-stage {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  position: relative;
+  touch-action: pan-y;
+  padding: 10px 0;
+}
+
+.sb-arrow {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 48px;
+  height: 64px;
+  border: 1px solid rgba(223, 231, 224, 0.15);
+  border-radius: 8px;
+  background: rgba(26, 22, 21, 0.55);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  color: #dfe7e0;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  -webkit-tap-highlight-color: transparent;
+  z-index: 80;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.25);
+}
+
+.sb-arrow:hover {
+  background: rgba(194, 59, 34, 0.85);
+  border-color: rgba(194, 59, 34, 0.9);
+  color: #fff;
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(194, 59, 34, 0.35);
+}
+
+.sb-arrow.left {
+  margin-right: 18px;
+}
+
+.sb-arrow.right {
+  margin-left: 18px;
+}
+
+.sb-3d {
+  width: 100%;
+  position: relative;
+  flex: 1 1;
+  min-width: 0;
+  max-width: 960px;
+  perspective: 1800px;
+  perspective-origin: 50% 46%;
+}
+
+.sb-tilt {
+  position: relative;
+  transform-style: preserve-3d;
+  transform: rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) scale(var(--zoom, 1));
+  will-change: transform;
+}
+
+.sb-book {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1800/1000;
+  transform-style: preserve-3d;
+  z-index: 1;
+  border-radius: 16px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.sb-cast {
+  position: absolute;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.sb-cast.ambient {
+  left: 5%;
+  right: 5%;
+  top: 27%;
+  bottom: 2%;
+  background: radial-gradient(50% 50% at 50% 58%, rgba(20, 15, 10, 0.45) 0%, rgba(20, 15, 10, 0.22) 40%, rgba(20, 15, 10, 0) 74%);
+  filter: blur(28px);
+  opacity: calc(1 - var(--shade, 0) * 0.42);
+}
+
+.sb-cast.contact {
+  left: 9%;
+  right: 9%;
+  top: 62%;
+  bottom: 10%;
+  background: radial-gradient(50% 44% at 50% 42%, rgba(20, 15, 10, 0.5) 0%, rgba(20, 15, 10, 0.2) 48%, rgba(20, 15, 10, 0) 78%);
+  filter: blur(12px);
+  opacity: calc(1 - var(--shade, 0) * 0.5);
+}
+
+.sb-cast.hair {
+  left: 12%;
+  right: 12%;
+  top: 70%;
+  bottom: 17%;
+  background: radial-gradient(50% 52% at 50% 40%, rgba(20, 15, 10, 0.45) 0%, rgba(20, 15, 10, 0) 76%);
+  filter: blur(5px);
+  opacity: calc(1 - var(--shade, 0) * 0.62);
+}
+
+.sb-full {
+  position: absolute;
+  inset: 0;
+  border-radius: 16px;
+  overflow: hidden;
+}
+
+.sb-full img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  border-radius: 16px;
+}
+
+.sb-half {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 50%;
+  overflow-x: clip;
+  overflow-y: visible;
+}
+
+.sb-half.left {
+  left: 0;
+  border-top-left-radius: 16px;
+  border-bottom-left-radius: 16px;
+}
+
+.sb-half.right {
+  left: 50%;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+}
+
+.sb-half-img {
+  width: 200%;
+  max-width: none;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+}
+
+.sb-half-img.right {
+  margin-left: -100%;
+}
+
+.gutter-shade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 46%;
+  pointer-events: none;
+  opacity: calc(var(--shade, 0) * 0.65);
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+}
+
+.gutter-shade.left {
+  right: 0;
+  background: linear-gradient(270deg, rgba(30, 20, 10, 0.35), rgba(30, 20, 10, 0) 82%);
+}
+
+.gutter-shade.right {
+  left: 0;
+  background: linear-gradient(90deg, rgba(30, 20, 10, 0.3), rgba(30, 20, 10, 0) 82%);
+}
+
+/* Page Curled Leaf Physics */
+.curl {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: calc(var(--bw, 0px) * var(--span));
+  transform-style: preserve-3d;
+  z-index: 6;
+}
+
+.curl.next {
+  left: 50%;
+  transform-origin: left center;
+  transform: rotateY(calc(-1 * var(--tt, 0deg)));
+}
+
+.curl.prev {
+  right: 50%;
+  transform-origin: right center;
+  transform: rotateY(var(--tt, 0deg));
+}
+
+.strip {
+  position: absolute;
+  top: 0;
+  height: 100%;
+  width: calc(var(--bw, 0px) * var(--span) / var(--n));
+  transform-style: preserve-3d;
+}
+
+.curl.next .strip {
+  transform-origin: left center;
+}
+
+.curl.prev .strip {
+  transform-origin: right center;
+}
+
+.curl.next > .strip {
+  left: 0;
+}
+
+.curl.prev > .strip {
+  right: 0;
+  left: auto;
+}
+
+.curl.next .strip .strip {
+  left: 100%;
+  transform: rotateY(var(--td, 0deg));
+}
+
+.curl.prev .strip .strip {
+  right: 100%;
+  transform: rotateY(calc(-1 * var(--td, 0deg)));
+}
+
+.face {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: -1.1px;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  background-repeat: no-repeat;
+  background-size: var(--bw, 0px) 100%;
+}
+
+.face.back {
+  transform: rotateY(180deg);
+}
+
+.face .sh,
+.face .gl {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0, #000 5.2%, #000 94.8%, transparent 100%);
+}
+
+.strip.edge .face .sh,
+.strip.edge .face .gl {
+  -webkit-mask-image: linear-gradient(180deg, transparent 0, #000 9%, #000 91%, transparent 100%), var(--hf);
+  mask-image: linear-gradient(180deg, transparent 0, #000 9%, #000 91%, transparent 100%), var(--hf);
+  -webkit-mask-composite: source-in;
+  mask-composite: intersect;
+}
+
+.curl.next .strip.edge .face.front,
+.curl.prev .strip.edge .face.back {
+  --hf: linear-gradient(90deg, #000 0 22%, transparent 96%);
+}
+
+.curl.next .strip.edge .face.back,
+.curl.prev .strip.edge .face.front {
+  --hf: linear-gradient(270deg, #000 0 22%, transparent 96%);
+}
+
+.face .sh {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+}
+
+.curl.next .face.front .sh,
+.curl.prev .face.back .sh {
+  background: linear-gradient(90deg, rgba(40, 28, 14, var(--a1, 0)), rgba(40, 28, 14, var(--a2, 0)));
+}
+
+.curl.next .face.back .sh,
+.curl.prev .face.front .sh {
+  background: linear-gradient(90deg, rgba(40, 28, 14, var(--a2, 0)), rgba(40, 28, 14, var(--a1, 0)));
+}
+
+.face .gl {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+  pointer-events: none;
+  background: #fffaf0;
+  opacity: calc(var(--shade, 0) * var(--lit, 1) * var(--lit, 1) * 0.25);
+}
+
+/* Draggable Magnifying Glass (Loupe) */
+.loupe {
+  position: absolute;
+  left: 0;
+  top: 0;
+  width: var(--lr, 260px);
+  height: var(--lr, 260px);
+  pointer-events: none;
+  z-index: 90;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+  will-change: transform;
+}
+
+.loupe.on {
+  opacity: 1;
+}
+
+.loupe.held .ring,
+.loupe.held .grip {
+  cursor: grabbing !important;
+}
+
+.loupe .ring {
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: auto;
+  cursor: grab;
+  padding: calc(var(--lr, 260px) * 0.058);
+  box-shadow:
+    0 1px 2px rgba(20, 15, 10, 0.4),
+    0 10px 20px rgba(20, 15, 10, 0.35),
+    0 28px 46px rgba(20, 15, 10, 0.28),
+    0 52px 76px rgba(20, 15, 10, 0.18);
+}
+
+.loupe .ring:before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  pointer-events: none;
+  background: linear-gradient(
+    146deg,
+    #fdf7e9 0%,
+    #e6d7b4 14%,
+    #b69d70 32%,
+    #7d6740 50%,
+    #cdbb92 66%,
+    #f4ead3 80%,
+    #9b8459 100%
+  );
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.9),
+    inset 0 -2px 4px rgba(45, 30, 12, 0.6);
+  -webkit-mask-image: radial-gradient(circle closest-side at 50% 50%, transparent 0 88.2%, #000 89.8% 100%);
+  mask-image: radial-gradient(circle closest-side at 50% 50%, transparent 0 88.2%, #000 89.8% 100%);
+}
+
+.loupe .grip {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: calc(var(--lr, 260px) * 0.74);
+  height: calc(var(--lr, 260px) * 0.125);
+  transform-origin: 0 50%;
+  transform: rotate(40deg) translate(calc(var(--lr, 260px) * 0.33), -50%);
+  border-radius: calc(var(--lr, 260px) * 0.06);
+  pointer-events: auto;
+  cursor: grab;
+  background:
+    linear-gradient(180deg, rgba(255, 255, 255, 0.46) 0 13%, rgba(255, 255, 255, 0) 44%, rgba(0, 0, 0, 0.32) 100%),
+    linear-gradient(90deg, #d9bd82 0 14%, #a9884e 14% 20%, #6d4c2b 20% 62%, #5a3d22 62% 92%, #7a563180 92% 100%);
+  box-shadow: 0 8px 18px rgba(20, 15, 10, 0.35), 0 18px 28px rgba(20, 15, 10, 0.2);
+}
+
+.zoomwrap {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  z-index: 2;
+  opacity: 0;
+  border-radius: 4px;
+}
+
+.zoominner {
+  position: absolute;
+  inset: 0;
+  transform-origin: 0 0;
+}
+
+/* Zone Hit Targets for Page Turns */
+.sb-zone {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  border: 0;
+  background: transparent;
+  cursor: grab;
+  z-index: 60;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.sb-zone:active {
+  cursor: grabbing;
+}
+
+.sb-prev {
+  left: 0;
+  width: 50%;
+}
+
+.sb-next {
+  right: 0;
+  width: 50%;
+}
+
+/* Captions & Toolbar */
+.sb-captions {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 48px;
+  gap: 10px;
+}
+
+.sb-caption-track {
+  display: grid;
+  justify-items: center;
+  min-height: 24px;
+}
+
+.sb-caption-track > * {
+  grid-area: 1/1;
+  margin: 0;
+}
+
+.sb-caption {
+  font-family: 'Cinzel', serif;
+  font-size: 15px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: #dfe7e0;
+  text-shadow: 0 2px 8px rgba(0, 0, 0, 0.6);
+  animation: sb-cap-in 0.5s ease both;
+}
+
+.sb-caption.live {
+  animation: none;
+}
+
+.sb-ext-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 20px;
+  border-radius: 999px;
+  background: rgba(194, 59, 34, 0.92);
+  color: #ffffff !important;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  font-size: 13px;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-decoration: none !important;
+  box-shadow: 0 4px 14px rgba(194, 59, 34, 0.4);
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+  z-index: 80;
+  cursor: pointer;
+}
+
+.sb-ext-link:hover {
+  background: #d94328;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(194, 59, 34, 0.6);
+}
+
+.sb-ext-link svg {
+  width: 14px;
+  height: 14px;
+}
+
+.sb-book-hotspot {
+  position: absolute;
+  right: 5%;
+  bottom: 8%;
+  width: 42%;
+  height: 8%;
+  cursor: pointer;
+  z-index: 50;
+}
+
+@keyframes sb-cap-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.sb-tools {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  border: 1px solid rgba(223, 231, 224, 0.18);
+  border-radius: 999px;
+  padding: 6px 12px;
+  background: rgba(26, 22, 21, 0.65);
+  -webkit-backdrop-filter: blur(12px);
+  backdrop-filter: blur(12px);
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.3);
+}
+
+.sb-tools .tool {
+  background: transparent;
+  border: 0;
+  color: #dfe7e0;
+  cursor: pointer;
+  padding: 4px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s;
+  width: 28px;
+  height: 28px;
+}
+
+.sb-tools .tool:hover {
+  background: rgba(194, 59, 34, 0.25);
+  color: #fff;
+}
+
+.sb-tools .tool:disabled {
+  opacity: 0.35;
+  cursor: not-allowed;
+}
+
+.tool-sep {
+  width: 1px;
+  height: 16px;
+  background: rgba(223, 231, 224, 0.2);
+  margin: 0 2px;
+}
+
+.zoom-read {
+  font-size: 11px;
+  letter-spacing: 0.1em;
+  color: #dfe7e0;
+  min-width: 44px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+  font-weight: 500;
+}
+
+.sb-hint {
+  margin: 0;
+  font-size: 11px;
+  letter-spacing: 0.16em;
+  text-transform: uppercase;
+  color: rgba(223, 231, 224, 0.55);
+  transition: opacity 0.4s ease;
+  text-align: center;
+}
+
+.sb-hint.gone {
+  opacity: 0;
+}
+
+@media (pointer: coarse) {
+  .loupe {
+    display: none !important;
+  }
+}
+
+@media (max-width: 768px) {
+  .sb-arrow {
+    display: none;
+  }
+  .sb-3d {
+    perspective: 1200px;
+  }
+}
+
 </style>
 </head>
 <body data-layout-hero="b" data-layout-story="b" data-layout-gallery="b"
@@ -1743,41 +2363,43 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
   <div class="sec-head" data-rv="fade">
     <span class="k"><b>03</b> The Journey</span><span class="rule"></span><span class="k jp">旅路</span>
   </div>
-  <div class="cur-head">
-    <h2 class="display h-sec" data-rv="up">Five chapters. Ninety minutes. One quiet mind.</h2>
-    <p class="body-lg" data-rv="up">Each chapter is a walk, not a lecture. You arrive at the gate, climb the
-      steps, sit with the lantern, and leave with one thing worth keeping.</p>
+  <div class="cur-head" style="margin-bottom: 28px;">
+    <h2 class="display h-sec" data-rv="up">Chronicles of Craft & Accolades</h2>
+    <p class="body-lg" data-rv="up">An interactive journal of awards, design championships, and engineering leadership. Turn the pages to explore milestones, and drag the brass magnifying glass across the pages to inspect fine details.</p>
   </div>
-  <div class="cur" id="cur">
-    <div class="les" data-les="0" data-cursor>
-      <span class="k">01</span>
-      <h3>The Hidden Gate<em class="jp">山門</em></h3>
-      <p>Why a gate is a sentence, and what you agree to when you walk under one.</p>
-      <span class="t">14 min</span><i class="bar"></i>
-    </div>
-    <div class="les" data-les="1" data-cursor>
-      <span class="k">02</span>
-      <h3>Borrowed Scenery<em class="jp">借景</em></h3>
-      <p>Shakkei: composing with a mountain you will never own.</p>
-      <span class="t">18 min</span><i class="bar"></i>
-    </div>
-    <div class="les" data-les="2" data-cursor>
-      <span class="k">03</span>
-      <h3>Charred Cypress<em class="jp">焼杉</em></h3>
-      <p>Yakisugi: burning a board black so the weather will let it live.</p>
-      <span class="t">21 min</span><i class="bar"></i>
-    </div>
-    <div class="les" data-les="3" data-cursor>
-      <span class="k">04</span>
-      <h3>Lantern Light<em class="jp">灯籠</em></h3>
-      <p>How a single ember decides the scale of everything around it.</p>
-      <span class="t">17 min</span><i class="bar"></i>
-    </div>
-    <div class="les" data-les="4" data-cursor>
-      <span class="k">05</span>
-      <h3>The Vermilion Moon<em class="jp">朱月</em></h3>
-      <p>Why the moon burns red over the valley, and what the garden does with it.</p>
-      <span class="t">22 min</span><i class="bar"></i>
+  <div class="award-book-container" id="awardBookContainer">
+    <div class="sb-wrap" id="sbWrap">
+      <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+        <filter id="sb-mblur-1"><feGaussianBlur stdDeviation="5 0"/></filter>
+        <filter id="sb-mblur-2"><feGaussianBlur stdDeviation="14 0"/></filter>
+      </svg>
+      <div class="sb-stage" id="sbStage">
+        <button class="sb-arrow left" id="sbLeft" aria-label="previous page" data-cursor>
+          <svg viewBox="0 0 14 44" width="14" height="44" fill="none" aria-hidden="true"><polyline points="11,3 3,22 11,41" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="sb-3d" id="sb3d">
+          <div class="sb-tilt" id="sbTilt">
+            <div class="sb-cast ambient" aria-hidden="true"></div>
+            <div class="sb-cast contact" aria-hidden="true"></div>
+            <div class="sb-cast hair" aria-hidden="true"></div>
+            <div class="sb-book" id="sbBook"></div>
+          </div>
+          <div class="zoomwrap" id="zoomWrap" aria-hidden="true"><div class="zoominner" id="zoomInner"></div></div>
+          <div class="loupe" id="loupe"><span class="grip"></span><span class="ring"><span class="lens" id="loupeLens"><span class="mag" id="loupeMag"></span></span></span></div>
+        </div>
+        <button class="sb-arrow right" id="sbRight" aria-label="next page" data-cursor>
+          <svg viewBox="0 0 14 44" width="14" height="44" fill="none" aria-hidden="true"><polyline points="3,3 11,22 3,41" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+      </div>
+      <div class="sb-captions" id="sbCaptions"></div>
+      <div class="sb-tools" role="group" aria-label="view controls">
+        <button class="tool" id="zOut" aria-label="zoom out" data-cursor><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4M6.2 8.6h4.8"/></svg></button>
+        <span class="zoom-read" id="zRead">100%</span>
+        <button class="tool" id="zIn" aria-label="zoom in" data-cursor><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.6" cy="8.6" r="5.6"/><path d="M12.8 12.8 17.4 17.4M6.2 8.6h4.8M8.6 6.2v4.8"/></svg></button>
+        <span class="tool-sep" aria-hidden="true"></span>
+        <button class="tool" id="loupeBtn" aria-label="magnifier" aria-pressed="true" data-cursor><svg viewBox="0 0 20 20" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"><circle cx="8.8" cy="8.8" r="5.8"/><path d="M13 13l4.4 4.4"/><path d="M6.4 7.2a3.2 3.2 0 0 1 2.4-1.4" opacity=".55"/></svg></button>
+      </div>
+      <p class="sb-hint" id="sbHint">Drag page edge to flip · Drag the brass magnifying glass to inspect</p>
     </div>
   </div>
 </section>
@@ -4385,6 +5007,8 @@ function createCloth(output, plate, options) {
     if (REDUCE || (config.wind <= .001 && energy < .004 && touch.s < .01)) { running = false; return; }
     raf = requestAnimationFrame(frame);
   }
+  
+
   function start() {
     if (dead || running || !visible) return;
     running = true; last = performance.now(); raf = requestAnimationFrame(frame);
@@ -5315,7 +5939,7 @@ function queue() { TIMER ? setTimeout(() => frame(performance.now()), 16) : requ
 
 /* ======================================================== 14 · booting */
 const JOBS = [
-  ['Reading the type', () => document.fonts && document.fonts.load('600 320px Wordmark')],
+  ['Reading the type', () => document.fonts ? Promise.race([document.fonts.load('600 320px Wordmark'), new Promise(r => setTimeout(r, 60))]) : null],
   ['Pouring the ground', () => { initGL(); WORLD.uT = { value: 0 }; buildRig(); buildLights(); }],
   ['Cutting the approach', () => buildShell()],
   ['Raising the hall', () => buildTemple()],
@@ -5362,6 +5986,16 @@ const JOBS = [
 ];
 
 function boot() {
+  // Safety watchdog: Guarantees preloader will never stay stuck on screen
+  setTimeout(() => {
+    const p = document.getElementById('pre');
+    if (p && !p.classList.contains('done')) {
+      console.warn('[kage] Watchdog dismissed stuck preloader');
+      p.classList.add('done');
+      document.body.classList.remove('is-locked');
+    }
+  }, 1800);
+
   makeGrain();
   wireReveals(); wireForegroundStages(); wireNav(); wireHeroExit(); wireFocus(); wireCursor();
   document.body.classList.add('is-locked');
@@ -5374,7 +6008,21 @@ function boot() {
       const p = i / JOBS.length;
       preFill.style.right = ((1 - p) * 100).toFixed(1) + '%';
       prePct.textContent = Math.round(p * 100);
-      if (i < JOBS.length) setTimeout(step, 16); else setTimeout(start, 220);
+      if (i < JOBS.length) {
+        setTimeout(step, 4);
+      } else {
+        setTimeout(() => {
+          try {
+            start();
+          } catch (err) {
+            console.error('[kage] Error in start():', err);
+          } finally {
+            // Unconditionally dismiss preloader upon 100% completion
+            if (preEl) preEl.classList.add('done');
+            document.body.classList.remove('is-locked');
+          }
+        }, 30);
+      }
     };
     let r;
     try { r = j[1](); }
@@ -5385,7 +6033,7 @@ function boot() {
     }
     (r && r.then) ? r.then(done, done) : done();
   };
-  setTimeout(step, 60);
+  setTimeout(step, 10);
 }
 
 function fallback(err) {
@@ -5683,6 +6331,9 @@ function renderProjectCards(list) {
 }
 
 function applyPortfolioData(data) {
+  if (data.awardsAndExperiences && Array.isArray(data.awardsAndExperiences)) {
+    initAwardExperienceBook(data.awardsAndExperiences);
+  }
   if (!data) return;
   if (data.projects && Array.isArray(data.projects)) {
     renderProjectCards(data.projects);
@@ -5769,6 +6420,1234 @@ function applyPortfolioData(data) {
   }
 }
 
+/* =====================================================================
+   Award & Experience Flippable Book & Draggable Loupe Engine
+   Extracted from ThreeUI Meng To Sketchbook
+   ===================================================================== */
+const rawAwardsExperiences = [
+  {
+    id: "award-tb-mate",
+    category: "award",
+    title: "Juara 1 — Lomba Desain UI/UX Tingkat Nasional",
+    subtitle: "Aplikasi Mobile Healthcare 'TBMATE' untuk Kepatuhan Pasien TBC",
+    organization: "Politeknik Negeri Banyuwangi & Forum IT Nasional",
+    date: "Oktober 2024",
+    sortDate: "2024-10",
+    badge: "JUARA 1 · TINGKAT NASIONAL",
+    sealJp: "栄冠",
+    description: "Meraih Juara 1 Nasional atas perancangan aplikasi mobile kesehatan 'TBMATE' yang membantu pengawasan minum obat pasien tuberkulosis secara human-centric. Dinilai unggul dalam pengujian prototipe interaktif beresolusi tinggi, penerapan design system Figma yang konsisten, dan pengujian kegunaan bersama tenaga kesehatan.",
+    highlights: ["Figma Design System", "User Research & Testing", "Healthcare UX", "High-Fidelity Prototype"],
+    image: "/images/projects/tbmate.webp",
+    imageCaption: "Dokumentasi Prototipe Mobile Healthcare TBMATE",
+    link: "https://www.instagram.com/poliwangi_official/",
+    linkText: "Lihat Liputan Instagram ↗",
+    quote: "“Kombinasi empati riset pengguna, visual presisi, dan aksesibilitas ramah pasien.”"
+  },
+  {
+    id: "award-fluensy",
+    category: "award",
+    title: "Finalis Inovasi Terbaik — AI Solution Challenge",
+    subtitle: "Platform Prediksi ROI & Penemu Influencer Cerdas 'Fluensy'",
+    organization: "Youth Tech & Artificial Intelligence Summit Indonesia",
+    date: "Juli 2024",
+    sortDate: "2024-07",
+    badge: "FINALIS INOVASI TERBAIK",
+    sealJp: "革新",
+    description: "Terpilih sebagai Finalis Inovasi Terbaik atas pengembangan konsep platform AI 'Fluensy' yang membantu UMKM mencocokkan influencer dengan akurasi tinggi serta menghitung proyeksi ROI kampanye promosi secara otomatis melalui algoritma prediktif.",
+    highlights: ["AI Platform Design", "Predictive Analytics UX", "Figma Auto-Layout", "ROI Metrics Dashboard"],
+    image: "/images/projects/fluensy.webp",
+    imageCaption: "Dashboard Analitik & Smart Matching AI Fluensy",
+    link: "https://www.instagram.com/",
+    linkText: "Baca Artikel Inovasi ↗",
+    quote: "“Menjembatani kecerdasan kalkulasi AI ke dalam visual antarmuka bisnis yang intuitif.”"
+  },
+  {
+    id: "exp-dineqr",
+    category: "experience",
+    title: "Lead UI/UX Designer & Frontend Developer",
+    subtitle: "DineQR — Sistem POS Kasir & Pemesanan Mandiri Meja Restoran",
+    organization: "Project-Based Learning Initiative",
+    date: "Maret 2024 – Juni 2024",
+    sortDate: "2024-06",
+    endDate: "2024-06",
+    badge: "LEAD ARCHITECT & DEV",
+    sealJp: "実務",
+    description: "Memimpin perancangan UI/UX komprehensif dan frontend Next.js untuk DineQR, solusi end-to-end pemesanan QR dan POS kasir berbasis cloud. Menghadirkan pelacakan pesanan real-time, kitchen display workflow terintegrasi, dan antarmuka kasir cepat saji.",
+    highlights: ["Next.js & Tailwind CSS", "QR Code Engine", "Kitchen Workflow UX", "State Management"],
+    image: "/images/projects/dineqr.webp",
+    imageCaption: "Antarmuka Meja Pelanggan & Dashboard Kasir DineQR",
+    link: "https://github.com/",
+    linkText: "Lihat Repositori & Demo ↗",
+    quote: "“Meningkatkan efisiensi layanan restoran melalui pemesanan meja tanpa hambatan.”"
+  },
+  {
+    id: "exp-satulangkah",
+    category: "experience",
+    title: "Full-Stack Engineer & Interaction Designer",
+    subtitle: "SatuLangkah — Web App Pendamping Fokus & Micro-Task ADHD",
+    organization: "Digital Wellbeing & Social Impact Project",
+    date: "Januari 2024 – Mei 2024",
+    sortDate: "2024-05",
+    endDate: "2024-05",
+    badge: "SOLO CREATOR & DEV",
+    sealJp: "開発",
+    description: "Mengembangkan SatuLangkah secara mandiri (Solo Project) untuk membantu individu neurodiverse yang sering mengalami overwhelm akibat daftar tugas yang menumpuk. Mengubah tugas besar menjadi langkah-langkah mikro terarah dengan visual gamifikasi sederhana.",
+    highlights: ["React & Web App", "Behavioral Psychology UX", "Micro-Interactions", "Accessibility First"],
+    image: "/images/projects/satulangkah.webp",
+    imageCaption: "Aplikasi SatuLangkah Pemecah Tugas Mikro ADHD",
+    link: "https://github.com/",
+    linkText: "Buka Dokumentasi Proyek ↗",
+    quote: "“Satu langkah kecil yang mindful menuju kejernihan fokus dan produktivitas.”"
+  },
+  {
+    id: "exp-lab-poliwangi",
+    category: "experience",
+    title: "Asisten Laboratorium Informatika & Penerima Dean's List",
+    subtitle: "Riset Rekayasa Perangkat Lunak & Bimbingan Praktikum Mahasiswa",
+    organization: "Jurusan Bisnis & Informatika — Politeknik Negeri Banyuwangi",
+    date: "September 2023 – Februari 2024",
+    sortDate: "2024-02",
+    endDate: "2024-02",
+    badge: "DEAN'S LIST · IPK 3.71",
+    sealJp: "優等",
+    description: "Mempertahankan prestasi akademik IPK 3.71/4.00 serta dipercaya membimbing mahasiswa tingkat awal pada praktikum Pemrograman Berorientasi Objek dan Rekayasa Web. Turut berkontribusi dalam riset arsitektur frontend modern di laboratorium kampus.",
+    highlights: ["Bimbingan Teknis Mahasiswa", "Arsitektur Pemrograman", "Dean's List IPK 3.71", "Lab Research"],
+    image: "/images/arifah-photo.webp",
+    imageCaption: "Dokumentasi Akademik & Asistensi Lab Informatika POLIWANGI",
+    link: "https://poliwangi.ac.id/",
+    linkText: "Kunjungi Situs Kampus ↗",
+    quote: "“Berbagi ilmu teknis dan memupuk budaya rekayasa perangkat lunak yang kolaboratif.”"
+  }
+];
+
+function getSortedAwardsExperiences(items) {
+  const list = Array.isArray(items) && items.length ? items : rawAwardsExperiences;
+  return [...list].sort((a, b) => {
+    const keyA = a.category === 'experience' ? (a.endDate || a.sortDate || a.date) : (a.sortDate || a.date);
+    const keyB = b.category === 'experience' ? (b.endDate || b.sortDate || b.date) : (b.sortDate || b.date);
+    return String(keyB).localeCompare(String(keyA));
+  });
+}
+
+const DEFAULT_AWARDS_EXPERIENCES = getSortedAwardsExperiences();
+
+function safeRoundRect(ctx, x, y, w, h, r) {
+  if (typeof ctx.roundRect === 'function') {
+    try {
+      ctx.roundRect(x, y, w, h, r);
+      return;
+    } catch (e) {}
+  }
+  const rad = typeof r === 'number' ? r : (Array.isArray(r) ? (r[0] || 0) : 0);
+  ctx.moveTo(x + rad, y);
+  ctx.lineTo(x + w - rad, y);
+  ctx.quadraticCurveTo(x + w, y, x + w, y + rad);
+  ctx.lineTo(x + w, y + h - rad);
+  ctx.quadraticCurveTo(x + w, y + h, x + w - rad, y + h);
+  ctx.lineTo(x + rad, y + h);
+  ctx.quadraticCurveTo(x, y + h, x, y + h - rad);
+  ctx.lineTo(x, y + rad);
+  ctx.quadraticCurveTo(x, y, x + rad, y);
+}
+
+function drawWrappedText(ctx, text, x, y, maxWidth, lineHeight, maxLines = 6) {
+  if (!text) return y;
+  const words = text.split(' ');
+  let line = '';
+  let currentY = y;
+  let linesDrawn = 0;
+
+  for (let n = 0; n < words.length; n++) {
+    const testLine = line + words[n] + ' ';
+    const metrics = ctx.measureText(testLine);
+    if (metrics.width > maxWidth && n > 0) {
+      ctx.fillText(line.trim(), x, currentY);
+      line = words[n] + ' ';
+      currentY += lineHeight;
+      linesDrawn++;
+      if (linesDrawn >= maxLines - 1 && n < words.length - 1) {
+        ctx.fillText(line.trim() + '...', x, currentY);
+        return currentY + lineHeight;
+      }
+    } else {
+      line = testLine;
+    }
+  }
+  ctx.fillText(line.trim(), x, currentY);
+  return currentY + lineHeight;
+}
+
+function drawHankoSeal(ctx, x, y, size, text) {
+  ctx.save();
+  ctx.strokeStyle = '#c23b22';
+  ctx.lineWidth = 3;
+  ctx.fillStyle = 'rgba(194, 59, 34, 0.08)';
+
+  const r = 6;
+  ctx.beginPath();
+  safeRoundRect(ctx, x, y, size, size, r);
+  ctx.stroke();
+  ctx.fill();
+
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  safeRoundRect(ctx, x + 3.5, y + 3.5, size - 7, size - 7, r - 2);
+  ctx.stroke();
+
+  ctx.fillStyle = '#b83a2c';
+  ctx.font = "bold " + Math.round(size * 0.44) + "px 'Shippori Mincho', 'NotoJP', serif";
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x + size / 2, y + size / 2 + 1);
+  ctx.restore();
+}
+
+function drawPillBadge(ctx, x, y, text, isAward = true) {
+  ctx.save();
+  ctx.font = "bold 12px -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif";
+  const metrics = ctx.measureText(text);
+  const padX = 12;
+  const h = 24;
+  const w = metrics.width + padX * 2;
+
+  ctx.fillStyle = isAward ? 'rgba(194, 59, 34, 0.10)' : 'rgba(44, 62, 80, 0.08)';
+  ctx.strokeStyle = isAward ? 'rgba(194, 59, 34, 0.40)' : 'rgba(44, 62, 80, 0.30)';
+  ctx.lineWidth = 1.2;
+
+  ctx.beginPath();
+  safeRoundRect(ctx, x, y, w, h, 12);
+  ctx.fill();
+  ctx.stroke();
+
+  ctx.fillStyle = isAward ? '#b83a2c' : '#2c3e50';
+  ctx.textAlign = 'left';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(text, x + padX, y + h / 2);
+  ctx.restore();
+  return w;
+}
+
+function drawPlaque(ctx, x, y, w, h, quote) {
+  if (!quote) return;
+  ctx.save();
+  ctx.fillStyle = 'rgba(247, 243, 233, 0.85)';
+  ctx.beginPath();
+  safeRoundRect(ctx, x, y, w, h, 8);
+  ctx.fill();
+
+  ctx.strokeStyle = 'rgba(180, 160, 130, 0.45)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  safeRoundRect(ctx, x + 4, y + 4, w - 8, h - 8, 6);
+  ctx.stroke();
+
+  const corners = [
+    [x + 4, y + 4],
+    [x + w - 4, y + 4],
+    [x + 4, y + h - 4],
+    [x + w - 4, y + h - 4]
+  ];
+  ctx.fillStyle = '#b83a2c';
+  corners.forEach(([cx, cy]) => {
+    ctx.fillRect(cx - 2, cy - 2, 4, 4);
+  });
+
+  ctx.fillStyle = '#6b584c';
+  ctx.font = "italic 15px 'Cormorant Garamond', Georgia, serif";
+  ctx.textAlign = 'center';
+  ctx.textBaseline = 'middle';
+  ctx.fillText(quote, x + w / 2, y + h / 2);
+  ctx.restore();
+}
+
+function drawLeftPage(ctx, item, pageNum, loadedImg = null) {
+  const startX = 70;
+  const width = 740;
+  let curY = 85;
+
+  ctx.save();
+
+  // 1. Running Header & Hanko Seal
+  const headerCat = item.category === 'award' ? 'HONORS & ACCOLADES' : 'EXPERIENCE ARCHIVE';
+  ctx.font = "bold 12px -apple-system, BlinkMacSystemFont, sans-serif";
+  ctx.fillStyle = '#8c7d75';
+  ctx.textAlign = 'left';
+  ctx.fillText("PLATE " + String(pageNum).padStart(2, '0') + "  /  " + headerCat, startX, curY);
+
+  drawHankoSeal(ctx, startX + width - 60, curY - 20, 52, item.sealJp || '栄冠');
+
+  curY += 45;
+
+  // 2. Date Badge on Left
+  if (item.date) {
+    ctx.font = "bold 13px -apple-system, BlinkMacSystemFont, sans-serif";
+    ctx.fillStyle = '#b83a2c';
+    ctx.textAlign = 'left';
+    ctx.fillText("📅  " + item.date, startX, curY);
+  }
+
+  curY += 25;
+
+  // 3. Image Photo Frame (Landscape inside the left page)
+  const imgFrameX = startX;
+  const imgFrameY = curY;
+  const imgFrameW = width;
+  const imgFrameH = 600;
+
+  ctx.save();
+  ctx.fillStyle = 'rgba(255, 255, 255, 0.75)';
+  ctx.strokeStyle = 'rgba(200, 185, 160, 0.55)';
+  ctx.lineWidth = 1.5;
+  ctx.beginPath();
+  safeRoundRect(ctx, imgFrameX, imgFrameY, imgFrameW, imgFrameH, 12);
+  ctx.fill();
+  ctx.stroke();
+
+  const innerPad = 14;
+  const innerX = imgFrameX + innerPad;
+  const innerY = imgFrameY + innerPad;
+  const innerW = imgFrameW - innerPad * 2;
+  const innerH = imgFrameH - innerPad * 2 - 36;
+
+  if (loadedImg && loadedImg.complete && loadedImg.naturalWidth > 0) {
+    ctx.save();
+    ctx.beginPath();
+    safeRoundRect(ctx, innerX, innerY, innerW, innerH, 8);
+    ctx.clip();
+
+    const imgRatio = loadedImg.naturalWidth / loadedImg.naturalHeight;
+    const boxRatio = innerW / innerH;
+    let dw, dh, dx, dy;
+    if (imgRatio > boxRatio) {
+      dh = innerH;
+      dw = innerH * imgRatio;
+      dx = innerX + (innerW - dw) / 2;
+      dy = innerY;
+    } else {
+      dw = innerW;
+      dh = innerW / imgRatio;
+      dx = innerX;
+      dy = innerY + (innerH - dh) / 2;
+    }
+    ctx.drawImage(loadedImg, dx, dy, dw, dh);
+    ctx.restore();
+  } else {
+    ctx.save();
+    ctx.fillStyle = 'rgba(242, 236, 222, 0.65)';
+    ctx.beginPath();
+    safeRoundRect(ctx, innerX, innerY, innerW, innerH, 8);
+    ctx.fill();
+
+    ctx.strokeStyle = 'rgba(194, 59, 34, 0.25)';
+    ctx.lineWidth = 1;
+    ctx.stroke();
+
+    ctx.fillStyle = '#a69588';
+    ctx.font = "italic 16px 'Cormorant Garamond', Georgia, serif";
+    ctx.textAlign = 'center';
+    ctx.fillText(item.title, innerX + innerW / 2, innerY + innerH / 2 - 10);
+    ctx.font = "12px -apple-system, sans-serif";
+    ctx.fillText("Visual Artifact & Mockup", innerX + innerW / 2, innerY + innerH / 2 + 18);
+    ctx.restore();
+  }
+
+  ctx.strokeStyle = 'rgba(160, 140, 115, 0.35)';
+  ctx.lineWidth = 1;
+  ctx.beginPath();
+  safeRoundRect(ctx, innerX, innerY, innerW, innerH, 8);
+  ctx.stroke();
+
+  ctx.fillStyle = '#4a3d35';
+  ctx.font = "italic 15px 'Cormorant Garamond', Georgia, serif";
+  ctx.textAlign = 'center';
+  ctx.fillText(item.imageCaption || item.subtitle, imgFrameX + imgFrameW / 2, imgFrameY + imgFrameH - 18);
+
+  ctx.restore();
+
+  // 4. Page Footer
+  ctx.font = "13px 'Cinzel', serif";
+  ctx.fillStyle = '#9e8f86';
+  ctx.textAlign = 'center';
+  ctx.fillText("—  " + pageNum + "  —", startX + width / 2, 940);
+
+  ctx.restore();
+}
+
+function drawRightPage(ctx, item, pageNum) {
+  const startX = 990;
+  const width = 740;
+  let curY = 85;
+
+  ctx.save();
+
+  // 1. Running Header
+  const headerCat = item.category === 'award' ? 'HONORS & RECOGNITION' : 'PRACTICAL EXPERIENCE';
+  ctx.font = "bold 12px -apple-system, BlinkMacSystemFont, sans-serif";
+  ctx.fillStyle = '#8c7d75';
+  ctx.textAlign = 'left';
+  ctx.fillText("PLATE " + String(pageNum).padStart(2, '0') + "  /  " + headerCat, startX, curY);
+
+  curY += 40;
+
+  // 2. Distinction Badge & Date Tag
+  if (item.badge) {
+    drawPillBadge(ctx, startX, curY, item.badge, item.category === 'award');
+  }
+
+  if (item.date) {
+    ctx.font = "bold 13px -apple-system, BlinkMacSystemFont, sans-serif";
+    ctx.fillStyle = '#7a6a61';
+    ctx.textAlign = 'right';
+    ctx.fillText(item.date, startX + width - 10, curY + 16);
+  }
+
+  curY += 48;
+
+  // 3. Main Title
+  ctx.font = "bold 28px 'Cinzel', 'Shippori Mincho', 'Cormorant Garamond', Georgia, serif";
+  ctx.fillStyle = '#1c1715';
+  ctx.textAlign = 'left';
+  curY = drawWrappedText(ctx, item.title, startX, curY, width, 36, 2);
+
+  curY += 10;
+
+  // 4. Organization & Subtitle
+  ctx.font = "600 15px -apple-system, BlinkMacSystemFont, sans-serif";
+  ctx.fillStyle = '#b83a2c';
+  ctx.fillText(item.organization, startX, curY);
+  curY += 22;
+
+  if (item.subtitle && item.subtitle !== item.organization) {
+    ctx.font = "italic 15px 'Cormorant Garamond', Georgia, serif";
+    ctx.fillStyle = '#5c4e46';
+    ctx.fillText(item.subtitle, startX, curY);
+    curY += 28;
+  } else {
+    curY += 10;
+  }
+
+  // 5. Quote Plaque
+  if (item.quote) {
+    drawPlaque(ctx, startX, curY, width, 48, item.quote);
+    curY += 66;
+  }
+
+  // 6. Narrative Description
+  ctx.font = "16px/1.65 'Cormorant Garamond', Georgia, serif";
+  ctx.fillStyle = '#2c2420';
+  curY = drawWrappedText(ctx, item.description, startX, curY, width, 26, 5);
+
+  curY += 24;
+
+  // 7. Highlights / Skill Tags
+  ctx.font = "bold 11px -apple-system, BlinkMacSystemFont, sans-serif";
+  ctx.fillStyle = '#7a6a61';
+  ctx.fillText('KOMPETENSI UTAMA & HIGHLIGHTS', startX, curY);
+  curY += 16;
+
+  if (Array.isArray(item.highlights)) {
+    let tagX = startX;
+    item.highlights.forEach(tag => {
+      ctx.font = "500 12px -apple-system, BlinkMacSystemFont, sans-serif";
+      const tm = ctx.measureText(tag);
+      const tw = tm.width + 16;
+      const th = 22;
+
+      if (tagX + tw > startX + width) {
+        tagX = startX;
+        curY += 28;
+      }
+
+      ctx.fillStyle = 'rgba(235, 227, 214, 0.7)';
+      ctx.strokeStyle = 'rgba(180, 160, 130, 0.4)';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      safeRoundRect(ctx, tagX, curY, tw, th, 4);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#3a302a';
+      ctx.fillText(tag, tagX + 8, curY + 15);
+
+      tagX += tw + 8;
+    });
+  }
+
+  curY += 46;
+
+  // 8. Interactive Action Link Button (Drawn on canvas)
+  if (item.link) {
+    const btnText = item.linkText || "Lihat Artikel / Instagram ↗";
+    ctx.font = "bold 13px -apple-system, BlinkMacSystemFont, sans-serif";
+    const btnW = ctx.measureText(btnText).width + 36;
+    const btnH = 34;
+
+    ctx.save();
+    ctx.fillStyle = 'rgba(194, 59, 34, 0.9)';
+    ctx.strokeStyle = '#c23b22';
+    ctx.lineWidth = 1;
+    ctx.beginPath();
+    safeRoundRect(ctx, startX, curY, btnW, btnH, 8);
+    ctx.fill();
+    ctx.stroke();
+
+    ctx.fillStyle = '#ffffff';
+    ctx.textAlign = 'left';
+    ctx.textBaseline = 'middle';
+    ctx.fillText(btnText, startX + 18, curY + btnH / 2);
+    ctx.restore();
+  }
+
+  // 9. Page Footer
+  ctx.font = "13px 'Cinzel', serif";
+  ctx.fillStyle = '#9e8f86';
+  ctx.textAlign = 'center';
+  ctx.fillText("—  " + pageNum + "  —", startX + width / 2, 940);
+
+  ctx.restore();
+}
+
+function drawLandscapeSpreadOnCanvas(canvas, item, spreadIndex, totalSpreads, loadedImg = null) {
+  const ctx = canvas.getContext('2d');
+  const W = 1800;
+  const H = 1000;
+  canvas.width = W;
+  canvas.height = H;
+
+  ctx.save();
+
+  // Smooth curved outer corners
+  ctx.beginPath();
+  safeRoundRect(ctx, 0, 0, W, H, 20);
+  ctx.clip();
+
+  // 1. Background Antique Washi Paper Tone
+  ctx.fillStyle = '#fcf8f0';
+  ctx.fillRect(0, 0, W, H);
+
+  const bgGrad = ctx.createRadialGradient(W / 2, H / 2, 200, W / 2, H / 2, 950);
+  bgGrad.addColorStop(0, 'rgba(255, 255, 255, 0.6)');
+  bgGrad.addColorStop(0.7, 'rgba(250, 244, 232, 0.25)');
+  bgGrad.addColorStop(1, 'rgba(224, 214, 194, 0.5)');
+  ctx.fillStyle = bgGrad;
+  ctx.fillRect(0, 0, W, H);
+
+  // 2. Deckled Margins
+  ctx.strokeStyle = 'rgba(190, 175, 150, 0.4)';
+  ctx.lineWidth = 1.5;
+  ctx.strokeRect(30, 30, W - 60, H - 60);
+
+  ctx.strokeStyle = 'rgba(212, 175, 55, 0.25)';
+  ctx.lineWidth = 1;
+  ctx.strokeRect(36, 36, W - 72, H - 72);
+
+  // 3. Center Spine & Gutter Shadow
+  const gutterX = W / 2; // 900
+  const spineGrad = ctx.createLinearGradient(gutterX - 80, 0, gutterX + 80, 0);
+  spineGrad.addColorStop(0, 'rgba(45, 30, 15, 0)');
+  spineGrad.addColorStop(0.35, 'rgba(45, 30, 15, 0.08)');
+  spineGrad.addColorStop(0.48, 'rgba(30, 20, 10, 0.22)');
+  spineGrad.addColorStop(0.5, 'rgba(20, 12, 6, 0.40)');
+  spineGrad.addColorStop(0.52, 'rgba(30, 20, 10, 0.22)');
+  spineGrad.addColorStop(0.65, 'rgba(45, 30, 15, 0.08)');
+  spineGrad.addColorStop(1, 'rgba(45, 30, 15, 0)');
+  ctx.fillStyle = spineGrad;
+  ctx.fillRect(gutterX - 80, 30, 160, H - 60);
+
+  const stitchYs = [120, 220, 320, 420, 520, 620, 720, 820, 900];
+  ctx.strokeStyle = '#8a6d4b';
+  ctx.lineWidth = 2.5;
+  stitchYs.forEach(sy => {
+    ctx.beginPath();
+    ctx.moveTo(gutterX - 4, sy - 7);
+    ctx.lineTo(gutterX + 4, sy + 7);
+    ctx.stroke();
+
+    ctx.fillStyle = '#3a2b1d';
+    ctx.beginPath();
+    ctx.arc(gutterX - 4, sy - 7, 2, 0, Math.PI * 2);
+    ctx.arc(gutterX + 4, sy + 7, 2, 0, Math.PI * 2);
+    ctx.fill();
+  });
+
+  // 4. Draw Left Page (Image & Media)
+  const leftPageNum = spreadIndex * 2 + 1;
+  drawLeftPage(ctx, item, leftPageNum, loadedImg);
+
+  // 5. Draw Right Page (Details & Interactive Link)
+  const rightPageNum = spreadIndex * 2 + 2;
+  drawRightPage(ctx, item, rightPageNum);
+
+  ctx.restore();
+
+  try {
+    return canvas.toDataURL('image/webp', 0.88);
+  } catch (e) {
+    return canvas.toDataURL('image/jpeg', 0.88);
+  }
+}
+
+const __bookLoadedImages = {};
+
+function preloadBookImages(items, onEachLoaded) {
+  items.forEach((item, idx) => {
+    if (!item.image) return;
+    const img = new Image();
+    img.crossOrigin = 'anonymous';
+    img.onload = () => {
+      __bookLoadedImages[idx] = img;
+      if (typeof onEachLoaded === 'function') onEachLoaded(idx, img);
+    };
+    img.src = item.image;
+  });
+}
+
+function generateSpreadDataUrls(items) {
+  if (typeof document === 'undefined') return [];
+  const canvas = document.createElement('canvas');
+  const list = [];
+  
+  for (let i = 0; i < items.length; i++) {
+    const it = items[i];
+    const loadedImg = __bookLoadedImages[i] || null;
+    list.push({
+      id: it.id,
+      title: it.title,
+      subtitle: it.subtitle,
+      date: it.date,
+      link: it.link,
+      linkText: it.linkText,
+      url: drawLandscapeSpreadOnCanvas(canvas, it, i, items.length, loadedImg)
+    });
+  }
+  return list;
+}
+
+let __awardBookInitialized = false;
+let __bookPageDataList = [];
+let __bookIdx = 0;
+let __bookTurn = null;
+let __bookStrips = [];
+let __bookSpring = null;
+let __bookRaf = null;
+let __bookLastTime = 0;
+let __bookView = { rx: 0, ry: 0, z: 1, trx: 0, try_: 0, tz: 1 };
+let __bookViewActive = false;
+let __bookLastZ = 1;
+let __bookDrag = null;
+let __bookLoupeOn = true;
+let __bookLx = null;
+let __bookLy = null;
+let __bookLgrab = null;
+let __bookLTarget = null;
+let __spreadsCacheKey = '';
+
+function initAwardExperienceBook(spreadData) {
+  const container = document.getElementById('awardBookContainer');
+  if (!container) return;
+
+  const dataList = getSortedAwardsExperiences(spreadData);
+  const newKey = JSON.stringify(dataList.map(d => d.id || d.title));
+  if (__spreadsCacheKey === newKey && __bookPageDataList.length > 0) {
+    return; // Already initialized with exact same data
+  }
+  __spreadsCacheKey = newKey;
+  __bookPageDataList = generateSpreadDataUrls(dataList);
+  if (!__bookPageDataList.length) return;
+
+  const wrap = container.querySelector('#sbWrap');
+  const stage = container.querySelector('#sbStage');
+  const sb3d = container.querySelector('#sb3d');
+  const book = container.querySelector('#sbBook');
+  const capBox = container.querySelector('#sbCaptions');
+  const hint = container.querySelector('#sbHint');
+  const loupe = container.querySelector('#loupe');
+  const zoomWrap = container.querySelector('#zoomWrap');
+  const zoomInner = container.querySelector('#zoomInner');
+  const zRead = container.querySelector('#zRead');
+  const loupeBtn = container.querySelector('#loupeBtn');
+  const zInBtn = container.querySelector('#zIn');
+  const zOutBtn = container.querySelector('#zOut');
+  const btnLeft = container.querySelector('#sbLeft');
+  const btnRight = container.querySelector('#sbRight');
+
+  if (!wrap || !stage || !sb3d || !book || !loupe || !zoomWrap || !zoomInner) return;
+
+  preloadBookImages(dataList, (idx, img) => {
+    const c = document.createElement('canvas');
+    __bookPageDataList[idx].url = drawLandscapeSpreadOnCanvas(c, dataList[idx], idx, dataList.length, img);
+    if (__bookIdx === idx && !__bookTurn) {
+      const im = book.querySelector('.sb-full img');
+      if (im) im.src = __bookPageDataList[idx].url;
+      syncZoomLayer();
+    }
+  });
+
+  const M = __bookPageDataList.length;
+  const N = 18;
+  const SPAN = 0.449;
+  const BETA = 0.60;
+  const MAG = 2.3;
+  const REDUCED = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function el(t, c) {
+    const e = document.createElement(t);
+    if (c) e.className = c;
+    return e;
+  }
+
+  function imgEl(i, side) {
+    const im = document.createElement('img');
+    im.className = 'sb-half-img ' + side;
+    im.draggable = false;
+    im.alt = '';
+    im.src = __bookPageDataList[i].url;
+    return im;
+  }
+
+  function halfEl(pos, i) {
+    const d = el('div', 'sb-half ' + pos);
+    d.appendChild(imgEl(i, pos));
+    d.appendChild(el('div', 'gutter-shade ' + pos));
+    return d;
+  }
+
+  function buildCurl(dir, from, to) {
+    __bookStrips = [];
+    const c = el('div', 'curl ' + dir);
+    c.style.setProperty('--n', N);
+    c.style.setProperty('--span', SPAN);
+    let host = c;
+
+    for (let i = 0; i < N; i++) {
+      const s = el('div', 'strip');
+      s.style.setProperty('--i', i);
+      const gut = 'calc(var(--bw) * 0.5)';
+      const sw = 'calc(var(--bw) * ' + SPAN + ' / ' + N + ')';
+      const A = 'calc(-1 * (' + gut + ' + ' + i + ' * ' + sw + '))';
+      const B = 'calc(' + (i + 1) + ' * ' + sw + ' - ' + gut + ')';
+      const f = el('div', 'face front');
+      const b = el('div', 'face back');
+
+      const dress = (e, url, px) => {
+        e.style.backgroundImage = 'url(' + url + ')';
+        e.style.backgroundPositionX = px;
+      };
+
+      dress(f, __bookPageDataList[from].url, dir === 'next' ? A : B);
+      dress(b, __bookPageDataList[to].url, dir === 'next' ? B : A);
+
+      f.appendChild(el('div', 'sh'));
+      f.appendChild(el('div', 'gl'));
+      b.appendChild(el('div', 'sh'));
+      b.appendChild(el('div', 'gl'));
+
+      s.appendChild(f);
+      s.appendChild(b);
+      if (i === N - 1) s.classList.add('edge');
+      host.appendChild(s);
+      host = s;
+      __bookStrips.push(s);
+    }
+    return c;
+  }
+
+  function applyTurn(t) {
+    const th = Math.PI * t;
+    const beta = BETA * Math.sin(Math.PI * t);
+    const D = 180 / Math.PI;
+    const tt = th + beta;
+    const td = (2 * beta) / N;
+
+    sb3d.style.setProperty('--tt', (tt * D).toFixed(2) + 'deg');
+    sb3d.style.setProperty('--td', (td * D).toFixed(3) + 'deg');
+    sb3d.style.setProperty('--shade', Math.sin(Math.PI * t).toFixed(3));
+    fadeCaption(t);
+
+    for (let i = 0; i < __bookStrips.length; i++) {
+      const l1 = Math.abs(Math.cos(tt - i * td));
+      const l2 = Math.abs(Math.cos(tt - (i + 1) * td));
+      const st = __bookStrips[i].style;
+      st.setProperty('--lit', l1.toFixed(3));
+      st.setProperty('--a1', ((1 - l1) * 0.62).toFixed(3));
+      st.setProperty('--a2', ((1 - l2) * 0.62).toFixed(3));
+    }
+  }
+
+  function paint() {
+    book.textContent = '';
+    if (!__bookTurn) {
+      const f = el('div', 'sb-full');
+      const im = document.createElement('img');
+      im.src = __bookPageDataList[__bookIdx].url;
+      im.alt = __bookPageDataList[__bookIdx].title;
+      im.draggable = false;
+      f.appendChild(im);
+      book.appendChild(f);
+      sb3d.style.setProperty('--shade', '0');
+
+      if (__bookPageDataList[__bookIdx] && __bookPageDataList[__bookIdx].link) {
+        const linkHotspot = el('a', 'sb-book-hotspot');
+        linkHotspot.href = __bookPageDataList[__bookIdx].link;
+        linkHotspot.target = '_blank';
+        linkHotspot.rel = 'noopener noreferrer';
+        linkHotspot.title = __bookPageDataList[__bookIdx].linkText || 'Buka Tautan';
+        linkHotspot.setAttribute('data-cursor', 'pointer');
+        book.appendChild(linkHotspot);
+      }
+    } else {
+      const next = __bookTurn.dir === 'next';
+      book.appendChild(halfEl('left', next ? __bookTurn.from : __bookTurn.to));
+      book.appendChild(halfEl('right', next ? __bookTurn.to : __bookTurn.from));
+      book.appendChild(buildCurl(__bookTurn.dir, __bookTurn.from, __bookTurn.to));
+      applyTurn(__bookTurn.t);
+    }
+
+    const a = el('button', 'sb-zone sb-prev');
+    const b = el('button', 'sb-zone sb-next');
+    a.setAttribute('aria-label', 'previous page');
+    b.setAttribute('aria-label', 'next page');
+    book.appendChild(a);
+    book.appendChild(b);
+
+    layout();
+    caption();
+    syncZoomLayer();
+    placeLoupe();
+  }
+
+  let capOut = null, capIn = null;
+  function caption() {
+    capBox.textContent = '';
+    capOut = capIn = null;
+    const curItem = __bookPageDataList[__bookIdx];
+    if (!curItem) return;
+
+    const track = el('div', 'sb-caption-track');
+    if (__bookTurn) {
+      capOut = el('p', 'sb-caption live');
+      capOut.textContent = __bookPageDataList[__bookTurn.from].title;
+      track.appendChild(capOut);
+
+      capIn = el('p', 'sb-caption live');
+      capIn.textContent = __bookPageDataList[__bookTurn.to].title;
+      track.appendChild(capIn);
+      fadeCaption(__bookTurn.t);
+    } else {
+      const p = el('p', 'sb-caption');
+      p.textContent = curItem.title;
+      track.appendChild(p);
+    }
+    capBox.appendChild(track);
+
+    if (curItem.link) {
+      const linkA = document.createElement('a');
+      linkA.className = 'sb-ext-link';
+      linkA.href = curItem.link;
+      linkA.target = '_blank';
+      linkA.rel = 'noopener noreferrer';
+      linkA.setAttribute('data-cursor', 'pointer');
+      linkA.innerHTML = '<span>' + (curItem.linkText || 'Lihat Artikel / Instagram') + '</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h7v7M13 3L4 12"/></svg>';
+      capBox.appendChild(linkA);
+    }
+  }
+
+  function fadeCaption(t) {
+    if (!capOut || !capIn) return;
+    const out = 1 - Math.max(0, Math.min(1, (t - 0.1) / 0.28));
+    const inn = Math.max(0, Math.min(1, (t - 0.56) / 0.3));
+    capOut.style.opacity = out.toFixed(3);
+    capIn.style.opacity = inn.toFixed(3);
+  }
+
+  function layout() {
+    sb3d.style.setProperty('--bw', book.clientWidth + 'px');
+  }
+
+  function animateTo(target, onDone, stiff = 150, damp = 22) {
+    __bookSpring = { kind: 'spring', v: 0, target: target, done: onDone, k: stiff, c: damp };
+    kick();
+  }
+
+  function tick(now) {
+    __bookRaf = null;
+    const dt = Math.min(0.032, (now - __bookLastTime) / 1000 || 0.016);
+    __bookLastTime = now;
+
+    if (__bookSpring && __bookTurn) {
+      const s = __bookSpring;
+      if (s.kind === 'tween') {
+        s.e = (s.e || 0) + dt;
+        const k = Math.min(1, s.e / (s.dur || 1));
+        __bookTurn.t = (s.from || 0) + (s.target - (s.from || 0)) * k;
+        applyTurn(__bookTurn.t);
+        if (k >= 1) {
+          __bookSpring = null;
+          if (s.done) s.done();
+        }
+      } else {
+        const x = __bookTurn.t - s.target;
+        s.v = (s.v || 0) + (-(s.k || 150) * x - (s.c || 22) * (s.v || 0)) * dt;
+        __bookTurn.t += s.v * dt;
+        if (Math.abs(__bookTurn.t - s.target) < 0.002 && Math.abs(s.v) < 0.02) {
+          __bookTurn.t = s.target;
+          __bookSpring = null;
+          applyTurn(__bookTurn.t);
+          if (s.done) s.done();
+        } else {
+          applyTurn(__bookTurn.t);
+        }
+      }
+    }
+
+    viewSpring();
+    const lmoved = loupeEase();
+
+    if ((__bookSpring || __bookViewActive || lmoved) && __bookRaf === null) {
+      __bookRaf = requestAnimationFrame(tick);
+    }
+  }
+
+  function kick() {
+    if (__bookRaf === null) {
+      __bookLastTime = performance.now();
+      __bookRaf = requestAnimationFrame(tick);
+    }
+  }
+
+  const TILT_X = 4.5, TILT_Y = 7;
+  const ZOOM_MIN = 0.9, ZOOM_MAX = 1.5;
+
+  function applyView() {
+    sb3d.style.setProperty('--rx', __bookView.rx.toFixed(2) + 'deg');
+    sb3d.style.setProperty('--ry', __bookView.ry.toFixed(2) + 'deg');
+    sb3d.style.setProperty('--zoom', __bookView.z.toFixed(3));
+    if (__bookView.z !== __bookLastZ) {
+      __bookLastZ = __bookView.z;
+      placeLoupe();
+    }
+  }
+
+  function viewSpring() {
+    const e = 0.14;
+    let moved = false;
+    const pairs = [
+      ['rx', 'trx'],
+      ['ry', 'try_'],
+      ['z', 'tz']
+    ];
+    for (const [k, t] of pairs) {
+      const d = __bookView[t] - __bookView[k];
+      if (Math.abs(d) > 0.0006) {
+        __bookView[k] += d * e;
+        moved = true;
+      } else {
+        __bookView[k] = __bookView[t];
+      }
+    }
+    if (moved) applyView();
+    __bookViewActive = moved;
+    return moved;
+  }
+
+  function setView(rx, ry, z) {
+    __bookView.trx = Math.max(-TILT_X, Math.min(TILT_X, rx));
+    __bookView.try_ = Math.max(-TILT_Y, Math.min(TILT_Y, ry));
+    __bookView.tz = Math.max(ZOOM_MIN, Math.min(ZOOM_MAX, z));
+    __bookViewActive = true;
+    kick();
+    syncZoom();
+  }
+
+  function tiltTo(cx, cy) {
+    if (__bookDrag) return;
+    const r = book.getBoundingClientRect();
+    if (!r.width) return;
+    const nx = Math.max(-1, Math.min(1, (cx - (r.left + r.width / 2)) / (r.width * 0.62)));
+    const ny = Math.max(-1, Math.min(1, (cy - (r.top + r.height / 2)) / (r.height * 0.9)));
+    setView(-ny * TILT_X, nx * TILT_Y, __bookView.tz);
+  }
+
+  function hideHint() {
+    if (hint) hint.classList.add('gone');
+  }
+
+  function startTurn(dir, t) {
+    __bookSpring = null;
+    if (__bookTurn) {
+      __bookIdx = __bookTurn.to;
+      __bookTurn = null;
+    }
+    shoveLoupe(dir);
+    const from = __bookIdx;
+    __bookTurn = {
+      dir: dir,
+      from: from,
+      to: dir === 'next' ? (from + 1) % M : (from - 1 + M) % M,
+      t: t || 0
+    };
+    paint();
+  }
+
+  function commit() {
+    if (!__bookTurn) return;
+    if (REDUCED) {
+      __bookIdx = __bookTurn.to;
+      __bookTurn = null;
+      paint();
+      return;
+    }
+    animateTo(
+      1,
+      () => {
+        if (!__bookTurn) return;
+        __bookIdx = __bookTurn.to;
+        __bookTurn = null;
+        paint();
+      },
+      170,
+      26
+    );
+    kick();
+  }
+
+  function cancel() {
+    if (!__bookTurn) return;
+    animateTo(
+      0,
+      () => {
+        __bookTurn = null;
+        paint();
+      },
+      150,
+      24
+    );
+    kick();
+  }
+
+  function step(dir) {
+    if (__bookTurn) {
+      __bookIdx = __bookTurn.to;
+      __bookTurn = null;
+    }
+    startTurn(dir, 0);
+    commit();
+  }
+
+  function loupeSize() {
+    return Math.round(Math.max(165, Math.min(262, book.clientWidth * 0.235)));
+  }
+
+  function bookBox() {
+    return { x: 0, y: 0, w: book.clientWidth, h: book.clientHeight };
+  }
+
+  function restLoupe() {
+    const b = bookBox();
+    __bookLx = b.x + b.w * 0.88;
+    __bookLy = b.y + b.h * 0.855;
+    placeLoupe();
+  }
+
+  function syncZoomLayer() {
+    zoomInner.textContent = '';
+    for (let i = 0; i < book.children.length; i++) {
+      const c = book.children[i];
+      if (c.classList.contains('sb-zone')) continue;
+      zoomInner.appendChild(c.cloneNode(true));
+    }
+  }
+
+  function placeLoupe() {
+    if (__bookLx === null) return;
+    const B = bookBox(), bw = B.w, bh = B.h;
+    if (!bw) return;
+    const R = loupeSize() / 2, bez = R * 2 * 0.058;
+    loupe.style.setProperty('--lr', R * 2 + 'px');
+    loupe.style.transform = 'translate3d(' + (__bookLx - R).toFixed(1) + 'px,' + (__bookLy - R).toFixed(1) + 'px,0)';
+    if (__bookLoupeOn) loupe.classList.add('on');
+
+    const z = __bookView.z, cx = bw / 2, cy = bh / 2;
+    const x0 = cx + (bw * 0.051 - cx) * z, x1 = cx + (bw * 0.949 - cx) * z;
+    const y0 = cy + (bh * 0.218 - cy) * z, y1 = cy + (bh * 0.782 - cy) * z;
+
+    const nx = Math.max(x0, Math.min(__bookLx, x1));
+    const ny = Math.max(y0, Math.min(__bookLy, y1));
+    const inside = (__bookLx > x0 && __bookLx < x1 && __bookLy > y0 && __bookLy < y1)
+      ? Math.min(__bookLx - x0, x1 - __bookLx, __bookLy - y0, y1 - __bookLy)
+      : -Math.hypot(__bookLx - nx, __bookLy - ny);
+    const k = Math.max(0, Math.min(1, (inside + R * 0.3) / (R * 0.55)));
+
+    zoomWrap.style.opacity = (__bookLoupeOn ? k : 0).toFixed(3);
+    if (k <= 0.002) return;
+    const r = (R - bez).toFixed(1);
+    const mask = 'radial-gradient(circle ' + r + 'px at ' + __bookLx.toFixed(1) + 'px ' + __bookLy.toFixed(1) + 'px,#000 calc(100% - 1px),transparent 100%)';
+    zoomWrap.style.webkitMaskImage = mask;
+    zoomWrap.style.maskImage = mask;
+
+    const px = cx + (__bookLx - cx) / z, py = cy + (__bookLy - cy) / z, s = MAG * z;
+    zoomInner.style.transform = 'translate(' + (__bookLx - px * s).toFixed(1) + 'px,' + (__bookLy - py * s).toFixed(1) + 'px) scale(' + s.toFixed(4) + ')';
+  }
+
+  function shoveLoupe(dir) {
+    if (!__bookLoupeOn || __bookLx === null || __bookLgrab) return;
+    const b = bookBox();
+    const nx = (b.w / 2 + (__bookLx - b.x - b.w / 2) / __bookView.z) / b.w,
+          ny = (b.h / 2 + (__bookLy - b.y - b.h / 2) / __bookView.z) / b.h;
+    if (nx < 0.02 || nx > 0.98 || ny < 0.17 || ny > 0.83) return;
+    __bookLTarget = { x: b.x + b.w * (dir === 'next' ? 0.12 : 0.88), y: b.y + b.h * 0.855 };
+    kick();
+  }
+
+  function loupeEase() {
+    if (!__bookLTarget || __bookLx === null || __bookLy === null) return false;
+    if (__bookLgrab) {
+      __bookLTarget = null;
+      return false;
+    }
+    const dx = __bookLTarget.x - __bookLx, dy = __bookLTarget.y - __bookLy;
+    if (Math.abs(dx) < 0.5 && Math.abs(dy) < 0.5) {
+      __bookLx = __bookLTarget.x;
+      __bookLy = __bookLTarget.y;
+      __bookLTarget = null;
+      placeLoupe();
+      return false;
+    }
+    __bookLx += dx * 0.17;
+    __bookLy += dy * 0.17;
+    placeLoupe();
+    return true;
+  }
+
+  function syncZoom() {
+    if (zRead) zRead.textContent = Math.round(__bookView.tz * 100) + '%';
+    if (zOutBtn) zOutBtn.disabled = __bookView.tz <= ZOOM_MIN + 0.001;
+    if (zInBtn) zInBtn.disabled = __bookView.tz >= ZOOM_MAX - 0.001;
+  }
+
+  // Wire events only once
+  if (!__awardBookInitialized) {
+    __awardBookInitialized = true;
+
+    window.addEventListener('resize', () => {
+      layout();
+      __bookLx = null;
+      restLoupe();
+    }, { passive: true });
+
+    window.addEventListener('pointermove', (e) => {
+      if (e.pointerType === 'touch') return;
+      tiltTo(e.clientX, e.clientY);
+    }, { passive: true });
+
+    stage.addEventListener('pointerdown', (e) => {
+      if (e.button !== 0) return;
+      e.preventDefault();
+      const onBook = e.target.closest('.sb-zone');
+      stage.setPointerCapture(e.pointerId);
+      hideHint();
+      if (!onBook) return;
+      const r = book.getBoundingClientRect();
+      const dir = (e.clientX - r.left) / r.width > 0.5 ? 'next' : 'prev';
+      startTurn(dir, 0);
+      __bookDrag = { dir: dir, x0: e.clientX, w: r.width, moved: 0, vel: 0, tPrev: performance.now() };
+    });
+
+    stage.addEventListener('pointermove', (e) => {
+      if (!__bookDrag) return;
+      const dx = e.clientX - __bookDrag.x0;
+      __bookDrag.moved = Math.max(__bookDrag.moved, Math.abs(dx));
+      const raw = (__bookDrag.dir === 'next' ? -dx : dx) / (__bookDrag.w * 0.62);
+      const t = Math.max(0, Math.min(1, raw));
+      const now = performance.now();
+      __bookDrag.vel = (t - (__bookTurn ? __bookTurn.t : 0)) / Math.max(0.001, (now - __bookDrag.tPrev) / 1000);
+      __bookDrag.tPrev = now;
+      if (__bookTurn) {
+        __bookTurn.t = t;
+        applyTurn(t);
+      }
+    });
+
+    const endDrag = () => {
+      if (!__bookDrag) return;
+      const d = __bookDrag;
+      __bookDrag = null;
+      if (!__bookTurn) return;
+      if (d.moved < 6) {
+        commit();
+        return;
+      }
+      const go = __bookTurn.t > 0.42 || d.vel > 1.1;
+      if (go) commit();
+      else cancel();
+    };
+
+    stage.addEventListener('pointerup', endDrag);
+    stage.addEventListener('pointercancel', endDrag);
+
+    loupe.addEventListener('pointerdown', (e) => {
+      if (!__bookLoupeOn || e.button !== 0 || __bookLx === null || __bookLy === null) return;
+      e.preventDefault();
+      e.stopPropagation();
+      __bookLTarget = null;
+      __bookLgrab = { cx: e.clientX, cy: e.clientY, lx0: __bookLx, ly0: __bookLy };
+      loupe.classList.add('held');
+      loupe.setPointerCapture(e.pointerId);
+      hideHint();
+    });
+
+    loupe.addEventListener('pointermove', (e) => {
+      if (!__bookLgrab) return;
+      const b = bookBox(), R = loupeSize() / 2;
+      __bookLx = Math.max(b.x - R * 0.7, Math.min(b.x + b.w + R * 0.7, __bookLgrab.lx0 + (e.clientX - __bookLgrab.cx)));
+      __bookLy = Math.max(b.y - R * 0.7, Math.min(b.y + b.h + R * 1.0, __bookLgrab.ly0 + (e.clientY - __bookLgrab.cy)));
+      placeLoupe();
+    });
+
+    const dropLoupe = () => {
+      __bookLgrab = null;
+      loupe.classList.remove('held');
+    };
+
+    loupe.addEventListener('pointerup', dropLoupe);
+    loupe.addEventListener('pointercancel', dropLoupe);
+
+    if (btnLeft) btnLeft.onclick = () => step('prev');
+    if (btnRight) btnRight.onclick = () => step('next');
+
+    if (loupeBtn) {
+      loupeBtn.onclick = () => {
+        __bookLoupeOn = !__bookLoupeOn;
+        loupeBtn.setAttribute('aria-pressed', String(__bookLoupeOn));
+        loupe.classList.toggle('on', __bookLoupeOn);
+        if (__bookLoupeOn && __bookLx === null) restLoupe();
+      };
+    }
+
+    if (zInBtn) {
+      zInBtn.onclick = () => {
+        setView(__bookView.trx, __bookView.try_, __bookView.tz * 1.16);
+        hideHint();
+      };
+    }
+    if (zOutBtn) {
+      zOutBtn.onclick = () => {
+        setView(__bookView.trx, __bookView.try_, __bookView.tz / 1.16);
+        hideHint();
+      };
+    }
+  }
+
+  // Paint initial spread
+  paint();
+  applyView();
+  syncZoom();
+  restLoupe();
+}
+
+
+
+
 window.addEventListener('message', (ev) => {
   if (ev.data && ev.data.type === 'INIT_PORTFOLIO') {
     applyPortfolioData(ev.data.portfolioData);
@@ -5776,7 +7655,28 @@ window.addEventListener('message', (ev) => {
 });
 
 function start() {
-  renderProjectCards(DEFAULT_PROJECTS);
+  // 1. Instantly dismiss preloader and unlock screen
+  if (preEl) preEl.classList.add('done');
+  document.body.classList.remove('is-locked');
+
+  // 2. Render cards
+  try {
+    renderProjectCards(DEFAULT_PROJECTS);
+  } catch (e) {
+    console.error('renderProjectCards error:', e);
+  }
+
+  window.initAwardExperienceBook = initAwardExperienceBook;
+  window.DEFAULT_AWARDS_EXPERIENCES = DEFAULT_AWARDS_EXPERIENCES;
+
+  // 3. Defer book initialization so initial page entrance is 100% instantaneous
+  setTimeout(() => {
+    try {
+      initAwardExperienceBook(DEFAULT_AWARDS_EXPERIENCES);
+    } catch (e) {
+      console.error('initAwardExperienceBook error:', e);
+    }
+  }, 40);
   startGreetingRotator();
   startRoleRotator();
   initGpaScramble();
@@ -5804,7 +7704,7 @@ function start() {
       document.body.classList.remove('is-locked');
       $('#hero').querySelectorAll('[data-rv], .mask-line').forEach((e, i) =>
         setTimeout(() => e.classList.add('rv-in'), REDUCE ? 0 : 120 + i * 95));
-    }, REDUCE ? 0 : 340);
+    }, REDUCE ? 0 : 100);
   }
   running = true; tPrev = performance.now();
   INTRO.t0 = shot !== null ? 0 : (REDUCE ? performance.now() - 4000 : performance.now());
