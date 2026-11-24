@@ -151,7 +151,7 @@ export function drawLeftPage(ctx, item, pageNum, loadedImg = null) {
   ctx.textAlign = 'left';
   ctx.fillText(`PLATE ${String(pageNum).padStart(2, '0')}  /  ${headerCat}`, startX, curY);
 
-  drawHankoSeal(ctx, startX + width - 60, curY - 20, 52, item.sealJp || '栄冠');
+  drawHankoSeal(ctx, startX + width - 60, curY - 20, 52, item.sealJp || (item.category === 'award' ? '栄冠' : '実務'));
 
   curY += 45;
 
@@ -228,7 +228,7 @@ export function drawLeftPage(ctx, item, pageNum, loadedImg = null) {
     ctx.textAlign = 'center';
     ctx.fillText(item.title, innerX + innerW / 2, innerY + innerH / 2 - 10);
     ctx.font = "12px -apple-system, sans-serif";
-    ctx.fillText("Visual Artifact & Mockup", innerX + innerW / 2, innerY + innerH / 2 + 18);
+    ctx.fillText("Visual Artifact & Documentation", innerX + innerW / 2, innerY + innerH / 2 + 18);
     ctx.restore();
   }
 
@@ -240,10 +240,12 @@ export function drawLeftPage(ctx, item, pageNum, loadedImg = null) {
   ctx.stroke();
 
   // Caption below the image
+  const captionText = item.subtitle || item.title;
   ctx.fillStyle = '#4a3d35';
-  ctx.font = "italic 15px 'Cormorant Garamond', Georgia, serif";
+  ctx.font = "italic 14px 'Cormorant Garamond', Georgia, serif";
   ctx.textAlign = 'center';
-  ctx.fillText(item.imageCaption || item.subtitle, imgFrameX + imgFrameW / 2, imgFrameY + imgFrameH - 18);
+  const truncCaption = captionText && captionText.length > 75 ? captionText.substring(0, 72) + '...' : (captionText || '');
+  ctx.fillText(truncCaption, imgFrameX + imgFrameW / 2, imgFrameY + imgFrameH - 18);
 
   ctx.restore();
 
@@ -290,46 +292,46 @@ export function drawRightPage(ctx, item, pageNum) {
   curY += 48;
 
   // 3. Main Title
-  ctx.font = "bold 28px 'Cinzel', 'Shippori Mincho', 'Cormorant Garamond', Georgia, serif";
+  ctx.font = "bold 24px 'Cinzel', 'Shippori Mincho', 'Cormorant Garamond', Georgia, serif";
   ctx.fillStyle = '#1c1715';
   ctx.textAlign = 'left';
-  curY = drawWrappedText(ctx, item.title, startX, curY, width, 36, 2);
+  curY = drawWrappedText(ctx, item.title, startX, curY, width, 32, 3);
 
-  curY += 10;
+  curY += 8;
 
   // 4. Organization & Subtitle
   ctx.font = "600 15px -apple-system, BlinkMacSystemFont, sans-serif";
   ctx.fillStyle = '#b83a2c';
   ctx.fillText(item.organization, startX, curY);
-  curY += 22;
+  curY += 20;
 
   if (item.subtitle && item.subtitle !== item.organization) {
-    ctx.font = "italic 15px 'Cormorant Garamond', Georgia, serif";
+    ctx.font = "italic 14px 'Cormorant Garamond', Georgia, serif";
     ctx.fillStyle = '#5c4e46';
     ctx.fillText(item.subtitle, startX, curY);
-    curY += 28;
+    curY += 24;
   } else {
-    curY += 10;
+    curY += 8;
   }
 
   // 5. Quote Plaque
   if (item.quote) {
-    drawPlaque(ctx, startX, curY, width, 48, item.quote);
-    curY += 66;
+    drawPlaque(ctx, startX, curY, width, 44, item.quote);
+    curY += 56;
   }
 
   // 6. Narrative Description
-  ctx.font = "16px/1.65 'Cormorant Garamond', Georgia, serif";
+  ctx.font = "15px/1.6 'Cormorant Garamond', Georgia, serif";
   ctx.fillStyle = '#2c2420';
-  curY = drawWrappedText(ctx, item.description, startX, curY, width, 26, 5);
+  curY = drawWrappedText(ctx, item.description, startX, curY, width, 23, 6);
 
-  curY += 24;
+  curY += 20;
 
   // 7. Highlights / Skill Tags
   ctx.font = "bold 11px -apple-system, BlinkMacSystemFont, sans-serif";
   ctx.fillStyle = '#7a6a61';
-  ctx.fillText('KOMPETENSI UTAMA & HIGHLIGHTS', startX, curY);
-  curY += 16;
+  ctx.fillText('HIGHLIGHTS & KOMPETENSI', startX, curY);
+  curY += 14;
 
   if (Array.isArray(item.highlights)) {
     let tagX = startX;
@@ -341,7 +343,7 @@ export function drawRightPage(ctx, item, pageNum) {
 
       if (tagX + tw > startX + width) {
         tagX = startX;
-        curY += 28;
+        curY += 26;
       }
 
       ctx.fillStyle = 'rgba(235, 227, 214, 0.7)';
@@ -359,28 +361,62 @@ export function drawRightPage(ctx, item, pageNum) {
     });
   }
 
-  curY += 46;
+  curY += 36;
 
-  // 8. Interactive Action Link Button (Drawn on canvas)
-  if (item.link) {
-    const btnText = item.linkText || "Lihat Artikel / Instagram ↗";
-    ctx.font = "bold 13px -apple-system, BlinkMacSystemFont, sans-serif";
-    const btnW = ctx.measureText(btnText).width + 36;
-    const btnH = 34;
+  // 8. Interactive Action Link Button(s) (Drawn on canvas)
+  const hasLink1 = !!item.link;
+  const hasLink2 = !!item.link2;
 
+  if (hasLink1 || hasLink2) {
     ctx.save();
-    ctx.fillStyle = 'rgba(194, 59, 34, 0.9)';
-    ctx.strokeStyle = '#c23b22';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    safeRoundRect(ctx, startX, curY, btnW, btnH, 8);
-    ctx.fill();
-    ctx.stroke();
+    ctx.font = "bold 12px -apple-system, BlinkMacSystemFont, sans-serif";
+    const btnH = 32;
+    let bX = startX;
+    let bY = curY;
 
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(btnText, startX + 18, curY + btnH / 2);
+    if (hasLink1) {
+      const btnText1 = item.linkText || "Visit Coverage ↗";
+      const btnW1 = Math.min(width, ctx.measureText(btnText1).width + 30);
+
+      ctx.fillStyle = 'rgba(194, 59, 34, 0.9)';
+      ctx.strokeStyle = '#c23b22';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      safeRoundRect(ctx, bX, bY, btnW1, btnH, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(btnText1, bX + 15, bY + btnH / 2);
+
+      bX += btnW1 + 12;
+    }
+
+    if (hasLink2) {
+      const btnText2 = item.linkText2 || "Visit Coverage 2 ↗";
+      const btnW2 = Math.min(width, ctx.measureText(btnText2).width + 30);
+
+      if (bX + btnW2 > startX + width) {
+        bX = startX;
+        bY += btnH + 8;
+      }
+
+      ctx.fillStyle = 'rgba(38, 50, 56, 0.9)';
+      ctx.strokeStyle = '#263238';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      safeRoundRect(ctx, bX, bY, btnW2, btnH, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(btnText2, bX + 15, bY + btnH / 2);
+    }
+
     ctx.restore();
   }
 
@@ -489,6 +525,8 @@ export function generateSpreadDataUrls(items) {
       date: item.date,
       link: item.link,
       linkText: item.linkText,
+      link2: item.link2,
+      linkText2: item.linkText2,
       url: drawLandscapeSpreadOnCanvas(canvas, item, index, items.length, null)
     };
   });

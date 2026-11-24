@@ -7,116 +7,116 @@ export interface AwardExperienceItem {
   id: string;
   category: 'award' | 'experience';
   title: string;
-  subtitle: string;
+  subtitle?: string;
   organization: string;
   date: string;
   sortDate: string; // ISO format (YYYY-MM) for exact sorting
   endDate?: string; // For experience: end date used in sorting
   badge: string;
-  sealJp: string;
+  sealJp?: string;
   description: string;
   highlights: string[];
   image: string;
-  imageCaption: string;
-  link: string;
-  linkText: string;
+  link?: string;
+  linkText?: string;
+  link2?: string;
+  linkText2?: string;
   quote?: string;
 }
 
 export const rawAwardsExperiences: AwardExperienceItem[] = [
   {
-    id: "award-tb-mate",
+    id: "experience-forbimwangi",
+    category: "experience",
+    title: "Media Communication & Information Staff",
+    subtitle: "Politeknik Negeri Banyuwangi",
+    organization: "FORBIMWANGI (Scholarship Student Forum)",
+    date: "Dec 2024 – Nov 2025",
+    sortDate: "2024-12",
+    badge: "Staff",
+    description: "As a member of the Medkominfo Division, I am responsible for managing the organization's information and publication media, from visual content design and social media management to event documentation. I am also involved in effectively communicating information to members and the public and collaborating with the team to maintain the organization's image and branding consistency.",
+    highlights: ["Visual Design", "Content & Social Media Management", "Documentation", "Organization Communication"],
+    image: "/images/expawards/forbim.webp",
+    link: "https://www.instagram.com/p/DFddDmlhLuL/?utm_source=ig_web_copy_link&dmpr=MzRlODBiNWFlZA==&avpt=MzRlODBiNWFlZA==",
+    linkText: "Visit Instagram Coverage ↗",
+  },
+  {
+    id: "award-kmipn25",
     category: "award",
-    title: "Juara 1 — Lomba Desain UI/UX Tingkat Nasional",
-    subtitle: "Aplikasi Mobile Healthcare 'TBMATE' untuk Kepatuhan Pasien TBC",
-    organization: "Politeknik Negeri Banyuwangi & Forum IT Nasional",
-    date: "Oktober 2024",
-    sortDate: "2024-10",
-    badge: "JUARA 1 · TINGKAT NASIONAL",
-    sealJp: "栄冠",
-    description: "Meraih Juara 1 Nasional atas perancangan aplikasi mobile kesehatan 'TBMATE' yang membantu pengawasan minum obat pasien tuberkulosis secara human-centric. Dinilai unggul dalam pengujian prototipe interaktif beresolusi tinggi, penerapan design system Figma yang konsisten, dan pengujian kegunaan bersama tenaga kesehatan.",
-    highlights: ["Figma Design System", "User Research & Testing", "Healthcare UX", "High-Fidelity Prototype"],
-    image: "/images/projects/tbmate.webp",
-    imageCaption: "Dokumentasi Prototipe Mobile Healthcare TBMATE",
-    link: "https://www.instagram.com/poliwangi_official/",
-    linkText: "Lihat Liputan Instagram ↗",
-    quote: "“Kombinasi empati riset pengguna, visual presisi, dan aksesibilitas ramah pasien.”"
+    title: "2nd Winner KMIPN 2025 UX and Accessibility Subcategory Innovation Creation Category",
+    subtitle: "2025 National Polytechnic Informatics Student Competition (KMIPN)",
+    organization: "Politeknik Negeri Padang",
+    date: "October 2025",
+    sortDate: "2025-10",
+    badge: "2nd Winner",
+    description: "Won second place in the Innovation Creation category in the UX and Accessibility Innovation subcategory in the KMIPN by developing a technological innovation aimed at improving medication adherence in TB patients. In this competition, the team developed an application MVP and UI/UX prototype designed to be user-friendly, easily accessible, and to support a more regular and effective treatment process.",
+    highlights: ["UX & Accessibility", "Inovation Creation", "KMIPN 2025", "National Competition"],
+    image: "/images/expawards/kmipn25.webp",
+    link: "https://poliwangi.ac.id/tim-innosuke-poliwangi-raih-prestasi-nasional-pada-ajang-inovasi-teknologi-bidang-tik/",
+    linkText: "Visit Achievement Article ↗",
+    link2:"https://www.instagram.com/p/DP3bOHxj9I7/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    linkText2:"Visit Instagram Coverage ↗"
   },
   {
-    id: "award-fluensy",
+    id: "exp-jayla",
+    category: "experience",
+    title: "Mobile Application Developer Intern",
+    organization: "Jayla Tech ID",
+    date: "February 2026 – June 2026",
+    sortDate: "2026-02",
+    endDate: "2026-06",
+    badge: "Mobile Dev",
+    description: "As a Mobile Application Developer, I develop Android applications using Flutter, Firebase, and Google ML Kit to create scalable, responsive, and user-friendly mobile experiences. I also collaborate closely with development teams throughout the development process, contributing to effective teamwork, problem-solving, and the successful delivery of mobile applications.",
+    highlights: ["Flutter", "Android", "Firebase", "Google ML Kit", "Teamwork", "Problem Solving"],
+    image: "/images/expawards/jayla.webp"
+  },
+  {
+    id: "award-vibecoding",
     category: "award",
-    title: "Finalis Inovasi Terbaik — AI Solution Challenge",
-    subtitle: "Platform Prediksi ROI & Penemu Influencer Cerdas 'Fluensy'",
-    organization: "Youth Tech & Artificial Intelligence Summit Indonesia",
-    date: "Juli 2024",
-    sortDate: "2024-07",
-    badge: "FINALIS INOVASI TERBAIK",
-    sealJp: "革新",
-    description: "Terpilih sebagai Finalis Inovasi Terbaik atas pengembangan konsep platform AI 'Fluensy' yang membantu UMKM mencocokkan influencer dengan akurasi tinggi serta menghitung proyeksi ROI kampanye promosi secara otomatis melalui algoritma prediktif.",
-    highlights: ["AI Platform Design", "Predictive Analytics UX", "Figma Auto-Layout", "ROI Metrics Dashboard"],
-    image: "/images/projects/fluensy.webp",
-    imageCaption: "Dashboard Analitik & Smart Matching AI Fluensy",
-    link: "https://www.instagram.com/",
-    linkText: "Baca Artikel Inovasi ↗",
-    quote: "“Menjembatani kecerdasan kalkulasi AI ke dalam visual antarmuka bisnis yang intuitif.”"
+    title: "Top 100 - JuaraVibeCoding 2026",
+    subtitle: "Juara Vibe Coding 2026",
+    organization: "Google Developer Groups (GDG)",
+    date: "May 2026",
+    sortDate: "2026-05",
+    endDate: "2026-05",
+    badge: "Top 100",
+    description: "Selected as one of the Top 100 participants in JuaraVibeCoding 2026 for developing SatuLangkah, an AI-powered web application that helps people with ADHD and executive dysfunction break overwhelming tasks into manageable steps. Built using Google AI Studio and deployed on Google Cloud. ",
+    highlights: ["Web App", "Vibe", "Gemini API", "AI Powered", "Google AI Studio"],
+    image: "/images/expawards/jvc.webp",
+    link: "https://www.instagram.com/p/DX_N28cEzye/?utm_source=ig_web_copy_link&knvt=MzRlODBiNWFlZA==&avpt=MzRlODBiNWFlZA==",
+    linkText: "Visit Instagram Coverage ↗",
   },
   {
-    id: "exp-dineqr",
-    category: "experience",
-    title: "Lead UI/UX Designer & Frontend Developer",
-    subtitle: "DineQR — Sistem POS Kasir & Pemesanan Mandiri Meja Restoran",
-    organization: "Project-Based Learning Initiative",
-    date: "Maret 2024 – Juni 2024",
-    sortDate: "2024-06",
-    endDate: "2024-06",
-    badge: "LEAD ARCHITECT & DEV",
-    sealJp: "実務",
-    description: "Memimpin perancangan UI/UX komprehensif dan frontend Next.js untuk DineQR, solusi end-to-end pemesanan QR dan POS kasir berbasis cloud. Menghadirkan pelacakan pesanan real-time, kitchen display workflow terintegrasi, dan antarmuka kasir cepat saji.",
-    highlights: ["Next.js & Tailwind CSS", "QR Code Engine", "Kitchen Workflow UX", "State Management"],
-    image: "/images/projects/dineqr.webp",
-    imageCaption: "Antarmuka Meja Pelanggan & Dashboard Kasir DineQR",
-    link: "https://github.com/",
-    linkText: "Lihat Repositori & Demo ↗",
-    quote: "“Meningkatkan efisiensi layanan restoran melalui pemesanan meja tanpa hambatan.”"
+    id: "award-china",
+    category: "award",
+    title: "Excellence Award & Finalist AI + Machinary 15th China International Innovation and Entrepreneurship Competition",
+    subtitle: "15th China International Innovation and Entrepreneurship Competition",
+    organization: "XCMG",
+    date: "October 2026",
+    sortDate: "2026-10",
+    endDate: "2026-10",
+    badge: "Excellence Award",
+    description: "Successfully advanced to the final round and received the Excellence Award at the 15th China International Innovation and Entrepreneurship Competition by developing an innovative technology solution for heavy equipment operations in the mining industry. Serving as a Front-End Developer, I contributed to building the In-Cab Tablet Operator Interface—a real-time monitoring dashboard designed to help operators track operational parameters and machine conditions. My work encompassed designing an intuitive user interface, translating UI designs into a functional tablet application through front-end slicing and implementation, and integrating real-time sensor data via the MQTT protocol. Additionally, I developed live operational data visualizations—covering strata types (soft/rock), RPM, bucket angle (degrees), and hydraulic pressure—alongside warning and alert interfaces to flag abnormal operating conditions such as high oil temperature, excessive hydraulic pressure, cavitation, and other potential anomalies.",
+    highlights: ["Front-End Developer", "In-Cab Tablet Operator Interface", "Real-Time Monitoring Dashboard", "Operational Data Visualization", "Warning and Alert Interfaces"],
+    image: "/images/expawards/china.webp",
+    link: "https://www.instagram.com/p/DfCFBn8ByvX/?utm_source=ig_web_copy_link&dmpr=MzRlODBiNWFlZA==&avpt=MzRlODBiNWFlZA==",
+    linkText: "Visit the Finalist Instagram Coverage ↗",
+    link2: "https://www.instagram.com/p/DfjJDI7vyGo/?utm_source=ig_web_copy_link&evlk=MzRlODBiNWFlZA==&avpt=MzRlODBiNWFlZA==",
+    linkText2: "Visit the Excellence Award Instagram Coverage ↗"
   },
   {
-    id: "exp-satulangkah",
+    id: "exp-inagata",
     category: "experience",
-    title: "Full-Stack Engineer & Interaction Designer",
-    subtitle: "SatuLangkah — Web App Pendamping Fokus & Micro-Task ADHD",
-    organization: "Digital Wellbeing & Social Impact Project",
-    date: "Januari 2024 – Mei 2024",
-    sortDate: "2024-05",
-    endDate: "2024-05",
-    badge: "SOLO CREATOR & DEV",
-    sealJp: "開発",
-    description: "Mengembangkan SatuLangkah secara mandiri (Solo Project) untuk membantu individu neurodiverse yang sering mengalami overwhelm akibat daftar tugas yang menumpuk. Mengubah tugas besar menjadi langkah-langkah mikro terarah dengan visual gamifikasi sederhana.",
-    highlights: ["React & Web App", "Behavioral Psychology UX", "Micro-Interactions", "Accessibility First"],
-    image: "/images/projects/satulangkah.webp",
-    imageCaption: "Aplikasi SatuLangkah Pemecah Tugas Mikro ADHD",
-    link: "https://github.com/",
-    linkText: "Buka Dokumentasi Proyek ↗",
-    quote: "“Satu langkah kecil yang mindful menuju kejernihan fokus dan produktivitas.”"
+    title: "Front-End Developer Intern",
+    organization: "PT Ina Gata Persada",
+    date: "July 2026 – December 2026",
+    sortDate: "2026-07",
+    endDate: "2026-12",
+    badge: "Front-End Developer",
+    description: "As a Front-End Developer Intern at Inagata, I contributed to the development of CBT Edupongo, a Computer-Based Test (CBT) platform designed to support digital examination processes for students, teachers, and administrators. Using Vue.js, Bootstrap, and JavaScript, I translated UI/UX designs into functional, responsive web interfaces across student, teacher, and admin dashboards while building reusable components and structured front-end code to maintain consistency across user roles. Additionally, I integrated REST APIs to manage data communication between front-end and back-end systems, collaborating closely with the Back-End Developer team to ensure seamless integration and reliable platform functionality.",
+    highlights: ["Vue.js", "Bootstrap", "JavaScript", "Front-End Developer", "Computer Based Test", "CBT Edupongo"],
+    image: "/images/expawards/china.webp",
   },
-  {
-    id: "exp-lab-poliwangi",
-    category: "experience",
-    title: "Asisten Laboratorium Informatika & Penerima Dean's List",
-    subtitle: "Riset Rekayasa Perangkat Lunak & Bimbingan Praktikum Mahasiswa",
-    organization: "Jurusan Bisnis & Informatika — Politeknik Negeri Banyuwangi",
-    date: "September 2023 – Februari 2024",
-    sortDate: "2024-02",
-    endDate: "2024-02",
-    badge: "DEAN'S LIST · IPK 3.71",
-    sealJp: "優等",
-    description: "Mempertahankan prestasi akademik IPK 3.71/4.00 serta dipercaya membimbing mahasiswa tingkat awal pada praktikum Pemrograman Berorientasi Objek dan Rekayasa Web. Turut berkontribusi dalam riset arsitektur frontend modern di laboratorium kampus.",
-    highlights: ["Bimbingan Teknis Mahasiswa", "Arsitektur Pemrograman", "Dean's List IPK 3.71", "Lab Research"],
-    image: "/images/arifah-photo.webp",
-    imageCaption: "Dokumentasi Akademik & Asistensi Lab Informatika POLIWANGI",
-    link: "https://poliwangi.ac.id/",
-    linkText: "Kunjungi Situs Kampus ↗",
-    quote: "“Berbagi ilmu teknis dan memupuk budaya rekayasa perangkat lunak yang kolaboratif.”"
-  }
 ];
 
 /**

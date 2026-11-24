@@ -48,7 +48,7 @@ export const portfolioData = {
       title: "CV",
       fullTitle: "Curriculum Vitae",
       jp: "経歴書",
-      href: "/cv.pdf", // Link to your CV PDF file in /public/cv.pdf
+      href: "https://drive.google.com/file/d/14ZmRoPtP_EQqkEVMZZew-QFxVVjrxX9c/view?usp=sharing", // Link to your CV PDF file in /public/cv.pdf
       isExternal: true,
     },
     {
@@ -68,7 +68,7 @@ export const portfolioData = {
       title: "LinkedIn",
       fullTitle: "LinkedIn Profile",
       jp: "繋がる",
-      href: "https://linkedin.com/",
+      href: "https://linkedin.com/in/arifahnbm",
       isExternal: true,
     },
   ],
@@ -90,7 +90,7 @@ export const portfolioData = {
     institution: "Banyuwangi State Polytechnic",
     period: "Aug 2023 – Present",
     location: "Banyuwangi, Indonesia",
-    gpa: "3.71",
+    gpa: "3.76",
     gpaScale: "4.00",
   },
 

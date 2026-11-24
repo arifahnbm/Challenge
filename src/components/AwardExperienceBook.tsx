@@ -209,14 +209,30 @@ export default function AwardExperienceBook({
       }
       capBox.appendChild(track);
 
-      if (curItem.link) {
-        const linkA = document.createElement('a');
-        linkA.className = 'sb-ext-link';
-        linkA.href = curItem.link;
-        linkA.target = '_blank';
-        linkA.rel = 'noopener noreferrer';
-        linkA.innerHTML = `<span>${curItem.linkText || 'Lihat Artikel / Instagram'}</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h7v7M13 3L4 12"/></svg>`;
-        capBox.appendChild(linkA);
+      const hasLink1 = !!curItem.link;
+      const hasLink2 = !!(curItem as any).link2;
+
+      if (hasLink1 || hasLink2) {
+        const linksWrap = el('div', 'sb-links-group');
+        if (hasLink1) {
+          const linkA = document.createElement('a');
+          linkA.className = 'sb-ext-link primary';
+          linkA.href = curItem.link!;
+          linkA.target = '_blank';
+          linkA.rel = 'noopener noreferrer';
+          linkA.innerHTML = `<span>${curItem.linkText || 'Lihat Artikel / Coverage'}</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h7v7M13 3L4 12"/></svg>`;
+          linksWrap.appendChild(linkA);
+        }
+        if (hasLink2) {
+          const linkB = document.createElement('a');
+          linkB.className = 'sb-ext-link secondary';
+          linkB.href = (curItem as any).link2;
+          linkB.target = '_blank';
+          linkB.rel = 'noopener noreferrer';
+          linkB.innerHTML = `<span>${(curItem as any).linkText2 || 'Lihat Liputan / Dok'}</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h7v7M13 3L4 12"/></svg>`;
+          linksWrap.appendChild(linkB);
+        }
+        capBox.appendChild(linksWrap);
       }
     }
 

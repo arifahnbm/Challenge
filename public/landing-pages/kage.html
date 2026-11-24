@@ -768,6 +768,19 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   color:#fff;
   border-color:transparent;
 }
+.project-badge.badge-status{
+  background:rgba(20, 20, 22, 0.75);
+  color:#f0e8dc;
+  border:1px solid rgba(255,255,255,0.18);
+}
+.project-client{
+  font-size:11px;
+  font-weight:600;
+  color:var(--vermilion);
+  margin-top:-2px;
+  margin-bottom:6px;
+  letter-spacing:0.02em;
+}
 .project-index{
   position:absolute;
   bottom:10px;
@@ -1948,6 +1961,16 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
   animation: none;
 }
 
+.sb-links-group {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 10px;
+  z-index: 80;
+}
+
 .sb-ext-link {
   display: inline-flex;
   align-items: center;
@@ -1971,6 +1994,17 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
   background: #d94328;
   transform: translateY(-2px);
   box-shadow: 0 6px 20px rgba(194, 59, 34, 0.6);
+}
+
+.sb-ext-link.secondary {
+  background: rgba(38, 50, 56, 0.92);
+  box-shadow: 0 4px 14px rgba(38, 50, 56, 0.4);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.sb-ext-link.secondary:hover {
+  background: #37474f;
+  box-shadow: 0 6px 20px rgba(38, 50, 56, 0.6);
 }
 
 .sb-ext-link svg {
@@ -2235,7 +2269,7 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
         </div>
         <div class="study-gpa-main">
           <span class="gpa-prefix">GPA</span>
-          <span class="gpa-scramble-num num" id="gpa-scramble">3.71</span>
+          <span class="gpa-scramble-num num" id="gpa-scramble">3.76</span>
           <span class="gpa-max">/ 4.00</span>
         </div>
       </div>
@@ -6041,6 +6075,7 @@ function fallback(err) {
   document.body.classList.add('no-webgl');
   document.body.classList.remove('is-locked');
   preEl.classList.add('done');
+  try { initAwardExperienceBook(DEFAULT_AWARDS_EXPERIENCES); } catch(e){}
   startGreetingRotator();
   startRoleRotator();
   initGpaScramble();
@@ -6087,11 +6122,12 @@ function initGpaScramble() {
     animating = true;
     el.classList.remove('gpa-locked');
 
-    const target = '3.71';
+    const target = (window.__gpaTarget || el.dataset.targetGpa || el.textContent.trim() || '3.76');
     const duration = 2100;
     const intervalTime = 38;
     const totalFrames = Math.floor(duration / intervalTime);
     let frame = 0;
+    const prefix = target.length >= 3 ? target.slice(0, 3) : '3.7';
 
     const timer = setInterval(() => {
       frame++;
@@ -6108,7 +6144,7 @@ function initGpaScramble() {
         el.textContent = '3.' + d2 + d3;
       } else if (p < 0.98) {
         const d3 = Math.floor(Math.random() * 10);
-        el.textContent = '3.7' + d3;
+        el.textContent = prefix + d3;
       } else {
         clearInterval(timer);
         el.textContent = target;
@@ -6175,50 +6211,84 @@ const DEFAULT_PROJECTS = [
   {
     id: "dineqr",
     title: "DineQR",
+    title_id: "DineQR",
     description: "Smart QR-based digital restaurant ordering and real-time management dashboard system.",
+    description_id: "Sistem pemesanan makanan digital berbasis QR code dan dashboard manajemen restoran real-time.",
+    background: "Developed to eliminate physical menu bottlenecks, accelerate order-taking, and provide kitchen staff with a live order queue.",
+    background_id: "Dikembangkan untuk memotong antrean pemesanan menu fisik dan menyediakan antrean pesanan real-time bagi staf dapur.",
+    projectFor: "Project-Based Learning & Seblang Restaurant",
+    projectFor_id: "Pembelajaran Berbasis Proyek & Restoran Seblang",
     image: "/images/projects/dineqr.webp",
-    categories: ["Website", "Mobile"],
-    tech: ["Next.js", "Laravel", "MySQL", "Tailwind CSS"],
-    role: "Fullstack Developer & UI/UX",
-    year: "2024",
-    githubLink: "https://github.com/arifahnbm",
-    demoLink: ""
+    categories: ["Website"],
+    tech: ["Laravel", "MySQL", "Tailwind CSS"],
+    role: "Fullstack Developer & Leader Team",
+    role_id: "Pengembang Fullstack & Ketua Tim",
+    year: "2025",
+    status: "Completed",
+    status_id: "Selesai",
+    githubLink: "https://github.com/arifahnbm/DineQR.git",
   },
   {
     id: "fluensy",
     title: "Fluensy",
+    title_id: "Fluensy",
     description: "AI-powered influencer marketing platform helping MSMEs discover matched creators with optimal ROI.",
+    description_id: "Platform matchmaking influencer marketing bertenaga AI untuk membantu UMKM menemukan kreator yang tepat dengan ROI optimal.",
+    background: "Bridging the gap between small brands and authentic nano/micro-influencers through algorithmic tier evaluation.",
+    background_id: "Menjembatani brand lokal dan UMKM dengan kreator nano/mikro melalui evaluasi analitik pintar.",
+    projectFor: "Early-Stage Tech Startup",
+    projectFor_id: "Startup Teknologi Tahap Awal",
     image: "/images/projects/fluensy.webp",
-    categories: ["Design", "Website", "Mobile"],
-    tech: ["React", "Next.js", "Tailwind CSS", "Figma", "Python"],
-    role: "UI/UX Designer & Frontend Developer",
-    year: "2024",
-    githubLink: "https://github.com/arifahnbm",
-    demoLink: ""
+    categories: ["Design", "Website"],
+    tech: ["Next.js", "Tailwind CSS", "Figma", "Laravel"],
+    role: "Chief Design Officer & Front-End Developer",
+    role_id: "Ketua Divisi Desain & Pengembang Front-End",
+    year: "2026",
+    status: "Ongoing",
+    status_id: "Sedang Dikerjakan",
+    demoLink: "https://fluensy.web.id/",
+    prototypeLink: "https://figma.com/proto/fluensy",
   },
   {
     id: "satulangkah",
     title: "SatuLangkah",
+    title_id: "SatuLangkah",
     description: "Focus and productivity app delivering manageable micro-steps to overcome overwhelm and build continuous momentum.",
+    description_id: "Aplikasi produktivitas dan fokus dengan instruksi mikro bertahap untuk mengatasi rasa kewalahan saat menyelesaikan tugas.",
+    background: "Designed for individuals facing task paralysis or procrastination by breaking complex tasks into single, achievable actions.",
+    background_id: "Dirancang untuk mengatasi prokrastinasi dan executive dysfunction dengan memecah pekerjaan menjadi langkah-langkah kecil.",
+    projectFor: "Google Juara Vibe Coding Competition",
+    projectFor_id: "Kompetisi Coding Google Juara Vibe",
     image: "/images/projects/satulangkah.webp",
-    categories: ["Design", "Website", "Mobile"],
-    tech: ["Next.js", "Flutter", "Tailwind CSS", "Figma"],
-    role: "UI/UX Designer & Mobile Developer",
-    year: "2024",
-    githubLink: "https://github.com/arifahnbm",
-    demoLink: ""
+    categories: ["Website"],
+    tech: ["Next.js", "Tailwind CSS", "Gemini API"],
+    role: "Fullstack Developer & AI Engineer",
+    role_id: "Pengembang Fullstack & Insinyur AI",
+    year: "2026",
+    status: "Completed",
+    status_id: "Selesai",
+    demoLink: "https://satulangkah.vercel.app/",
   },
   {
     id: "tbmate",
     title: "TBMATE",
+    title_id: "TBMATE",
     description: "Tuberculosis medication tracker and adherence companion app featuring supportive avatars and automatic dosage reminders.",
+    description_id: "Aplikasi pendamping kepatuhan minum obat tuberkulosis dengan avatar ramah, jadwal obat, dan pengingat harian otomatis.",
+    background: "Tackling the challenge of treatment dropout during long-term 6+ month TB therapy through gamified daily habit tracking.",
+    background_id: "Mencegah putus obat pada pengobatan TB jangka panjang (6+ bulan) melalui pemantauan dan pengingat harian yang suportif.",
+    projectFor: "KMIPN 2025 & Health Department Kabat, Banyuwangi",
+    projectFor_id: "KMIPN 2025 & Dinas Kesehatan Kabat, Banyuwangi",
     image: "/images/projects/tbmate.webp",
     categories: ["Mobile", "Design"],
-    tech: ["Flutter", "Dart", "Firebase", "Figma"],
-    role: "Mobile Developer & UI/UX",
-    year: "2024",
-    githubLink: "https://github.com/arifahnbm",
-    demoLink: ""
+    tech: ["Flutter", "Dart", "Firebase", "Figma", "Google ML Kit"],
+    role: "Mobile Developer, UI/UX Designer, & KMIPN 2025 Team Leader",
+    role_id: "Mobile Developer, UI/UX Designer, & Ketua Tim KMIPN 2025",
+    year: "2025-2026",
+    status: "Completed",
+    status_id: "Selesai",
+    demoLink: "https://tbmate.vercel.app/",
+    prototypeLink: "https://www.figma.com/proto/2uouv7GYnoVqn3BQDBz9sK/TBMATE-KMIPN?node-id=807-59907&viewport=-3667%2C1185%2C0.16&t=VaIlyzd4BPv9OpFa-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=807%3A59907&page-id=806%3A29884&show-proto-sidebar=1",
   }
 ];
 
@@ -6286,7 +6356,9 @@ function renderProjectCards(list) {
     const tech = Array.isArray(p.tech) ? p.tech : [];
     const indexStr = `${String(idx + 1).padStart(2, '0')} / ${String(total).padStart(2, '0')}`;
     const badgeHtml = cats.map(c => `<span class="project-badge badge-${c.toLowerCase()}">${c}</span>`).join('');
+    const statusHtml = p.status ? `<span class="project-badge badge-status">${p.status}</span>` : '';
     const techHtml = tech.map(t => `<span class="project-tech-tag">${t}</span>`).join('');
+    const projectForHtml = p.projectFor ? `<div class="project-client">${p.projectFor}</div>` : '';
     
     return `
       <article class="project-card" data-project-id="${p.id}" data-cursor>
@@ -6294,7 +6366,7 @@ function renderProjectCards(list) {
           <div class="project-card-media">
             <img src="${p.image}" alt="${p.title}" class="project-cover-img" loading="lazy" />
             <div class="project-card-overlay"></div>
-            <div class="project-card-badges">${badgeHtml}</div>
+            <div class="project-card-badges">${badgeHtml}${statusHtml}</div>
             <div class="project-index">${indexStr}</div>
           </div>
           <div class="project-card-body">
@@ -6302,6 +6374,7 @@ function renderProjectCards(list) {
               <h3 class="project-title">${p.title}</h3>
               <span class="project-year">${p.year || ''}</span>
             </div>
+            ${projectForHtml}
             <p class="project-desc">${p.description || ''}</p>
             <div class="project-tech-list">${techHtml}</div>
             <div class="project-card-foot">
@@ -6317,6 +6390,10 @@ function renderProjectCards(list) {
                 ${p.demoLink ? `
                   <a href="${p.demoLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="Live Preview" data-cursor>
                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
+                  </a>` : ''}
+                ${p.prototypeLink ? `
+                  <a href="${p.prototypeLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="Figma Interactive Prototype" data-cursor>
+                    <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5zM12 2h3.5a3.5 3.5 0 1 1 0 7H12V2zM12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0zM5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0zM5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/></svg>
                   </a>` : ''}
               </div>
             </div>
@@ -6411,6 +6488,26 @@ function applyPortfolioData(data) {
       const inst = document.querySelector('.study-institution');
       if (inst) inst.textContent = data.education.institution;
     }
+    if (data.education.period) {
+      const items = document.querySelectorAll('.study-meta-item span');
+      if (items[0]) items[0].textContent = data.education.period;
+    }
+    if (data.education.location) {
+      const items = document.querySelectorAll('.study-meta-item span');
+      if (items[1]) items[1].textContent = data.education.location;
+    }
+    if (data.education.gpa) {
+      window.__gpaTarget = String(data.education.gpa);
+      const gpaEl = document.getElementById('gpa-scramble');
+      if (gpaEl) {
+        gpaEl.dataset.targetGpa = String(data.education.gpa);
+        gpaEl.textContent = String(data.education.gpa);
+      }
+    }
+    if (data.education.gpaScale) {
+      const scaleEl = document.querySelector('.gpa-max');
+      if (scaleEl) scaleEl.textContent = `/ ${data.education.gpaScale}`;
+    }
   }
   if (data.summary) {
     const lead = document.querySelector('.gate-copy .lead');
@@ -6426,98 +6523,97 @@ function applyPortfolioData(data) {
    ===================================================================== */
 const rawAwardsExperiences = [
   {
-    id: "award-tb-mate",
+    id: "experience-forbimwangi",
+    category: "experience",
+    title: "Media Communication & Information Staff",
+    subtitle: "Politeknik Negeri Banyuwangi",
+    organization: "FORBIMWANGI (Scholarship Student Forum)",
+    date: "Dec 2024 – Nov 2025",
+    sortDate: "2024-12",
+    badge: "Staff",
+    description: "As a member of the Medkominfo Division, I am responsible for managing the organization's information and publication media, from visual content design and social media management to event documentation. I am also involved in effectively communicating information to members and the public and collaborating with the team to maintain the organization's image and branding consistency.",
+    highlights: ["Visual Design", "Content & Social Media Management", "Documentation", "Organization Communication"],
+    image: "/images/expawards/forbim.webp",
+    link: "https://www.instagram.com/p/DFddDmlhLuL/?utm_source=ig_web_copy_link&dmpr=MzRlODBiNWFlZA==&avpt=MzRlODBiNWFlZA==",
+    linkText: "Visit Instagram Coverage ↗",
+  },
+  {
+    id: "award-kmipn25",
     category: "award",
-    title: "Juara 1 — Lomba Desain UI/UX Tingkat Nasional",
-    subtitle: "Aplikasi Mobile Healthcare 'TBMATE' untuk Kepatuhan Pasien TBC",
-    organization: "Politeknik Negeri Banyuwangi & Forum IT Nasional",
-    date: "Oktober 2024",
-    sortDate: "2024-10",
-    badge: "JUARA 1 · TINGKAT NASIONAL",
-    sealJp: "栄冠",
-    description: "Meraih Juara 1 Nasional atas perancangan aplikasi mobile kesehatan 'TBMATE' yang membantu pengawasan minum obat pasien tuberkulosis secara human-centric. Dinilai unggul dalam pengujian prototipe interaktif beresolusi tinggi, penerapan design system Figma yang konsisten, dan pengujian kegunaan bersama tenaga kesehatan.",
-    highlights: ["Figma Design System", "User Research & Testing", "Healthcare UX", "High-Fidelity Prototype"],
-    image: "/images/projects/tbmate.webp",
-    imageCaption: "Dokumentasi Prototipe Mobile Healthcare TBMATE",
-    link: "https://www.instagram.com/poliwangi_official/",
-    linkText: "Lihat Liputan Instagram ↗",
-    quote: "“Kombinasi empati riset pengguna, visual presisi, dan aksesibilitas ramah pasien.”"
+    title: "2nd Winner KMIPN 2025 UX and Accessibility Subcategory Innovation Creation Category",
+    subtitle: "2025 National Polytechnic Informatics Student Competition (KMIPN)",
+    organization: "Politeknik Negeri Padang",
+    date: "October 2025",
+    sortDate: "2025-10",
+    badge: "2nd Winner",
+    description: "Won second place in the Innovation Creation category in the UX and Accessibility Innovation subcategory in the KMIPN by developing a technological innovation aimed at improving medication adherence in TB patients. In this competition, the team developed an application MVP and UI/UX prototype designed to be user-friendly, easily accessible, and to support a more regular and effective treatment process.",
+    highlights: ["UX & Accessibility", "Inovation Creation", "KMIPN 2025", "National Competition"],
+    image: "/images/expawards/kmipn25.webp",
+    link: "https://poliwangi.ac.id/tim-innosuke-poliwangi-raih-prestasi-nasional-pada-ajang-inovasi-teknologi-bidang-tik/",
+    linkText: "Visit Achievement Article ↗",
+    link2: "https://www.instagram.com/p/DP3bOHxj9I7/?utm_source=ig_web_copy_link&igsh=MzRlODBiNWFlZA==",
+    linkText2: "Visit Instagram Coverage ↗"
   },
   {
-    id: "award-fluensy",
+    id: "exp-jayla",
+    category: "experience",
+    title: "Mobile Application Developer Intern",
+    organization: "Jayla Tech ID",
+    date: "February 2026 – June 2026",
+    sortDate: "2026-02",
+    endDate: "2026-06",
+    badge: "Mobile Dev",
+    description: "As a Mobile Application Developer, I develop Android applications using Flutter, Firebase, and Google ML Kit to create scalable, responsive, and user-friendly mobile experiences. I also collaborate closely with development teams throughout the development process, contributing to effective teamwork, problem-solving, and the successful delivery of mobile applications.",
+    highlights: ["Flutter", "Android", "Firebase", "Google ML Kit", "Teamwork", "Problem Solving"],
+    image: "/images/expawards/jayla.webp"
+  },
+  {
+    id: "award-vibecoding",
     category: "award",
-    title: "Finalis Inovasi Terbaik — AI Solution Challenge",
-    subtitle: "Platform Prediksi ROI & Penemu Influencer Cerdas 'Fluensy'",
-    organization: "Youth Tech & Artificial Intelligence Summit Indonesia",
-    date: "Juli 2024",
-    sortDate: "2024-07",
-    badge: "FINALIS INOVASI TERBAIK",
-    sealJp: "革新",
-    description: "Terpilih sebagai Finalis Inovasi Terbaik atas pengembangan konsep platform AI 'Fluensy' yang membantu UMKM mencocokkan influencer dengan akurasi tinggi serta menghitung proyeksi ROI kampanye promosi secara otomatis melalui algoritma prediktif.",
-    highlights: ["AI Platform Design", "Predictive Analytics UX", "Figma Auto-Layout", "ROI Metrics Dashboard"],
-    image: "/images/projects/fluensy.webp",
-    imageCaption: "Dashboard Analitik & Smart Matching AI Fluensy",
-    link: "https://www.instagram.com/",
-    linkText: "Baca Artikel Inovasi ↗",
-    quote: "“Menjembatani kecerdasan kalkulasi AI ke dalam visual antarmuka bisnis yang intuitif.”"
+    title: "Top 100 - JuaraVibeCoding 2026",
+    subtitle: "Juara Vibe Coding 2026",
+    organization: "Google Developer Groups (GDG)",
+    date: "May 2026",
+    sortDate: "2026-05",
+    endDate: "2026-05",
+    badge: "Top 100",
+    description: "Selected as one of the Top 100 participants in JuaraVibeCoding 2026 for developing SatuLangkah, an AI-powered web application that helps people with ADHD and executive dysfunction break overwhelming tasks into manageable steps. Built using Google AI Studio and deployed on Google Cloud. ",
+    highlights: ["Web App", "Vibe", "Gemini API", "AI Powered", "Google AI Studio"],
+    image: "/images/expawards/jvc.webp",
+    link: "https://www.instagram.com/p/DX_N28cEzye/?utm_source=ig_web_copy_link&knvt=MzRlODBiNWFlZA==&avpt=MzRlODBiNWFlZA==",
+    linkText: "Visit Instagram Coverage ↗",
   },
   {
-    id: "exp-dineqr",
-    category: "experience",
-    title: "Lead UI/UX Designer & Frontend Developer",
-    subtitle: "DineQR — Sistem POS Kasir & Pemesanan Mandiri Meja Restoran",
-    organization: "Project-Based Learning Initiative",
-    date: "Maret 2024 – Juni 2024",
-    sortDate: "2024-06",
-    endDate: "2024-06",
-    badge: "LEAD ARCHITECT & DEV",
-    sealJp: "実務",
-    description: "Memimpin perancangan UI/UX komprehensif dan frontend Next.js untuk DineQR, solusi end-to-end pemesanan QR dan POS kasir berbasis cloud. Menghadirkan pelacakan pesanan real-time, kitchen display workflow terintegrasi, dan antarmuka kasir cepat saji.",
-    highlights: ["Next.js & Tailwind CSS", "QR Code Engine", "Kitchen Workflow UX", "State Management"],
-    image: "/images/projects/dineqr.webp",
-    imageCaption: "Antarmuka Meja Pelanggan & Dashboard Kasir DineQR",
-    link: "https://github.com/",
-    linkText: "Lihat Repositori & Demo ↗",
-    quote: "“Meningkatkan efisiensi layanan restoran melalui pemesanan meja tanpa hambatan.”"
+    id: "award-china",
+    category: "award",
+    title: "Excellence Award & Finalist AI + Machinary 15th China International Innovation and Entrepreneurship Competition",
+    subtitle: "15th China International Innovation and Entrepreneurship Competition",
+    organization: "XCMG",
+    date: "October 2026",
+    sortDate: "2026-10",
+    endDate: "2026-10",
+    badge: "Excellence Award",
+    description: "Successfully advanced to the final round and received the Excellence Award at the 15th China International Innovation and Entrepreneurship Competition by developing an innovative technology solution for heavy equipment operations in the mining industry. Serving as a Front-End Developer, I contributed to building the In-Cab Tablet Operator Interface—a real-time monitoring dashboard designed to help operators track operational parameters and machine conditions. My work encompassed designing an intuitive user interface, translating UI designs into a functional tablet application through front-end slicing and implementation, and integrating real-time sensor data via the MQTT protocol. Additionally, I developed live operational data visualizations—covering strata types (soft/rock), RPM, bucket angle (degrees), and hydraulic pressure—alongside warning and alert interfaces to flag abnormal operating conditions such as high oil temperature, excessive hydraulic pressure, cavitation, and other potential anomalies.",
+    highlights: ["Front-End Developer", "In-Cab Tablet Operator Interface", "Real-Time Monitoring Dashboard", "Operational Data Visualization", "Warning and Alert Interfaces"],
+    image: "/images/expawards/china.webp",
+    link: "https://www.instagram.com/p/DfCFBn8ByvX/?utm_source=ig_web_copy_link&dmpr=MzRlODBiNWFlZA==&avpt=MzRlODBiNWFlZA==",
+    linkText: "Visit the Finalist Instagram Coverage ↗",
+    link2: "https://www.instagram.com/p/DfjJDI7vyGo/?utm_source=ig_web_copy_link&evlk=MzRlODBiNWFlZA==&avpt=MzRlODBiNWFlZA==",
+    linkText2: "Visit the Excellence Award Instagram Coverage ↗"
   },
   {
-    id: "exp-satulangkah",
+    id: "exp-inagata",
     category: "experience",
-    title: "Full-Stack Engineer & Interaction Designer",
-    subtitle: "SatuLangkah — Web App Pendamping Fokus & Micro-Task ADHD",
-    organization: "Digital Wellbeing & Social Impact Project",
-    date: "Januari 2024 – Mei 2024",
-    sortDate: "2024-05",
-    endDate: "2024-05",
-    badge: "SOLO CREATOR & DEV",
-    sealJp: "開発",
-    description: "Mengembangkan SatuLangkah secara mandiri (Solo Project) untuk membantu individu neurodiverse yang sering mengalami overwhelm akibat daftar tugas yang menumpuk. Mengubah tugas besar menjadi langkah-langkah mikro terarah dengan visual gamifikasi sederhana.",
-    highlights: ["React & Web App", "Behavioral Psychology UX", "Micro-Interactions", "Accessibility First"],
-    image: "/images/projects/satulangkah.webp",
-    imageCaption: "Aplikasi SatuLangkah Pemecah Tugas Mikro ADHD",
-    link: "https://github.com/",
-    linkText: "Buka Dokumentasi Proyek ↗",
-    quote: "“Satu langkah kecil yang mindful menuju kejernihan fokus dan produktivitas.”"
+    title: "Front-End Developer Intern",
+    organization: "PT Ina Gata Persada",
+    date: "July 2026 – December 2026",
+    sortDate: "2026-07",
+    endDate: "2026-12",
+    badge: "Front-End Developer",
+    description: "As a Front-End Developer Intern at Inagata, I contributed to the development of CBT Edupongo, a Computer-Based Test (CBT) platform designed to support digital examination processes for students, teachers, and administrators. Using Vue.js, Bootstrap, and JavaScript, I translated UI/UX designs into functional, responsive web interfaces across student, teacher, and admin dashboards while building reusable components and structured front-end code to maintain consistency across user roles. Additionally, I integrated REST APIs to manage data communication between front-end and back-end systems, collaborating closely with the Back-End Developer team to ensure seamless integration and reliable platform functionality.",
+    highlights: ["Vue.js", "Bootstrap", "JavaScript", "Front-End Developer", "Computer Based Test", "CBT Edupongo"],
+    image: "/images/expawards/china.webp",
   },
-  {
-    id: "exp-lab-poliwangi",
-    category: "experience",
-    title: "Asisten Laboratorium Informatika & Penerima Dean's List",
-    subtitle: "Riset Rekayasa Perangkat Lunak & Bimbingan Praktikum Mahasiswa",
-    organization: "Jurusan Bisnis & Informatika — Politeknik Negeri Banyuwangi",
-    date: "September 2023 – Februari 2024",
-    sortDate: "2024-02",
-    endDate: "2024-02",
-    badge: "DEAN'S LIST · IPK 3.71",
-    sealJp: "優等",
-    description: "Mempertahankan prestasi akademik IPK 3.71/4.00 serta dipercaya membimbing mahasiswa tingkat awal pada praktikum Pemrograman Berorientasi Objek dan Rekayasa Web. Turut berkontribusi dalam riset arsitektur frontend modern di laboratorium kampus.",
-    highlights: ["Bimbingan Teknis Mahasiswa", "Arsitektur Pemrograman", "Dean's List IPK 3.71", "Lab Research"],
-    image: "/images/arifah-photo.webp",
-    imageCaption: "Dokumentasi Akademik & Asistensi Lab Informatika POLIWANGI",
-    link: "https://poliwangi.ac.id/",
-    linkText: "Kunjungi Situs Kampus ↗",
-    quote: "“Berbagi ilmu teknis dan memupuk budaya rekayasa perangkat lunak yang kolaboratif.”"
-  }
 ];
 
 function getSortedAwardsExperiences(items) {
@@ -6674,7 +6770,7 @@ function drawLeftPage(ctx, item, pageNum, loadedImg = null) {
   ctx.textAlign = 'left';
   ctx.fillText("PLATE " + String(pageNum).padStart(2, '0') + "  /  " + headerCat, startX, curY);
 
-  drawHankoSeal(ctx, startX + width - 60, curY - 20, 52, item.sealJp || '栄冠');
+  drawHankoSeal(ctx, startX + width - 60, curY - 20, 52, item.sealJp || (item.category === 'award' ? '栄冠' : '実務'));
 
   curY += 45;
 
@@ -6760,7 +6856,7 @@ function drawLeftPage(ctx, item, pageNum, loadedImg = null) {
   ctx.fillStyle = '#4a3d35';
   ctx.font = "italic 15px 'Cormorant Garamond', Georgia, serif";
   ctx.textAlign = 'center';
-  ctx.fillText(item.imageCaption || item.subtitle, imgFrameX + imgFrameW / 2, imgFrameY + imgFrameH - 18);
+  ctx.fillText(item.imageCaption || item.subtitle || (item.category === 'award' ? 'Dokumentasi Penghargaan & Kompetisi' : 'Dokumentasi Pengalaman Praktis'), imgFrameX + imgFrameW / 2, imgFrameY + imgFrameH - 18);
 
   ctx.restore();
 
@@ -6804,46 +6900,46 @@ function drawRightPage(ctx, item, pageNum) {
   curY += 48;
 
   // 3. Main Title
-  ctx.font = "bold 28px 'Cinzel', 'Shippori Mincho', 'Cormorant Garamond', Georgia, serif";
+  ctx.font = "bold 24px 'Cinzel', 'Shippori Mincho', 'Cormorant Garamond', Georgia, serif";
   ctx.fillStyle = '#1c1715';
   ctx.textAlign = 'left';
-  curY = drawWrappedText(ctx, item.title, startX, curY, width, 36, 2);
+  curY = drawWrappedText(ctx, item.title, startX, curY, width, 32, 3);
 
-  curY += 10;
+  curY += 8;
 
   // 4. Organization & Subtitle
   ctx.font = "600 15px -apple-system, BlinkMacSystemFont, sans-serif";
   ctx.fillStyle = '#b83a2c';
   ctx.fillText(item.organization, startX, curY);
-  curY += 22;
+  curY += 20;
 
   if (item.subtitle && item.subtitle !== item.organization) {
-    ctx.font = "italic 15px 'Cormorant Garamond', Georgia, serif";
+    ctx.font = "italic 14px 'Cormorant Garamond', Georgia, serif";
     ctx.fillStyle = '#5c4e46';
     ctx.fillText(item.subtitle, startX, curY);
-    curY += 28;
+    curY += 24;
   } else {
-    curY += 10;
+    curY += 8;
   }
 
   // 5. Quote Plaque
   if (item.quote) {
-    drawPlaque(ctx, startX, curY, width, 48, item.quote);
-    curY += 66;
+    drawPlaque(ctx, startX, curY, width, 44, item.quote);
+    curY += 56;
   }
 
   // 6. Narrative Description
-  ctx.font = "16px/1.65 'Cormorant Garamond', Georgia, serif";
+  ctx.font = "15px/1.6 'Cormorant Garamond', Georgia, serif";
   ctx.fillStyle = '#2c2420';
-  curY = drawWrappedText(ctx, item.description, startX, curY, width, 26, 5);
+  curY = drawWrappedText(ctx, item.description, startX, curY, width, 23, 6);
 
-  curY += 24;
+  curY += 20;
 
   // 7. Highlights / Skill Tags
   ctx.font = "bold 11px -apple-system, BlinkMacSystemFont, sans-serif";
   ctx.fillStyle = '#7a6a61';
-  ctx.fillText('KOMPETENSI UTAMA & HIGHLIGHTS', startX, curY);
-  curY += 16;
+  ctx.fillText('HIGHLIGHTS & KOMPETENSI', startX, curY);
+  curY += 14;
 
   if (Array.isArray(item.highlights)) {
     let tagX = startX;
@@ -6855,7 +6951,7 @@ function drawRightPage(ctx, item, pageNum) {
 
       if (tagX + tw > startX + width) {
         tagX = startX;
-        curY += 28;
+        curY += 26;
       }
 
       ctx.fillStyle = 'rgba(235, 227, 214, 0.7)';
@@ -6873,28 +6969,61 @@ function drawRightPage(ctx, item, pageNum) {
     });
   }
 
-  curY += 46;
+  curY += 36;
 
-  // 8. Interactive Action Link Button (Drawn on canvas)
-  if (item.link) {
-    const btnText = item.linkText || "Lihat Artikel / Instagram ↗";
-    ctx.font = "bold 13px -apple-system, BlinkMacSystemFont, sans-serif";
-    const btnW = ctx.measureText(btnText).width + 36;
-    const btnH = 34;
+  // 8. Interactive Action Link Button(s) (Drawn on canvas)
+  const hasLink1 = !!item.link;
+  const hasLink2 = !!item.link2;
 
+  if (hasLink1 || hasLink2) {
     ctx.save();
-    ctx.fillStyle = 'rgba(194, 59, 34, 0.9)';
-    ctx.strokeStyle = '#c23b22';
-    ctx.lineWidth = 1;
-    ctx.beginPath();
-    safeRoundRect(ctx, startX, curY, btnW, btnH, 8);
-    ctx.fill();
-    ctx.stroke();
+    ctx.font = "bold 12px -apple-system, BlinkMacSystemFont, sans-serif";
+    const btnH = 32;
+    let bX = startX;
+    let bY = curY;
 
-    ctx.fillStyle = '#ffffff';
-    ctx.textAlign = 'left';
-    ctx.textBaseline = 'middle';
-    ctx.fillText(btnText, startX + 18, curY + btnH / 2);
+    if (hasLink1) {
+      const btnText1 = item.linkText || "Visit Coverage ↗";
+      const btnW1 = Math.min(width, ctx.measureText(btnText1).width + 30);
+
+      ctx.fillStyle = 'rgba(194, 59, 34, 0.9)';
+      ctx.strokeStyle = '#c23b22';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      safeRoundRect(ctx, bX, bY, btnW1, btnH, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(btnText1, bX + 15, bY + btnH / 2);
+
+      bX += btnW1 + 12;
+    }
+
+    if (hasLink2) {
+      const btnText2 = item.linkText2 || "Visit Coverage 2 ↗";
+      const btnW2 = Math.min(width, ctx.measureText(btnText2).width + 30);
+
+      if (bX + btnW2 > startX + width) {
+        bX = startX;
+        bY += btnH + 8;
+      }
+
+      ctx.fillStyle = 'rgba(38, 50, 56, 0.9)';
+      ctx.strokeStyle = '#263238';
+      ctx.lineWidth = 1;
+      ctx.beginPath();
+      safeRoundRect(ctx, bX, bY, btnW2, btnH, 8);
+      ctx.fill();
+      ctx.stroke();
+
+      ctx.fillStyle = '#ffffff';
+      ctx.textAlign = 'left';
+      ctx.textBaseline = 'middle';
+      ctx.fillText(btnText2, bX + 15, bY + btnH / 2);
+    }
     ctx.restore();
   }
 
@@ -7017,6 +7146,8 @@ function generateSpreadDataUrls(items) {
       date: it.date,
       link: it.link,
       linkText: it.linkText,
+      link2: it.link2,
+      linkText2: it.linkText2,
       url: drawLandscapeSpreadOnCanvas(canvas, it, i, items.length, loadedImg)
     });
   }
@@ -7240,15 +7371,32 @@ function initAwardExperienceBook(spreadData) {
     }
     capBox.appendChild(track);
 
-    if (curItem.link) {
-      const linkA = document.createElement('a');
-      linkA.className = 'sb-ext-link';
-      linkA.href = curItem.link;
-      linkA.target = '_blank';
-      linkA.rel = 'noopener noreferrer';
-      linkA.setAttribute('data-cursor', 'pointer');
-      linkA.innerHTML = '<span>' + (curItem.linkText || 'Lihat Artikel / Instagram') + '</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h7v7M13 3L4 12"/></svg>';
-      capBox.appendChild(linkA);
+    const hasLink1 = !!curItem.link;
+    const hasLink2 = !!curItem.link2;
+
+    if (hasLink1 || hasLink2) {
+      const linksWrap = el('div', 'sb-links-group');
+      if (hasLink1) {
+        const linkA = document.createElement('a');
+        linkA.className = 'sb-ext-link primary';
+        linkA.href = curItem.link;
+        linkA.target = '_blank';
+        linkA.rel = 'noopener noreferrer';
+        linkA.setAttribute('data-cursor', 'pointer');
+        linkA.innerHTML = '<span>' + (curItem.linkText || 'Lihat Artikel / Coverage') + '</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h7v7M13 3L4 12"/></svg>';
+        linksWrap.appendChild(linkA);
+      }
+      if (hasLink2) {
+        const linkB = document.createElement('a');
+        linkB.className = 'sb-ext-link secondary';
+        linkB.href = curItem.link2;
+        linkB.target = '_blank';
+        linkB.rel = 'noopener noreferrer';
+        linkB.setAttribute('data-cursor', 'pointer');
+        linkB.innerHTML = '<span>' + (curItem.linkText2 || 'Lihat Liputan / Dok') + '</span><svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M6 3h7v7M13 3L4 12"/></svg>';
+        linksWrap.appendChild(linkB);
+      }
+      capBox.appendChild(linksWrap);
     }
   }
 
@@ -7645,8 +7793,19 @@ function initAwardExperienceBook(spreadData) {
   restLoupe();
 }
 
-
-
+// Expose and initialize flippable book & project cards immediately so they are 100% visible from frame 1
+window.initAwardExperienceBook = initAwardExperienceBook;
+window.DEFAULT_AWARDS_EXPERIENCES = DEFAULT_AWARDS_EXPERIENCES;
+try {
+  initAwardExperienceBook(DEFAULT_AWARDS_EXPERIENCES);
+} catch (e) {
+  console.warn('Initial eager initAwardExperienceBook deferred:', e);
+}
+try {
+  renderProjectCards(DEFAULT_PROJECTS);
+} catch (e) {
+  console.warn('Initial eager renderProjectCards deferred:', e);
+}
 
 window.addEventListener('message', (ev) => {
   if (ev.data && ev.data.type === 'INIT_PORTFOLIO') {
