@@ -27,7 +27,7 @@ export const portfolioData = {
     { label: "About", jp: "概要", href: "#gate" },
     { label: "Projects", jp: "作品", href: "#pathways" },
     { label: "Award & Experience", jp: "実績", href: "#lessons" },
-    { label: "Contact", jp: "連絡", href: "#eternity" },
+    { label: "Contact", jp: "連絡", href: "#contact" },
   ],
 
   // Hero Section Content
@@ -115,11 +115,22 @@ export const portfolioData = {
   // Awards & Experiences (Section 03 The Journey)
   awardsAndExperiences: awardsAndExperiences,
 
+  // Contact Information (Section 04)
+  contact: {
+    chapter: "Chapter 04 — Contact",
+    title: "Get in Touch",
+    body: "Have an exciting project, collaboration inquiry, or simply want to connect? My inbox is always open.",
+    email: "nura60583@gmail.com",
+    linkedin: "https://linkedin.com/in/arifahnbm",
+    github: "https://github.com/arifahnbm",
+  },
+
   // Footer Information
   footer: {
     logo: "/images/sakura-logo.png",
-    description: "Continuously developing technical and teamwork skills to become a responsive, solution-oriented developer ready for the digital era.",
-    copyright: "© 2026 Arifah Machi — Portfolio",
-    mottoJp: "影の道",
+    title: "Let's build something\nmeaningful together",
+    description: "I'm always open to discussing new projects, creative ideas or architectural opportunities. Feel free to reach out through any channel!",
+    copyright: "© 2026 Arifah Machi — All Rights Reserved",
+    mottoJp: "影の道 · 静けさは一つの技である",
   },
 };

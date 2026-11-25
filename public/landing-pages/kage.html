@@ -378,7 +378,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
           mask-image:linear-gradient(transparent, #000 44%);
 }
 #pathways::before{ background:radial-gradient(108% 64% at 50% 50%, rgba(253,240,244,.75), rgba(253,240,244,.45) 50%, transparent); }
-#eternity::before{ background:radial-gradient(82% 58% at 50% 46%, rgba(253,240,244,.35), rgba(253,240,244,.65) 56%, rgba(253,240,244,.85) 82%, transparent); }
+#contact::before, #eternity::before{ background:radial-gradient(82% 58% at 50% 46%, rgba(253,240,244,.35), rgba(253,240,244,.65) 56%, rgba(253,240,244,.85) 82%, transparent); }
 .foot::before{
   content:''; position:absolute; inset:0; z-index:-1; pointer-events:none;
   background:linear-gradient(rgba(253,240,244,.65), rgba(253,240,244,.88) 40%, rgba(253,240,244,.96));
@@ -959,7 +959,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
    declaration now rather than re-colouring one it used to inherit. */
 .no-webgl .hero::after{ content:''; position:absolute; left:0; right:0; bottom:0; height:34%;
   pointer-events:none; background:linear-gradient(transparent, rgba(3,5,8,.72) 52%, rgba(3,5,8,.96)); }
-.no-webgl .sec::before, .no-webgl #pathways::before, .no-webgl #eternity::before{ background:none; }
+.no-webgl .sec::before, .no-webgl #pathways::before, .no-webgl #contact::before, .no-webgl #eternity::before{ background:none; }
 .card-lab{ position:absolute; left:16px; right:16px; bottom:14px; z-index:2;
   display:flex; align-items:flex-end; justify-content:space-between; gap:10px; }
 .card-lab b{ font-size:clamp(13px,1.15vw,17px); font-weight:400; letter-spacing:.02em; text-transform:uppercase; }
@@ -1013,6 +1013,11 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
 .cta:hover{ color:#05070a; border-color:var(--bone); }
 .cta:hover i{ transform:none; }
 .cta:hover svg path{ stroke:#05070a; }
+
+.contact-actions{ display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:32px; position:relative; z-index:5; }
+.contact-actions .cta{ margin-top:0; }
+.contact-actions .cta.primary{ background:rgba(223,231,224,0.12); border-color:rgba(223,231,224,0.48); }
+body[data-layout-closing="b"] .fin .contact-actions{ grid-column:1; grid-row:3; justify-self:start; margin-top:14px; }
 
 /* — footer */
 .foot{ position:relative; padding:clamp(50px,8vh,96px) var(--pad) clamp(26px,4vh,40px);
@@ -1209,14 +1214,23 @@ body[data-layout-closing="b"] .fin .cta{ grid-column:1; grid-row:3; justify-self
      compact ruled index beneath it. */
 body[data-layout-footer="b"] .foot-grid{ grid-template-columns:repeat(3,1fr); }
 body[data-layout-footer="b"] .foot-brand{
-  grid-column:1 / -1; display:grid; grid-template-columns:70px minmax(0,1fr); align-items:center;
-  padding-bottom:34px; margin-bottom:8px; border-bottom:1px solid var(--line-soft);
+  grid-column:1 / -1; display:grid; grid-template-columns:60px minmax(0,1fr); align-items:flex-start;
+  padding-bottom:34px; margin-bottom:8px; border-bottom:1px solid var(--line-soft); column-gap:20px;
 }
 body[data-layout-footer="b"] .foot-brand svg,
-body[data-layout-footer="b"] .foot-brand img{ width:50px; height:50px; object-fit:contain; }
-body[data-layout-footer="b"] .foot-brand p{
-  margin:0; max-width:48ch; font-size:clamp(18px,2vw,30px); line-height:1.35; color:var(--bone-dim);
+body[data-layout-footer="b"] .foot-brand img{ width:48px; height:48px; object-fit:contain; margin-top:4px; }
+.foot-brand-text{ display:flex; flex-direction:column; gap:12px; }
+.foot-brand-text .foot-lead{
+  margin:0; max-width:32ch; font-size:clamp(22px,2.5vw,36px); font-weight:400; line-height:1.2;
+  letter-spacing:-.02em; color:var(--bone);
 }
+.foot-brand-text .foot-sub{
+  margin:0; max-width:54ch; font-size:clamp(13px,1.05vw,15px); line-height:1.6; color:#8f9a93;
+}
+.foot-info-col h4{ margin:0 0 12px; font-size:10px; font-weight:500; letter-spacing:.22em; text-transform:uppercase; color:var(--muted); }
+.foot-info-col p{ margin:0; font-size:13px; line-height:1.65; color:#8f9a93; max-width:38ch; }
+.foot-info-col a{ color:#8f9a93; text-decoration:none; transition:color .3s; }
+.foot-info-col a:hover{ color:var(--bone); text-decoration:underline; }
 body[data-layout-footer="b"] .foot-grid > div:nth-child(n+3){
   padding-left:clamp(18px,2.2vw,34px); border-left:1px solid var(--line-soft);
 }
@@ -2152,7 +2166,7 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
     <a class="nav-link" href="#gate" data-cursor><span>About</span><span class="alt">概要</span></a>
     <a class="nav-link" href="#pathways" data-cursor><span>Projects</span><span class="alt">作品</span></a>
     <a class="nav-link" href="#lessons" data-cursor><span>Award & Experience</span><span class="alt">実績</span></a>
-    <a class="nav-link" href="#eternity" data-cursor><span>Contact</span><span class="alt">連絡</span></a>
+    <a class="nav-link" href="#contact" data-cursor><span>Contact</span><span class="alt">連絡</span></a>
   </nav>
   <button class="nav-burger" aria-label="Menu" data-cursor><i></i><i></i></button>
 </header>
@@ -2439,7 +2453,8 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
 </section>
 
 <!-- ============================================================ chapter IV -->
-<section class="sec fin" id="eternity" data-cam="4">
+<section class="sec fin" id="contact" data-cam="4">
+  <span id="eternity" style="position:absolute;top:0;pointer-events:none;" aria-hidden="true"></span>
   <!-- foreground: the closing horizon: hill, ruins, grass, and the last branch -->
   <div class="fg" data-fg="eternity" aria-hidden="true">
     <span class="fg-el fg-hill" data-fg-in="up">
@@ -2455,14 +2470,22 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
       <img src="secret-pathways-assets/foreground/png/sakura-branch.webp" alt="" width="1536" height="1024" loading="lazy" decoding="async">
     </span>
   </div>
-  <div class="eyebrow" data-rv="fade">Chapter 04 — Afterlight</div>
-  <h2 class="display" data-rv="up">Afterlight</h2>
-  <p class="body-lg" data-rv="up">The gate does not close behind you. Take the walk whenever the noise
-    gets loud — it is always the same path, and never the same light.</p>
-  <a class="cta" href="#top" data-rv="fade" data-cursor>
-    <i></i><span>Begin the walk</span>
-    <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="#dfe7e0" stroke-width="1.3"/></svg>
-  </a>
+  <div class="eyebrow" data-rv="fade">Chapter 04 — Contact</div>
+  <h2 class="display" data-rv="up">Get in Touch</h2>
+  <p class="body-lg" data-rv="up">Have an exciting project, collaboration inquiry, or simply want to connect? My inbox is always open.</p>
+  <div class="contact-actions" data-rv="fade">
+    <a class="cta contact-cta primary" href="mailto:nura60583@gmail.com" data-cursor>
+      <i></i><span>Say Hello · Email</span>
+      <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="currentColor" stroke-width="1.3"/></svg>
+    </a>
+    <a class="cta cta-sub" href="https://linkedin.com/in/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>
+      <i></i><span>LinkedIn</span>
+      <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="currentColor" stroke-width="1.3"/></svg>
+    </a>
+    <a class="cta cta-sub" href="#top" title="Return to Top" data-cursor>
+      <i></i><span>Back to Top ↑</span>
+    </a>
+  </div>
 </section>
 
 <!-- ============================================================ footer -->
@@ -2482,32 +2505,28 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
   <div class="foot-grid">
     <div class="foot-brand">
       <img src="secret-pathways-assets/sakura-logo.png" alt="Logo Sakura" class="foot-logo" width="46" height="46" />
-      <p>A five-chapter night walk through a Kyoto mountain temple. Three illustrated garden field notes
-        sit inside a live Three.js sanctuary.</p>
+      <div class="foot-brand-text">
+        <h3 class="foot-lead">Let's build something<br>meaningful together</h3>
+        <p class="foot-sub">I'm always open to discussing new projects, creative ideas or architectural opportunities. Feel free to reach out through any channel!</p>
+      </div>
     </div>
-    <div><h4>Navigation</h4><ul>
-      <li><a href="#hero" data-cursor>Greeting</a></li>
-      <li><a href="#gate" data-cursor>About</a></li>
-      <li><a href="#pathways" data-cursor>Projects</a></li>
-      <li><a href="#lessons" data-cursor>Award & Experience</a></li>
-      <li><a href="#eternity" data-cursor>Contact</a></li>
-    </ul></div>
-    <div><h4>Practice</h4><ul>
-      <li><a href="#lessons" data-cursor>Borrowed scenery</a></li>
-      <li><a href="#lessons" data-cursor>Lantern light</a></li>
-      <li><a href="#lessons" data-cursor>Charred cypress</a></li>
-      <li><a href="#lessons" data-cursor>Raked gravel</a></li>
-    </ul></div>
-    <div><h4>Elsewhere</h4><ul>
-      <li><a href="#top" data-cursor>Journal</a></li>
-      <li><a href="#top" data-cursor>Field notes</a></li>
-      <li><a href="#top" data-cursor>Colophon</a></li>
-    </ul></div>
+    <div class="foot-info-col">
+      <h4>Location & Base</h4>
+      <p>Banyuwangi, East Java, Indonesia<br>UTC+7 (WIB) · Open for remote & on-site collaboration worldwide.</p>
+    </div>
+    <div class="foot-info-col">
+      <h4>Focus & Discipline</h4>
+      <p>Fullstack Web & Mobile Development, UI/UX Design, Next.js, Laravel, Flutter, and AI Solutions.</p>
+    </div>
+    <div class="foot-info-col">
+      <h4>Direct Channels</h4>
+      <p>Email: <a href="mailto:nura60583@gmail.com" data-cursor>nura60583@gmail.com</a><br>LinkedIn: <a href="https://linkedin.com/in/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>/in/arifahnbm</a><br>GitHub: <a href="https://github.com/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>@arifahnbm</a></p>
+    </div>
   </div>
   <div class="foot-base">
-    <span>© 2026 Kage — Kage no Michi</span>
-    <span class="jp">静けさは一つの技である</span>
-    <span>WebGL · Onest · Kyoto</span>
+    <span>© 2026 Arifah Machi — All Rights Reserved</span>
+    <span class="jp">影の道 · 静けさは一つの技である</span>
+    <span>Portfolio · Banyuwangi</span>
   </div>
 </footer>
 
@@ -6514,6 +6533,42 @@ function applyPortfolioData(data) {
     const body = document.querySelector('.gate-copy .body');
     if (lead && data.summary.lead) lead.textContent = data.summary.lead;
     if (body && data.summary.body) body.textContent = data.summary.body;
+  }
+  if (data.contact) {
+    if (data.contact.chapter) {
+      const eye = document.querySelector('#contact .eyebrow, #eternity .eyebrow');
+      if (eye) eye.textContent = data.contact.chapter;
+    }
+    if (data.contact.title) {
+      const titleEl = document.querySelector('#contact h2.display, #eternity h2.display');
+      if (titleEl) titleEl.textContent = data.contact.title;
+    }
+    if (data.contact.body) {
+      const bodyEl = document.querySelector('#contact p.body-lg, #eternity p.body-lg');
+      if (bodyEl) bodyEl.textContent = data.contact.body;
+    }
+    if (data.contact.email) {
+      const emailBtn = document.querySelector('#contact .contact-cta, #eternity .contact-cta');
+      if (emailBtn) emailBtn.href = `mailto:${data.contact.email}`;
+    }
+  }
+  if (data.footer) {
+    if (data.footer.title) {
+      const ft = document.querySelector('.foot-brand-text .foot-lead');
+      if (ft) ft.innerHTML = data.footer.title.replace(/\n/g, '<br>');
+    }
+    if (data.footer.description) {
+      const fd = document.querySelector('.foot-brand-text .foot-sub');
+      if (fd) fd.textContent = data.footer.description;
+    }
+    if (data.footer.copyright) {
+      const fc = document.querySelector('.foot-base span:first-child');
+      if (fc) fc.textContent = data.footer.copyright;
+    }
+    if (data.footer.mottoJp) {
+      const fm = document.querySelector('.foot-base span.jp');
+      if (fm) fm.textContent = data.footer.mottoJp;
+    }
   }
 }
 
