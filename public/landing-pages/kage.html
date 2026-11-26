@@ -702,6 +702,7 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   flex-direction:column;
   transition:transform .45s var(--ease-out), border-color .45s, box-shadow .45s;
   box-sizing:border-box;
+  cursor:pointer;
 }
 .project-card:hover{
   transform:translateY(-6px);
@@ -883,6 +884,444 @@ h1,h2,h3{ font-weight:400; margin:0; letter-spacing:-.005em; }
   color:#fff;
   transform:translateY(-2px);
 }
+.project-detail-pill{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  padding:5px 11px;
+  border-radius:100px;
+  background:rgba(224, 35, 28, 0.08);
+  color:var(--vermilion);
+  border:1px solid rgba(224, 35, 28, 0.22);
+  transition:background .25s ease, color .25s ease, border-color .25s ease;
+  white-space:nowrap;
+}
+.project-card:hover .project-detail-pill{
+  background:var(--vermilion);
+  color:#fff;
+  border-color:var(--vermilion);
+}
+
+/* ============================================================= lightweight project detail page */
+body.project-page-open{ overflow:hidden !important; }
+.pdp-overlay{
+  position:fixed;
+  inset:0;
+  z-index:110;
+  background:#fdf0f4;
+  color:var(--bone);
+  overflow-y:auto;
+  overflow-x:hidden;
+  overscroll-behavior:contain;
+  -webkit-overflow-scrolling:touch;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .22s ease, visibility .22s ease;
+}
+.pdp-overlay.is-open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+.pdp-topbar{
+  position:sticky;
+  top:0;
+  z-index:10;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  height:62px;
+  padding:0 clamp(18px, 4vw, 48px);
+  background:rgba(253, 240, 244, 0.96);
+  border-bottom:1px solid rgba(120, 40, 70, 0.10);
+}
+.pdp-back-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:8px 14px;
+  border-radius:100px;
+  border:1px solid rgba(120, 40, 70, 0.16);
+  background:#fff;
+  color:var(--bone);
+  font-size:12px;
+  font-weight:500;
+  letter-spacing:.06em;
+  transition:border-color .2s ease, color .2s ease, transform .2s ease;
+}
+.pdp-back-btn:hover{
+  border-color:var(--vermilion);
+  color:var(--vermilion);
+  transform:translateX(-2px);
+}
+.pdp-topbar-right{
+  display:flex;
+  align-items:center;
+  gap:8px;
+}
+.pdp-counter{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.14em;
+  color:var(--muted);
+  margin-right:4px;
+  font-variant-numeric:tabular-nums;
+}
+.pdp-icon-btn{
+  width:34px;
+  height:34px;
+  border-radius:50%;
+  border:1px solid rgba(120, 40, 70, 0.16);
+  background:#fff;
+  color:var(--bone);
+  display:grid;
+  place-items:center;
+  transition:border-color .2s ease, background .2s ease, color .2s ease;
+}
+.pdp-icon-btn:hover{
+  border-color:var(--vermilion);
+  background:var(--vermilion);
+  color:#fff;
+}
+.pdp-container{
+  max-width:920px;
+  margin:0 auto;
+  padding:clamp(28px, 5vh, 52px) clamp(18px, 4vw, 36px) clamp(56px, 8vh, 88px);
+}
+.pdp-badges{
+  display:flex;
+  flex-wrap:wrap;
+  align-items:center;
+  gap:8px;
+  margin-bottom:14px;
+}
+.pdp-year-tag{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.12em;
+  color:var(--muted);
+  padding:3px 9px;
+  border-radius:6px;
+  background:rgba(120, 40, 70, 0.06);
+}
+.pdp-title{
+  font-size:clamp(28px, 4.2vw, 46px);
+  font-weight:600;
+  line-height:1.12;
+  letter-spacing:-.02em;
+  color:var(--bone);
+  margin:0 0 12px;
+}
+.pdp-lead{
+  font-size:clamp(15px, 1.2vw, 17.5px);
+  line-height:1.65;
+  color:var(--bone-dim);
+  max-width:68ch;
+  margin:0 0 22px;
+}
+.pdp-actions{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-bottom:28px;
+}
+.pdp-action-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 18px;
+  border-radius:100px;
+  font-size:12px;
+  font-weight:600;
+  letter-spacing:.06em;
+  border:1px solid rgba(120, 40, 70, 0.18);
+  background:#fff;
+  color:var(--bone);
+  transition:transform .2s ease, background .2s ease, border-color .2s ease, color .2s ease;
+}
+.pdp-action-btn:hover{
+  transform:translateY(-1px);
+  border-color:var(--vermilion);
+  color:var(--vermilion);
+}
+.pdp-action-btn.primary{
+  background:var(--vermilion);
+  border-color:var(--vermilion);
+  color:#fff;
+}
+.pdp-action-btn.primary:hover{
+  background:#c41c16;
+  border-color:#c41c16;
+  color:#fff;
+}
+.pdp-hero-media{
+  width:100%;
+  aspect-ratio:16 / 10;
+  border-radius:16px;
+  overflow:hidden;
+  background:#f4dbe2;
+  border:1px solid rgba(120, 40, 70, 0.12);
+  box-shadow:0 10px 30px rgba(40, 22, 30, 0.07);
+  margin-bottom:24px;
+}
+.pdp-hero-media img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.pdp-meta-grid{
+  display:grid;
+  grid-template-columns:repeat(3, minmax(0, 1fr));
+  gap:14px;
+  margin-bottom:36px;
+}
+.pdp-meta-box{
+  background:#fff;
+  border:1px solid rgba(120, 40, 70, 0.10);
+  border-radius:14px;
+  padding:16px 18px;
+}
+.pdp-meta-label{
+  display:block;
+  font-size:10px;
+  font-weight:600;
+  letter-spacing:.18em;
+  text-transform:uppercase;
+  color:var(--muted);
+  margin-bottom:6px;
+}
+.pdp-meta-val{
+  font-size:13.5px;
+  font-weight:500;
+  line-height:1.45;
+  color:var(--bone);
+}
+.pdp-tech-wrap{
+  display:flex;
+  flex-wrap:wrap;
+  gap:6px;
+  margin-top:2px;
+}
+.pdp-section{
+  margin-bottom:40px;
+}
+.pdp-sec-label{
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--vermilion);
+  margin:0 0 10px;
+}
+.pdp-bg-card{
+  background:#fff;
+  border:1px solid rgba(120, 40, 70, 0.10);
+  border-radius:14px;
+  padding:20px 22px;
+}
+.pdp-bg-text{
+  margin:0;
+  font-size:14.5px;
+  line-height:1.72;
+  color:var(--bone-dim);
+}
+.pdp-features-grid{
+  display:grid;
+  grid-template-columns:repeat(2, minmax(0, 1fr));
+  gap:24px;
+  margin-top:16px;
+}
+.pdp-3d-container{
+  perspective:1000px;
+  -webkit-perspective:1000px;
+  display:flex;
+}
+.pdp-feature-card{
+  position:relative;
+  width:100%;
+  background:#fff;
+  border:1px solid rgba(120, 40, 70, 0.12);
+  border-radius:16px;
+  padding:22px;
+  display:flex;
+  flex-direction:column;
+  transform-style:preserve-3d;
+  -webkit-transform-style:preserve-3d;
+  will-change:transform;
+  transition:transform .45s cubic-bezier(0.16, 1, 0.3, 1), border-color .3s ease, box-shadow .35s ease;
+}
+.pdp-feature-card.is-tilting{
+  transition:transform .09s linear, border-color .3s ease, box-shadow .35s ease;
+}
+.pdp-3d-container:hover .pdp-feature-card{
+  border-color:rgba(224, 35, 28, 0.30);
+  box-shadow:0 24px 48px rgba(40, 22, 30, 0.11), 0 8px 20px rgba(224, 35, 28, 0.07);
+}
+.pdp-card-item{
+  transform-style:preserve-3d;
+  transition:transform .38s cubic-bezier(0.16, 1, 0.3, 1), box-shadow .38s cubic-bezier(0.16, 1, 0.3, 1);
+  transform:translate3d(0, 0, 0);
+}
+.pdp-3d-container:hover .pdp-card-item[data-tz="25"]{
+  transform:translate3d(0, 0, 25px);
+}
+.pdp-3d-container:hover .pdp-card-item[data-tz="50"]{
+  transform:translate3d(0, 0, 50px);
+}
+.pdp-3d-container:hover .pdp-card-item[data-tz="60"]{
+  transform:translate3d(0, 0, 60px);
+}
+.pdp-3d-container:hover .pdp-card-item[data-tz="90"]{
+  transform:translate3d(0, 0, 90px);
+}
+.pdp-feature-head{
+  display:flex;
+  align-items:baseline;
+  gap:8px;
+  margin-bottom:6px;
+}
+.pdp-feature-num{
+  font-size:11px;
+  font-weight:700;
+  letter-spacing:.1em;
+  color:var(--vermilion);
+  font-variant-numeric:tabular-nums;
+}
+.pdp-feature-title{
+  font-size:16px;
+  font-weight:700;
+  color:var(--bone);
+  margin:0;
+  line-height:1.3;
+}
+.pdp-feature-desc{
+  font-size:13px;
+  line-height:1.58;
+  color:var(--bone-dim);
+  margin:0;
+}
+.pdp-feature-img-wrap{
+  position:relative;
+  width:100%;
+  aspect-ratio:16 / 10;
+  margin-top:16px;
+  border-radius:12px;
+  background:#f4dbe2;
+  overflow:hidden;
+  cursor:zoom-in;
+  border:1px solid rgba(120, 40, 70, 0.09);
+  box-shadow:0 3px 10px rgba(40, 22, 30, 0.05);
+}
+.pdp-3d-container:hover .pdp-feature-img-wrap{
+  box-shadow:0 22px 42px rgba(40, 22, 30, 0.22), 0 6px 14px rgba(224, 35, 28, 0.09);
+}
+.pdp-feature-img-wrap img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  display:block;
+}
+.pdp-feature-foot{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-top:auto;
+  padding-top:16px;
+}
+.pdp-feature-tag{
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  color:var(--muted);
+}
+.pdp-feature-zoom-btn{
+  padding:5px 12px;
+  border-radius:10px;
+  background:var(--bone);
+  color:#fff;
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.03em;
+  transition:background .2s ease;
+}
+.pdp-feature-zoom-btn:hover{
+  background:var(--vermilion);
+}
+.pdp-bottom-nav{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:16px;
+  flex-wrap:wrap;
+  padding-top:24px;
+  border-top:1px solid rgba(120, 40, 70, 0.12);
+}
+.pdp-next-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 18px;
+  border-radius:100px;
+  background:#fff;
+  border:1px solid rgba(120, 40, 70, 0.18);
+  font-size:12px;
+  font-weight:600;
+  color:var(--bone);
+  transition:border-color .2s ease, color .2s ease, transform .2s ease;
+}
+.pdp-next-btn:hover{
+  border-color:var(--vermilion);
+  color:var(--vermilion);
+  transform:translateX(2px);
+}
+.pdp-lightbox{
+  position:fixed;
+  inset:0;
+  z-index:125;
+  background:rgba(24, 12, 18, 0.90);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  padding:24px;
+  opacity:0;
+  visibility:hidden;
+  pointer-events:none;
+  transition:opacity .18s ease, visibility .18s ease;
+  cursor:zoom-out;
+}
+.pdp-lightbox.is-open{
+  opacity:1;
+  visibility:visible;
+  pointer-events:auto;
+}
+.pdp-lightbox img{
+  max-width:min(1100px, 94vw);
+  max-height:82vh;
+  object-fit:contain;
+  border-radius:10px;
+  box-shadow:0 16px 48px rgba(0,0,0,0.45);
+}
+.pdp-lightbox-cap{
+  margin-top:12px;
+  color:#fdf0f4;
+  font-size:13px;
+  letter-spacing:.03em;
+  text-align:center;
+}
+@media (max-width: 760px){
+  .pdp-meta-grid{ grid-template-columns:1fr; gap:10px; }
+  .pdp-features-grid{ grid-template-columns:1fr; }
+  .pdp-counter{ display:none; }
+}
 .cards{ display:none; }
 .card{ display:none; }
 .card-fr::after{ content:''; position:absolute; inset:0;
@@ -1042,11 +1481,11 @@ body[data-layout-closing="b"] .fin .contact-actions{ grid-column:1; grid-row:3; 
 .rail button:hover i{ width:22px; background:var(--bone-dim); }
 
 /* ============================================================= cursor */
-.cur-dot{ position:fixed; z-index:80; top:0; left:0; width:26px; height:26px; margin:-13px 0 0 -13px;
-  border:1px solid rgba(223,231,224,.42); border-radius:50%; pointer-events:none;
+.cur-dot{ position:fixed; z-index:130; top:0; left:0; width:26px; height:26px; margin:-13px 0 0 -13px;
+  border:1px solid rgba(120,40,70,.35); border-radius:50%; pointer-events:none;
   transition:width .35s var(--ease-out), height .35s var(--ease-out), margin .35s var(--ease-out),
              background .35s, border-color .35s, opacity .3s; opacity:0; }
-.cur-dot.act{ width:52px; height:52px; margin:-26px 0 0 -26px; background:rgba(223,231,224,.07); border-color:rgba(223,231,224,.6); }
+.cur-dot.act{ width:52px; height:52px; margin:-26px 0 0 -26px; background:rgba(224,35,28,.07); border-color:rgba(224,35,28,.55); }
 @media (hover:hover) and (pointer:fine){ .cur-dot{ opacity:1 } }
 
 /* ============================================================= responsive */
@@ -2538,6 +2977,33 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
 <div id="fg-sky" aria-hidden="true"></div>
 
 <div class="rail" id="rail"></div>
+
+<div id="project-detail-page" class="pdp-overlay" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="pdpTitle">
+  <header class="pdp-topbar">
+    <button type="button" class="pdp-back-btn" id="pdpBackBtn" data-cursor>
+      <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10H5M9 6l-4 4 4 4"/></svg>
+      <span>Back to Projects</span>
+    </button>
+    <div class="pdp-topbar-right">
+      <span class="pdp-counter" id="pdpCounter">01 / 04</span>
+      <button type="button" class="pdp-icon-btn" id="pdpPrevBtn" title="Previous Project" aria-label="Previous Project" data-cursor>
+        <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5l-5 5 5 5"/></svg>
+      </button>
+      <button type="button" class="pdp-icon-btn" id="pdpNextBtn" title="Next Project" aria-label="Next Project" data-cursor>
+        <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M8 5l5 5-5 5"/></svg>
+      </button>
+      <button type="button" class="pdp-icon-btn" id="pdpCloseBtn" title="Close (Esc)" aria-label="Close" data-cursor>
+        <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 5l10 10M15 5L5 15"/></svg>
+      </button>
+    </div>
+  </header>
+  <div class="pdp-container" id="pdpContent"></div>
+</div>
+
+<div id="pdp-lightbox" class="pdp-lightbox" aria-hidden="true">
+  <img id="pdpLightboxImg" src="" alt="" />
+  <div id="pdpLightboxCap" class="pdp-lightbox-cap"></div>
+</div>
 
 <script src="secret-pathways-assets/three.min.js"></script>
 <script>
@@ -5035,7 +5501,7 @@ function createCloth(output, plate, options) {
   let raf = 0, last = performance.now(), debt = 0, running = false, visible = false, dead = false;
   function frame(now) {
     if (dead) return;
-    if (!visible) { running = false; return; }
+    if (!visible || window.__projectDetailOpen) { running = false; return; }
     const delta = Math.min((now - last) / 1000, 1 / 20);
     last = now;
     const width = Math.max(wrapper.clientWidth, 1), height = Math.max(wrapper.clientHeight, 1);
@@ -5083,8 +5549,9 @@ function createCloth(output, plate, options) {
   const onLeave = () => { ptr.inside = false; };
   wrapper.addEventListener('pointermove', onMove, { passive: true });
   wrapper.addEventListener('pointerleave', onLeave, { passive: true });
-  const onHidden = () => { if (document.hidden) { running = false; cancelAnimationFrame(raf); } else start(); };
+  const onHidden = () => { if (document.hidden) { running = false; cancelAnimationFrame(raf); } else if (!window.__projectDetailOpen) start(); };
   document.addEventListener('visibilitychange', onHidden);
+  addEventListener('project-detail-closed', () => { if (!document.hidden) start(); });
 
   syncSize(); upload(); compose(Math.max(wrapper.clientWidth, 1), Math.max(wrapper.clientHeight, 1));
   return { refresh(){ syncSize(); upload(); start(); }, wake: start,
@@ -5703,10 +6170,15 @@ function wireCursor() {
     RIG.tmx = (e.clientX / vpW()) * 2 - 1;
     RIG.tmy = -((e.clientY / vpH()) * 2 - 1);
   }, { passive: true });
-  $$('[data-cursor]').forEach(el => {
-    el.addEventListener('mouseenter', () => dot.classList.add('act'));
-    el.addEventListener('mouseleave', () => dot.classList.remove('act'));
-  });
+  document.addEventListener('pointerover', e => {
+    if (e.target && e.target.closest && e.target.closest('[data-cursor]')) dot.classList.add('act');
+  }, { passive: true });
+  document.addEventListener('pointerout', e => {
+    if (e.target && e.target.closest && e.target.closest('[data-cursor]')) {
+      const rel = e.relatedTarget;
+      if (!rel || !rel.closest || !rel.closest('[data-cursor]')) dot.classList.remove('act');
+    }
+  }, { passive: true });
   (function tick() {
     x = lerp(x, tx2, .18); y = lerp(y, ty, .18);
     dot.style.transform = 'translate3d(' + x.toFixed(1) + 'px,' + y.toFixed(1) + 'px,0)';
@@ -6245,6 +6717,12 @@ const DEFAULT_PROJECTS = [
     year: "2025",
     status: "Completed",
     status_id: "Selesai",
+    features: [
+      { title: "Real-time Menu", description: "Real-time menu updates with stock status information.", image: "/images/projects/dineqr/feature1.webp" },
+      { title: "Ordering & Payment Management", description: "Efficient order and payment management through an integrated system.", image: "/images/projects/dineqr/feature2.webp" },
+      { title: "Admin Dashboard", description: "Comprehensive admin dashboard for monitoring sales and performance metrics.", image: "/images/projects/dineqr/feature3.webp" },
+      { title: "Menu & Stock Management", description: "Intuitive interface for managing menu items and tracking inventory levels.", image: "/images/projects/dineqr/feature4.webp" }
+    ],
     githubLink: "https://github.com/arifahnbm/DineQR.git",
   },
   {
@@ -6265,6 +6743,12 @@ const DEFAULT_PROJECTS = [
     year: "2026",
     status: "Ongoing",
     status_id: "Sedang Dikerjakan",
+    features: [
+      { title: "Smart Influencer Matching", description: "AI-powered matching system to connect brands with relevant influencers based on audience demographics and engagement metrics.", image: "/images/projects/fluensy/feature1.webp" },
+      { title: "Fake Follower Detection", description: "AI-powered detection system to identify and filter out fake followers from brand audiences.", image: "/images/projects/fluensy/feature2.webp" },
+      { title: "Budget Optimization", description: "AI-powered budget optimization system to allocate promotion budgets based on real-time performance data.", image: "/images/projects/fluensy/feature3.webp" },
+      { title: "Rate Card for Influencers", description: "AI-powered rate card system to set fair pricing for influencer collaborations based on their reach and engagement.", image: "/images/projects/fluensy/feature4.webp" }
+    ],
     demoLink: "https://fluensy.web.id/",
     prototypeLink: "https://figma.com/proto/fluensy",
   },
@@ -6286,6 +6770,10 @@ const DEFAULT_PROJECTS = [
     year: "2026",
     status: "Completed",
     status_id: "Selesai",
+    features: [
+      { title: "AI-Powered Object Recognition", description: "AI-powered object recognition to identify items in the user's room and provide tailored tidying suggestions.", image: "/images/projects/satulangkah/feature1.webp" },
+      { title: "AI-Powered Task Breakdown", description: "AI-powered task breakdown to simplify complex tidying tasks into manageable steps.", image: "/images/projects/satulangkah/feature2.webp" }
+    ],
     demoLink: "https://satulangkah.vercel.app/",
   },
   {
@@ -6306,6 +6794,12 @@ const DEFAULT_PROJECTS = [
     year: "2025-2026",
     status: "Completed",
     status_id: "Selesai",
+    features: [
+      { title: "Automated Medication Scheduling", description: "Automated medication scheduling to ensure patients take their pills on time.", image: "/images/projects/tbmate/feature1.webp" },
+      { title: "Real-time Reminder Alarm", description: "Real-time reminders to ensure patients take their medication on time.", image: "/images/projects/tbmate/feature2.webp" },
+      { title: "AI-based Pill Ingestion Verification", description: "AI-based pill ingestion verification to ensure patients take their medication correctly.", image: "/images/projects/tbmate/feature3.webp" },
+      { title: "Integration with Health Workers and Companions", description: "Integration with health workers and companions to provide support and monitoring for patients.", image: "/images/projects/tbmate/feature4.webp" }
+    ],
     demoLink: "https://tbmate.vercel.app/",
     prototypeLink: "https://www.figma.com/proto/2uouv7GYnoVqn3BQDBz9sK/TBMATE-KMIPN?node-id=807-59907&viewport=-3667%2C1185%2C0.16&t=VaIlyzd4BPv9OpFa-1&scaling=scale-down&content-scaling=fixed&starting-point-node-id=807%3A59907&page-id=806%3A29884&show-proto-sidebar=1",
   }
@@ -6364,10 +6858,347 @@ function adjustPathwaysHeight() {
   });
 }
 
+function escHtml(s) {
+  return String(s == null ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;');
+}
+
+let __activeProjectId = null;
+let __wasRunningBeforeProject = false;
+let __pdpWired = false;
+
+function getProjectsList() {
+  return (Array.isArray(window.__projectsData) && window.__projectsData.length)
+    ? window.__projectsData
+    : DEFAULT_PROJECTS;
+}
+
+function openPdpLightbox(src, caption) {
+  const lb = document.getElementById('pdp-lightbox');
+  const img = document.getElementById('pdpLightboxImg');
+  const cap = document.getElementById('pdpLightboxCap');
+  if (!lb || !img) return;
+  img.src = src;
+  img.alt = caption || '';
+  if (cap) cap.textContent = caption || '';
+  lb.classList.add('is-open');
+  lb.setAttribute('aria-hidden', 'false');
+}
+
+function closePdpLightbox() {
+  const lb = document.getElementById('pdp-lightbox');
+  if (!lb) return;
+  lb.classList.remove('is-open');
+  lb.setAttribute('aria-hidden', 'true');
+}
+
+function wireProjectDetailControls() {
+  if (__pdpWired) return;
+  __pdpWired = true;
+  const overlay = document.getElementById('project-detail-page');
+  const backBtn = document.getElementById('pdpBackBtn');
+  const closeBtn = document.getElementById('pdpCloseBtn');
+  const prevBtn = document.getElementById('pdpPrevBtn');
+  const nextBtn = document.getElementById('pdpNextBtn');
+  const lb = document.getElementById('pdp-lightbox');
+
+  if (backBtn) backBtn.addEventListener('click', () => closeProjectDetail());
+  if (closeBtn) closeBtn.addEventListener('click', () => closeProjectDetail());
+  if (prevBtn) {
+    prevBtn.addEventListener('click', () => {
+      const list = getProjectsList();
+      const idx = list.findIndex(x => x.id === __activeProjectId);
+      if (idx === -1) return;
+      const prev = list[(idx - 1 + list.length) % list.length];
+      if (prev) openProjectDetail(prev.id);
+    });
+  }
+  if (nextBtn) {
+    nextBtn.addEventListener('click', () => {
+      const list = getProjectsList();
+      const idx = list.findIndex(x => x.id === __activeProjectId);
+      if (idx === -1) return;
+      const next = list[(idx + 1) % list.length];
+      if (next) openProjectDetail(next.id);
+    });
+  }
+  if (lb) {
+    lb.addEventListener('click', () => closePdpLightbox());
+  }
+  window.addEventListener('keydown', (e) => {
+    if (!window.__projectDetailOpen) return;
+    if (e.key === 'Escape') {
+      if (lb && lb.classList.contains('is-open')) {
+        closePdpLightbox();
+      } else {
+        closeProjectDetail();
+      }
+    } else if (e.key === 'ArrowRight' && (!lb || !lb.classList.contains('is-open'))) {
+      const list = getProjectsList();
+      const idx = list.findIndex(x => x.id === __activeProjectId);
+      if (idx !== -1) openProjectDetail(list[(idx + 1) % list.length].id);
+    } else if (e.key === 'ArrowLeft' && (!lb || !lb.classList.contains('is-open'))) {
+      const list = getProjectsList();
+      const idx = list.findIndex(x => x.id === __activeProjectId);
+      if (idx !== -1) openProjectDetail(list[(idx - 1 + list.length) % list.length].id);
+    }
+  });
+  if (overlay) {
+    let active3dContainer = null;
+    const reset3dCard = (cont) => {
+      if (!cont) return;
+      const body = cont.querySelector('.pdp-feature-card');
+      if (body) {
+        body.classList.remove('is-tilting');
+        body.style.transform = 'rotateY(0deg) rotateX(0deg)';
+      }
+    };
+    if (!COARSE && !REDUCE) {
+      overlay.addEventListener('pointermove', (e) => {
+        const cont = e.target.closest('.pdp-3d-container');
+        if (active3dContainer && active3dContainer !== cont) {
+          reset3dCard(active3dContainer);
+        }
+        active3dContainer = cont;
+        if (!cont) return;
+        const body = cont.querySelector('.pdp-feature-card');
+        if (!body) return;
+        const rect = cont.getBoundingClientRect();
+        const x = (e.clientX - rect.left - rect.width / 2) / 20;
+        const y = (e.clientY - rect.top - rect.height / 2) / 20;
+        body.classList.add('is-tilting');
+        body.style.transform = `rotateY(${x.toFixed(2)}deg) rotateX(${(-y).toFixed(2)}deg)`;
+      }, { passive: true });
+      overlay.addEventListener('pointerleave', () => {
+        if (active3dContainer) {
+          reset3dCard(active3dContainer);
+          active3dContainer = null;
+        }
+      }, { passive: true });
+    }
+    overlay.addEventListener('click', (e) => {
+      const featImg = e.target.closest('[data-pdp-zoom]');
+      if (featImg) {
+        openPdpLightbox(featImg.getAttribute('data-pdp-zoom'), featImg.getAttribute('data-pdp-cap'));
+        return;
+      }
+      const navTarget = e.target.closest('[data-pdp-open]');
+      if (navTarget) {
+        openProjectDetail(navTarget.getAttribute('data-pdp-open'));
+        return;
+      }
+      if (e.target.closest('[data-pdp-close]')) {
+        closeProjectDetail();
+      }
+    });
+  }
+}
+
+function openProjectDetail(projectId, opts) {
+  wireProjectDetailControls();
+  const list = getProjectsList();
+  const idx = list.findIndex(p => p.id === projectId);
+  if (idx === -1) return;
+  const p = list[idx];
+  const nextProj = list[(idx + 1) % list.length];
+
+  const overlay = document.getElementById('project-detail-page');
+  const content = document.getElementById('pdpContent');
+  const counter = document.getElementById('pdpCounter');
+  if (!overlay || !content) return;
+
+  __activeProjectId = p.id;
+  if (!window.__projectDetailOpen) {
+    __wasRunningBeforeProject = running;
+    window.__projectDetailOpen = true;
+    running = false;
+  }
+
+  if (counter) {
+    counter.textContent = `${String(idx + 1).padStart(2, '0')} / ${String(list.length).padStart(2, '0')}`;
+  }
+
+  const cats = Array.isArray(p.categories) ? p.categories : [];
+  const tech = Array.isArray(p.tech) ? p.tech : [];
+  const features = Array.isArray(p.features) ? p.features : [];
+
+  const badgesHtml = cats.map(c => `<span class="project-badge badge-${escHtml(c.toLowerCase())}">${escHtml(c)}</span>`).join('');
+  const statusHtml = p.status ? `<span class="project-badge badge-status">${escHtml(p.status)}</span>` : '';
+  const yearHtml = p.year ? `<span class="pdp-year-tag">${escHtml(p.year)}</span>` : '';
+  const techHtml = tech.map(t => `<span class="project-tech-tag">${escHtml(t)}</span>`).join('');
+
+  const actions = [];
+  if (p.demoLink) {
+    actions.push(`
+      <a href="${escHtml(p.demoLink)}" target="_blank" rel="noopener noreferrer" class="pdp-action-btn primary" data-cursor>
+        <span>Live Demo</span>
+        <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 11L11 5M6 5h5v5"/></svg>
+      </a>`);
+  }
+  if (p.prototypeLink) {
+    actions.push(`
+      <a href="${escHtml(p.prototypeLink)}" target="_blank" rel="noopener noreferrer" class="pdp-action-btn" data-cursor>
+        <span>Figma Prototype</span>
+        <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 11L11 5M6 5h5v5"/></svg>
+      </a>`);
+  }
+  if (p.githubLink) {
+    actions.push(`
+      <a href="${escHtml(p.githubLink)}" target="_blank" rel="noopener noreferrer" class="pdp-action-btn" data-cursor>
+        <span>Source Code</span>
+        <svg viewBox="0 0 16 16" width="13" height="13" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round"><path d="M5 11L11 5M6 5h5v5"/></svg>
+      </a>`);
+  }
+
+  const featuresSectionHtml = features.length ? `
+    <section class="pdp-section">
+      <h2 class="pdp-sec-label">Key Features</h2>
+      <div class="pdp-features-grid">
+        ${features.map((f, fIdx) => `
+          <div class="pdp-3d-container">
+            <div class="pdp-feature-card">
+              <div class="pdp-card-item pdp-feature-head" data-tz="50">
+                <span class="pdp-feature-num">${String(fIdx + 1).padStart(2, '0')}</span>
+                <h3 class="pdp-feature-title">${escHtml(f.title)}</h3>
+              </div>
+              <p class="pdp-card-item pdp-feature-desc" data-tz="60">${escHtml(f.description || '')}</p>
+              ${f.image ? `
+                <div class="pdp-card-item pdp-feature-img-wrap" data-tz="90" data-pdp-zoom="${escHtml(f.image)}" data-pdp-cap="${escHtml(f.title)}" title="Click to enlarge" data-cursor>
+                  <img src="${escHtml(f.image)}" alt="${escHtml(f.title)}" loading="lazy" decoding="async" />
+                </div>` : ''}
+              ${f.image ? `
+                <div class="pdp-card-item pdp-feature-foot" data-tz="25">
+                  <span class="pdp-feature-tag">Feature ${String(fIdx + 1).padStart(2, '0')}</span>
+                  <button type="button" class="pdp-feature-zoom-btn" data-pdp-zoom="${escHtml(f.image)}" data-pdp-cap="${escHtml(f.title)}" data-cursor>Preview →</button>
+                </div>` : ''}
+            </div>
+          </div>
+        `).join('')}
+      </div>
+    </section>
+  ` : '';
+
+  content.innerHTML = `
+    <div class="pdp-badges">${badgesHtml}${statusHtml}${yearHtml}</div>
+    <h1 class="pdp-title" id="pdpTitle">${escHtml(p.title)}</h1>
+    <p class="pdp-lead">${escHtml(p.description || '')}</p>
+    ${actions.length ? `<div class="pdp-actions">${actions.join('')}</div>` : ''}
+
+    <div class="pdp-hero-media">
+      <img src="${escHtml(p.image)}" alt="${escHtml(p.title)}" decoding="async" />
+    </div>
+
+    <div class="pdp-meta-grid">
+      <div class="pdp-meta-box">
+        <span class="pdp-meta-label">Role</span>
+        <div class="pdp-meta-val">${escHtml(p.role || 'Developer')}</div>
+      </div>
+      <div class="pdp-meta-box">
+        <span class="pdp-meta-label">Client / Context</span>
+        <div class="pdp-meta-val">${escHtml(p.projectFor || 'Personal / Academic Project')}</div>
+      </div>
+      <div class="pdp-meta-box">
+        <span class="pdp-meta-label">Tech Stack</span>
+        <div class="pdp-tech-wrap">${techHtml}</div>
+      </div>
+    </div>
+
+    ${p.background ? `
+      <section class="pdp-section">
+        <h2 class="pdp-sec-label">Overview &amp; Background</h2>
+        <div class="pdp-bg-card">
+          <p class="pdp-bg-text">${escHtml(p.background)}</p>
+        </div>
+      </section>
+    ` : ''}
+
+    ${featuresSectionHtml}
+
+    <div class="pdp-bottom-nav">
+      <button type="button" class="pdp-back-btn" data-pdp-close="1" data-cursor>
+        <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M15 10H5M9 6l-4 4 4 4"/></svg>
+        <span>Back to All Projects</span>
+      </button>
+      ${nextProj && nextProj.id !== p.id ? `
+        <button type="button" class="pdp-next-btn" data-pdp-open="${escHtml(nextProj.id)}" data-cursor>
+          <span>Next: ${escHtml(nextProj.title)}</span>
+          <svg viewBox="0 0 20 20" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 10h10M11 6l4 4-4 4"/></svg>
+        </button>
+      ` : ''}
+    </div>
+  `;
+
+  document.body.classList.add('project-page-open');
+  overlay.classList.add('is-open');
+  overlay.setAttribute('aria-hidden', 'false');
+  overlay.scrollTop = 0;
+
+  if (!opts || !opts.silent) {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'PROJECT_OPEN', projectId: p.id }, '*');
+      } else if (window.history && window.history.pushState) {
+        const u = new URL(window.location.href);
+        if (u.searchParams.get('project') !== p.id) {
+          u.searchParams.set('project', p.id);
+          window.history.pushState({ projectId: p.id }, '', u.pathname + u.search + u.hash);
+        }
+      }
+    } catch (err) {}
+  }
+}
+
+function closeProjectDetail(opts) {
+  closePdpLightbox();
+  const overlay = document.getElementById('project-detail-page');
+  if (!overlay || !window.__projectDetailOpen) return;
+
+  window.__projectDetailOpen = false;
+  __activeProjectId = null;
+  overlay.classList.remove('is-open');
+  overlay.setAttribute('aria-hidden', 'true');
+  document.body.classList.remove('project-page-open');
+
+  if (__wasRunningBeforeProject && !document.hidden) {
+    running = true;
+    tPrev = performance.now();
+    queue();
+  }
+  dispatchEvent(new Event('project-detail-closed'));
+
+  if (!opts || !opts.silent) {
+    try {
+      if (window.parent && window.parent !== window) {
+        window.parent.postMessage({ type: 'PROJECT_CLOSE' }, '*');
+      } else if (window.history && window.history.pushState) {
+        const u = new URL(window.location.href);
+        if (u.searchParams.has('project')) {
+          u.searchParams.delete('project');
+          window.history.pushState(null, '', u.pathname + u.search + u.hash);
+        }
+      }
+    } catch (err) {}
+  }
+}
+
+window.openProjectDetail = openProjectDetail;
+window.closeProjectDetail = closeProjectDetail;
+
+addEventListener('popstate', () => {
+  if (window.parent && window.parent !== window) return;
+  const pid = new URLSearchParams(window.location.search).get('project');
+  if (pid) openProjectDetail(pid, { silent: true });
+  else if (window.__projectDetailOpen) closeProjectDetail({ silent: true });
+});
+
 function renderProjectCards(list) {
   const track = document.getElementById('cards-track');
   if (!track) return;
-  const projs = (Array.isArray(list) && list.length) ? list : DEFAULT_PROJECTS;
+  const projs = (Array.isArray(list) && list.length) ? list : (window.__projectsData || DEFAULT_PROJECTS);
+  window.__projectsData = projs;
   const total = projs.length;
 
   track.innerHTML = projs.map((p, idx) => {
@@ -6380,7 +7211,7 @@ function renderProjectCards(list) {
     const projectForHtml = p.projectFor ? `<div class="project-client">${p.projectFor}</div>` : '';
     
     return `
-      <article class="project-card" data-project-id="${p.id}" data-cursor>
+      <article class="project-card" data-project-id="${p.id}" role="button" tabindex="0" aria-label="View details for ${escHtml(p.title)}" data-cursor>
         <div class="project-card-inner">
           <div class="project-card-media">
             <img src="${p.image}" alt="${p.title}" class="project-cover-img" loading="lazy" />
@@ -6403,17 +7234,18 @@ function renderProjectCards(list) {
               </div>
               <div class="project-links">
                 ${p.githubLink ? `
-                  <a href="${p.githubLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="View Source Code" data-cursor>
+                  <a href="${p.githubLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="View Source Code" data-ext-link="1" data-cursor>
                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"/></svg>
                   </a>` : ''}
                 ${p.demoLink ? `
-                  <a href="${p.demoLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="Live Preview" data-cursor>
+                  <a href="${p.demoLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="Live Preview" data-ext-link="1" data-cursor>
                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6M15 3h6v6M10 14L21 3"/></svg>
                   </a>` : ''}
                 ${p.prototypeLink ? `
-                  <a href="${p.prototypeLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="Figma Interactive Prototype" data-cursor>
+                  <a href="${p.prototypeLink}" target="_blank" rel="noopener noreferrer" class="project-link-btn" title="Figma Interactive Prototype" data-ext-link="1" data-cursor>
                     <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 5.5A3.5 3.5 0 0 1 8.5 2H12v7H8.5A3.5 3.5 0 0 1 5 5.5zM12 2h3.5a3.5 3.5 0 1 1 0 7H12V2zM12 12.5a3.5 3.5 0 1 1 7 0 3.5 3.5 0 1 1-7 0zM5 19.5A3.5 3.5 0 0 1 8.5 16H12v3.5a3.5 3.5 0 1 1-7 0zM5 12.5A3.5 3.5 0 0 1 8.5 9H12v7H8.5A3.5 3.5 0 0 1 5 12.5z"/></svg>
                   </a>` : ''}
+                <span class="project-detail-pill">Detail →</span>
               </div>
             </div>
           </div>
@@ -6421,6 +7253,24 @@ function renderProjectCards(list) {
       </article>
     `;
   }).join('');
+
+  if (!track.__clickWired) {
+    track.__clickWired = true;
+    track.addEventListener('click', (e) => {
+      if (e.target.closest('[data-ext-link]')) return;
+      const card = e.target.closest('.project-card[data-project-id]');
+      if (card) openProjectDetail(card.getAttribute('data-project-id'));
+    });
+    track.addEventListener('keydown', (e) => {
+      if (e.key !== 'Enter' && e.key !== ' ') return;
+      if (e.target.closest('[data-ext-link]')) return;
+      const card = e.target.closest('.project-card[data-project-id]');
+      if (card) {
+        e.preventDefault();
+        openProjectDetail(card.getAttribute('data-project-id'));
+      }
+    });
+  }
 
   adjustPathwaysHeight();
   setTimeout(buildCardCloth, 80);
@@ -7863,8 +8713,13 @@ try {
 }
 
 window.addEventListener('message', (ev) => {
-  if (ev.data && ev.data.type === 'INIT_PORTFOLIO') {
+  if (!ev.data) return;
+  if (ev.data.type === 'INIT_PORTFOLIO') {
     applyPortfolioData(ev.data.portfolioData);
+  } else if (ev.data.type === 'OPEN_PROJECT' && ev.data.projectId) {
+    openProjectDetail(ev.data.projectId, { silent: true });
+  } else if (ev.data.type === 'CLOSE_PROJECT') {
+    closeProjectDetail({ silent: true });
   }
 });
 
@@ -7875,7 +8730,7 @@ function start() {
 
   // 2. Render cards
   try {
-    renderProjectCards(DEFAULT_PROJECTS);
+    renderProjectCards(window.__projectsData || DEFAULT_PROJECTS);
   } catch (e) {
     console.error('renderProjectCards error:', e);
   }
@@ -7899,10 +8754,11 @@ function start() {
   addEventListener('orientationchange', () => setTimeout(() => { adjustPathwaysHeight(); resize(); }, 250));
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { running = false; }
-    else if (!running) { running = true; tPrev = performance.now(); queue(); }
+    else if (!running && !window.__projectDetailOpen) { running = true; tPrev = performance.now(); queue(); }
   });
   resize();
 
+  const initialProj = Q.get('project');
   const shot = Q.get('shot');
   if (shot !== null) {                       /* deterministic states for review */
     RIG.intro = 1; WORD.reveal = 1.2; fadeIn = 1; INTRO.t0 = 0;
@@ -7923,6 +8779,9 @@ function start() {
   running = true; tPrev = performance.now();
   INTRO.t0 = shot !== null ? 0 : (REDUCE ? performance.now() - 4000 : performance.now());
   queue();
+  if (initialProj) {
+    openProjectDetail(initialProj, { silent: true });
+  }
   window.__kage = window.__secret = { RIG: RIG, WORLD: WORLD, WORD: WORD, CAM: CAM, POST: POST, renderer: renderer, scene: scene, camera: camera, anchors: () => anchors };
 }
 
