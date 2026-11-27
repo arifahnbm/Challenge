@@ -1453,10 +1453,216 @@ body.project-page-open{ overflow:hidden !important; }
 .cta:hover i{ transform:none; }
 .cta:hover svg path{ stroke:#05070a; }
 
-.contact-actions{ display:flex; gap:12px; align-items:center; justify-content:center; flex-wrap:wrap; margin-top:32px; position:relative; z-index:5; }
-.contact-actions .cta{ margin-top:0; }
-.contact-actions .cta.primary{ background:rgba(223,231,224,0.12); border-color:rgba(223,231,224,0.48); }
-body[data-layout-closing="b"] .fin .contact-actions{ grid-column:1; grid-row:3; justify-self:start; margin-top:14px; }
+.contact-actions{ display:flex; gap:12px; align-items:center; justify-content:flex-start; flex-wrap:wrap; margin-top:20px; position:relative; z-index:5; }
+.contact-actions .cta{ margin-top:0; border:2px solid rgba(40, 22, 30, 0.55); background:rgba(255, 252, 253, 0.52); }
+.contact-actions .cta.primary{ background:rgba(255, 252, 253, 0.78); border:2px solid var(--bone); }
+.contact-actions .cta:hover{ color:#fdf0f4; border-color:var(--bone); }
+.contact-actions .cta:hover svg path{ stroke:#fdf0f4; }
+
+.contact-hub{
+  width:100%;
+  max-width:820px;
+  display:flex;
+  flex-direction:column;
+  gap:16px;
+  margin-top:10px;
+  position:relative;
+  z-index:5;
+  text-align:left;
+}
+body[data-layout-closing="b"] .fin .contact-hub{
+  grid-column:1;
+  grid-row:3;
+  justify-self:stretch;
+}
+.contact-status-bar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  flex-wrap:wrap;
+  gap:12px 18px;
+  padding:13px 18px;
+  border-radius:14px;
+  background:rgba(255, 252, 253, 0.86);
+  border:1.5px solid rgba(40, 22, 30, 0.16);
+  box-shadow:0 8px 24px rgba(40, 22, 30, 0.06);
+}
+.contact-status-left{
+  display:flex;
+  align-items:center;
+  gap:10px;
+  font-size:12.5px;
+  font-weight:500;
+  color:var(--bone);
+}
+.contact-pulse-dot{
+  width:9px;
+  height:9px;
+  border-radius:50%;
+  background:#16a34a;
+  box-shadow:0 0 0 0 rgba(22, 163, 74, 0.55);
+  animation:contactPulse 2s infinite;
+  flex-shrink:0;
+}
+@keyframes contactPulse{
+  0%{ box-shadow:0 0 0 0 rgba(22, 163, 74, 0.55); }
+  70%{ box-shadow:0 0 0 8px rgba(22, 163, 74, 0); }
+  100%{ box-shadow:0 0 0 0 rgba(22, 163, 74, 0); }
+}
+.contact-status-right{
+  display:flex;
+  align-items:center;
+  flex-wrap:wrap;
+  gap:10px;
+  font-size:12px;
+  color:var(--bone-dim);
+}
+.contact-time-pill{
+  padding:4px 10px;
+  border-radius:999px;
+  background:rgba(120, 40, 70, 0.07);
+  font-variant-numeric:tabular-nums;
+  font-weight:500;
+}
+.contact-copy-wrap{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:4px 6px 4px 12px;
+  border-radius:999px;
+  background:#fff;
+  border:1px solid rgba(40, 22, 30, 0.22);
+}
+.contact-copy-email{
+  font-size:12px;
+  font-weight:600;
+  color:var(--bone);
+}
+.contact-copy-btn{
+  padding:4px 11px;
+  border-radius:999px;
+  background:var(--bone);
+  color:#fdf0f4;
+  font-size:10.5px;
+  font-weight:600;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+  transition:background .2s ease;
+}
+.contact-copy-btn:hover{ background:var(--vermilion); }
+.contact-cards-grid{
+  display:grid;
+  grid-template-columns:1.15fr 0.85fr;
+  gap:16px;
+}
+.contact-panel{
+  background:rgba(255, 252, 253, 0.88);
+  border:1.5px solid rgba(40, 22, 30, 0.16);
+  border-radius:16px;
+  padding:20px 22px;
+  box-shadow:0 10px 28px rgba(40, 22, 30, 0.06);
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.contact-panel-title{
+  font-size:10.5px;
+  font-weight:700;
+  letter-spacing:.2em;
+  text-transform:uppercase;
+  color:var(--vermilion);
+  margin:0;
+}
+.contact-form{
+  display:flex;
+  flex-direction:column;
+  gap:10px;
+}
+.contact-form-row{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:10px;
+}
+.contact-input, .contact-textarea{
+  width:100%;
+  padding:10px 13px;
+  border-radius:10px;
+  border:1.5px solid rgba(40, 22, 30, 0.20);
+  background:#fff;
+  color:var(--bone);
+  font:inherit;
+  font-size:13px;
+  outline:none;
+  transition:border-color .2s ease;
+}
+.contact-input:focus, .contact-textarea:focus{
+  border-color:var(--vermilion);
+}
+.contact-textarea{
+  min-height:82px;
+  resize:vertical;
+}
+.contact-form-foot{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  gap:12px;
+  flex-wrap:wrap;
+  margin-top:2px;
+}
+.contact-submit-btn{
+  display:inline-flex;
+  align-items:center;
+  gap:8px;
+  padding:10px 20px;
+  border-radius:999px;
+  background:var(--bone);
+  color:#fdf0f4;
+  border:2px solid var(--bone);
+  font-size:11px;
+  font-weight:600;
+  letter-spacing:.16em;
+  text-transform:uppercase;
+  transition:background .2s ease, border-color .2s ease, transform .2s ease;
+}
+.contact-submit-btn:hover{
+  background:var(--vermilion);
+  border-color:var(--vermilion);
+  transform:translateY(-1px);
+}
+.contact-form-note{
+  font-size:11.5px;
+  color:var(--muted);
+}
+.contact-service-list{
+  display:flex;
+  flex-direction:column;
+  gap:12px;
+}
+.contact-service-item{
+  padding:11px 13px;
+  border-radius:11px;
+  background:#fff;
+  border:1px solid rgba(40, 22, 30, 0.11);
+}
+.contact-service-item b{
+  display:block;
+  font-size:13.5px;
+  font-weight:600;
+  color:var(--bone);
+  margin-bottom:2px;
+}
+.contact-service-item span{
+  display:block;
+  font-size:12px;
+  line-height:1.45;
+  color:var(--bone-dim);
+}
+@media (max-width: 860px){
+  .contact-cards-grid{ grid-template-columns:1fr; }
+  .contact-form-row{ grid-template-columns:1fr; }
+  .contact-actions{ justify-content:center; }
+}
 
 /* — footer */
 .foot{ position:relative; padding:clamp(50px,8vh,96px) var(--pad) clamp(26px,4vh,40px);
@@ -1637,9 +1843,9 @@ body[data-layout-curriculum="b"] .les .t{ text-align:left; margin-top:auto; }
 /* — closing B · gallery: the title hangs vertically on the right while the
      chapter mark, the last line and the call to action run down the left. */
 body[data-layout-closing="b"] .fin{
-  display:grid; grid-template-columns:minmax(260px,.7fr) minmax(0,1.3fr); grid-template-rows:auto auto auto;
+  display:grid; grid-template-columns:minmax(320px, 1.45fr) auto; grid-template-rows:auto auto auto;
   align-content:center; align-items:end; text-align:left;
-  column-gap:clamp(40px,7vw,120px); row-gap:clamp(16px,2.6vh,30px);
+  column-gap:clamp(32px,5vw,90px); row-gap:clamp(14px,2.2vh,24px);
 }
 body[data-layout-closing="b"] .fin .eyebrow{ grid-column:1; grid-row:1; margin:0; }
 body[data-layout-closing="b"] .fin h2{
@@ -2465,6 +2671,82 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
   height: 14px;
 }
 
+.sb-mobile-details {
+  display: none;
+  flex-direction: column;
+  gap: 10px;
+  width: min(100%, 540px);
+  margin: 6px auto 2px;
+  padding: 16px 18px;
+  border-radius: 14px;
+  background: rgba(252, 248, 240, 0.96);
+  border: 1px solid rgba(180, 160, 130, 0.35);
+  box-shadow: 0 8px 24px rgba(40, 22, 30, 0.08);
+  text-align: left;
+  color: #2c2420;
+}
+.sb-mob-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.sb-mob-badge {
+  display: inline-block;
+  padding: 3px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  background: rgba(194, 59, 34, 0.12);
+  color: #b83a2c;
+  border: 1px solid rgba(194, 59, 34, 0.28);
+}
+.sb-mob-date {
+  font-size: 11.5px;
+  font-weight: 600;
+  color: #7a6a61;
+}
+.sb-mob-org {
+  font-size: 13.5px;
+  font-weight: 700;
+  color: #b83a2c;
+  line-height: 1.35;
+}
+.sb-mob-sub {
+  font-size: 12.5px;
+  font-style: italic;
+  color: #5c4e46;
+  margin-top: -6px;
+}
+.sb-mob-desc {
+  font-size: 13px;
+  line-height: 1.62;
+  color: #2c2420;
+  margin: 0;
+}
+.sb-mob-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 2px;
+}
+.sb-mob-tag {
+  font-size: 11px;
+  font-weight: 500;
+  padding: 3px 8px;
+  border-radius: 5px;
+  background: rgba(235, 227, 214, 0.8);
+  color: #3a302a;
+  border: 1px solid rgba(180, 160, 130, 0.4);
+}
+@media (max-width: 768px) {
+  .sb-mobile-details {
+    display: flex;
+  }
+}
+
 .sb-book-hotspot {
   position: absolute;
   right: 5%;
@@ -2912,18 +3194,76 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
   <div class="eyebrow" data-rv="fade">Chapter 04 — Contact</div>
   <h2 class="display" data-rv="up">Get in Touch</h2>
   <p class="body-lg" data-rv="up">Have an exciting project, collaboration inquiry, or simply want to connect? My inbox is always open.</p>
-  <div class="contact-actions" data-rv="fade">
-    <a class="cta contact-cta primary" href="mailto:nura60583@gmail.com" data-cursor>
-      <i></i><span>Say Hello · Email</span>
-      <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="currentColor" stroke-width="1.3"/></svg>
-    </a>
-    <a class="cta cta-sub" href="https://linkedin.com/in/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>
-      <i></i><span>LinkedIn</span>
-      <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="currentColor" stroke-width="1.3"/></svg>
-    </a>
-    <a class="cta cta-sub" href="#top" title="Return to Top" data-cursor>
-      <i></i><span>Back to Top ↑</span>
-    </a>
+  <div class="contact-hub" data-rv="fade">
+    <div class="contact-status-bar">
+      <div class="contact-status-left">
+        <span class="contact-pulse-dot" aria-hidden="true"></span>
+        <span>Open for Internship, Freelance &amp; Full-time Opportunities</span>
+      </div>
+      <div class="contact-status-right">
+        <span class="contact-time-pill" id="contactLocalTime">Banyuwangi, ID · WIB</span>
+        <span class="contact-copy-wrap">
+          <span class="contact-copy-email" id="contactEmailText">arifahmachi@gmail.com</span>
+          <button type="button" class="contact-copy-btn" id="contactCopyBtn" data-cursor>Copy</button>
+        </span>
+      </div>
+    </div>
+
+    <div class="contact-cards-grid">
+      <div class="contact-panel">
+        <h3 class="contact-panel-title">Send a Quick Message</h3>
+        <form class="contact-form" id="contactQuickForm">
+          <div class="contact-form-row">
+            <input type="text" class="contact-input" id="cfName" placeholder="Your Name" required />
+            <input type="email" class="contact-input" id="cfEmail" placeholder="Your Email" required />
+          </div>
+          <textarea class="contact-textarea" id="cfMessage" placeholder="Tell me about your project, idea, or opportunity..." required></textarea>
+          <div class="contact-form-foot">
+            <button type="submit" class="contact-submit-btn" data-cursor>
+              <span>Send Message</span>
+              <svg viewBox="0 0 14 14" fill="none" width="12" height="12"><path d="M3 11 11 3M5 3h6v6" stroke="currentColor" stroke-width="1.5"/></svg>
+            </button>
+            <span class="contact-form-note" id="cfNote">Opens your email client with message pre-filled.</span>
+          </div>
+        </form>
+      </div>
+
+      <div class="contact-panel">
+        <h3 class="contact-panel-title">What I Can Help With</h3>
+        <div class="contact-service-list">
+          <div class="contact-service-item">
+            <b>Web Development</b>
+            <span>Modern web apps using Next.js, Laravel, MySQL &amp; Tailwind CSS.</span>
+          </div>
+          <div class="contact-service-item">
+            <b>Mobile App Development</b>
+            <span>Cross-platform Android &amp; iOS apps with Flutter &amp; Firebase.</span>
+          </div>
+          <div class="contact-service-item">
+            <b>UI/UX Design &amp; AI</b>
+            <span>Interactive Figma prototypes &amp; Gemini API / ML Kit integration.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="contact-actions">
+      <a class="cta contact-cta primary" href="mailto:arifahmachi@gmail.com" data-cursor>
+        <i></i><span>Say Hello · Email</span>
+        <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="currentColor" stroke-width="1.3"/></svg>
+      </a>
+      <a class="cta cta-sub" href="https://linkedin.com/in/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>
+        <i></i><span>LinkedIn</span>
+        <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="currentColor" stroke-width="1.3"/></svg>
+      </a>
+      <a class="cta cta-sub" href="https://github.com/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>
+        <i></i><span>GitHub</span>
+        <svg viewBox="0 0 14 14" fill="none" width="13" height="13"><path d="M3 11 11 3M5 3h6v6" stroke="currentColor" stroke-width="1.3"/></svg>
+      </a>
+      <a class="cta cta-sub" href="#top" title="Return to Top" data-cursor>
+        <i></i><span>Back to Top ↑</span>
+      </a>
+    </div>
   </div>
 </section>
 
@@ -2959,7 +3299,7 @@ body[data-layout-footer="b"] .foot-base span:last-child{ text-align:right; }
     </div>
     <div class="foot-info-col">
       <h4>Direct Channels</h4>
-      <p>Email: <a href="mailto:nura60583@gmail.com" data-cursor>nura60583@gmail.com</a><br>LinkedIn: <a href="https://linkedin.com/in/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>/in/arifahnbm</a><br>GitHub: <a href="https://github.com/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>@arifahnbm</a></p>
+      <p>Email: <a href="mailto:arifahmachi@gmail.com" data-cursor>arifahmachi@gmail.com</a><br>LinkedIn: <a href="https://linkedin.com/in/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>/in/arifahnbm</a><br>GitHub: <a href="https://github.com/arifahnbm" target="_blank" rel="noopener noreferrer" data-cursor>@arifahnbm</a></p>
     </div>
   </div>
   <div class="foot-base">
@@ -5528,7 +5868,61 @@ function createCloth(output, plate, options) {
   }
   
 
-  function start() {
+  function initContactHub() {
+  const timeEl = document.getElementById('contactLocalTime');
+  const updateWib = () => {
+    if (!timeEl) return;
+    try {
+      const t = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Jakarta',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(new Date());
+      timeEl.textContent = `Banyuwangi, ID · ${t} WIB`;
+    } catch (e) {
+      timeEl.textContent = 'Banyuwangi, ID · UTC+7';
+    }
+  };
+  updateWib();
+  setInterval(updateWib, 30000);
+
+  const copyBtn = document.getElementById('contactCopyBtn');
+  if (copyBtn && !copyBtn.__wired) {
+    copyBtn.__wired = true;
+    copyBtn.addEventListener('click', () => {
+      const email = (document.getElementById('contactEmailText')?.textContent || 'arifahmachi@gmail.com').trim();
+      const done = () => {
+        copyBtn.textContent = 'Copied ✓';
+        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(done, done);
+      } else {
+        done();
+      }
+    });
+  }
+
+  const form = document.getElementById('contactQuickForm');
+  if (form && !form.__wired) {
+    form.__wired = true;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('cfName')?.value || '').trim();
+      const email = (document.getElementById('cfEmail')?.value || '').trim();
+      const msg = (document.getElementById('cfMessage')?.value || '').trim();
+      const targetEmail = (document.getElementById('contactEmailText')?.textContent || 'arifahmachi@gmail.com').trim();
+      const subject = encodeURIComponent(`Portfolio Inquiry from ${name || 'Visitor'}`);
+      const body = encodeURIComponent(`Hi Arifah,\n\n${msg}\n\nBest regards,\n${name}\n(${email})`);
+      window.location.href = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+      const note = document.getElementById('cfNote');
+      if (note) note.textContent = 'Email draft opened! Looking forward to connecting.';
+    });
+  }
+}
+
+function start() {
     if (dead || running || !visible) return;
     running = true; last = performance.now(); raf = requestAnimationFrame(frame);
   }
@@ -6570,6 +6964,7 @@ function fallback(err) {
   startGreetingRotator();
   startRoleRotator();
   initGpaScramble();
+  initContactHub();
   $$('[data-rv], .mask-line').forEach(e => e.classList.add('rv-in'));
   window.__kage = window.__secret = { fallback: true, error: String(err && err.message || err) };
 }
@@ -6813,8 +7208,17 @@ function updateHorizontalTrack(y) {
   
   const pTop = pathways.offsetTop;
   const pDist = Math.max(0, pathways.offsetHeight - window.innerHeight);
+  const fgPathways = document.querySelector('[data-fg="pathways"]');
+  const mapleImgs = fgPathways ? fgPathways.querySelectorAll('.fg-sakura > img, .fg-leaves > img') : null;
+  const setMapleOpacity = (val) => {
+    if (!mapleImgs) return;
+    const o = Math.max(0, Math.min(1, val)).toFixed(3);
+    mapleImgs.forEach((img) => { img.style.opacity = o; });
+  };
+
   if (pDist <= 0) {
     track.style.transform = 'none';
+    setMapleOpacity(1);
     return;
   }
   
@@ -6827,6 +7231,7 @@ function updateHorizontalTrack(y) {
     stickyContainer.style.left = '0px';
     stickyContainer.style.width = '100%';
     track.style.transform = 'translate3d(0, 0, 0)';
+    setMapleOpacity(1);
   } else if (y >= pTop && y <= pTop + pDist) {
     stickyContainer.style.position = 'fixed';
     stickyContainer.style.top = '0px';
@@ -6835,6 +7240,7 @@ function updateHorizontalTrack(y) {
     stickyContainer.style.width = '100%';
     const ratio = (y - pTop) / pDist;
     track.style.transform = `translate3d(-${(ratio * maxX).toFixed(1)}px, 0, 0)`;
+    setMapleOpacity(1 - ratio);
   } else {
     stickyContainer.style.position = 'absolute';
     stickyContainer.style.top = 'auto';
@@ -6842,6 +7248,7 @@ function updateHorizontalTrack(y) {
     stickyContainer.style.left = '0px';
     stickyContainer.style.width = '100%';
     track.style.transform = `translate3d(-${maxX.toFixed(1)}px, 0, 0)`;
+    setMapleOpacity(0);
   }
 }
 
@@ -7777,9 +8184,54 @@ function drawLeftPage(ctx, item, pageNum, loadedImg = null) {
 function drawRightPage(ctx, item, pageNum) {
   const startX = 990;
   const width = 740;
-  let curY = 85;
+  const isMobileBook = typeof window !== 'undefined' && window.innerWidth <= 768;
 
   ctx.save();
+
+  if (isMobileBook) {
+    // Mobile: only centered, enlarged title on the right page (other details live below the book)
+    const centerX = startX + width / 2;
+    const maxW = width - 40;
+    const titleStr = String(item.title || '');
+    const fontSize = titleStr.length > 52 ? 44 : (titleStr.length > 32 ? 50 : 58);
+    const lineH = Math.round(fontSize * 1.28);
+
+    ctx.font = `bold ${fontSize}px 'Cinzel', 'Shippori Mincho', 'Cormorant Garamond', Georgia, serif`;
+    ctx.fillStyle = '#1c1715';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+
+    const words = titleStr.split(/\s+/);
+    const lines = [];
+    let curLine = '';
+    for (let i = 0; i < words.length; i++) {
+      const test = curLine ? curLine + ' ' + words[i] : words[i];
+      if (ctx.measureText(test).width > maxW && curLine) {
+        lines.push(curLine);
+        curLine = words[i];
+      } else {
+        curLine = test;
+      }
+    }
+    if (curLine) lines.push(curLine);
+
+    const totalH = lines.length * lineH;
+    let y = (1000 - totalH) / 2 + lineH / 2;
+    lines.forEach((ln) => {
+      ctx.fillText(ln, centerX, y);
+      y += lineH;
+    });
+
+    ctx.font = "16px 'Cinzel', serif";
+    ctx.fillStyle = '#9e8f86';
+    ctx.textBaseline = 'alphabetic';
+    ctx.fillText("—  " + pageNum + "  —", centerX, 940);
+
+    ctx.restore();
+    return;
+  }
+
+  let curY = 85;
 
   // 1. Running Header
   const headerCat = item.category === 'award' ? 'HONORS & RECOGNITION' : 'PRACTICAL EXPERIENCE';
@@ -7836,9 +8288,9 @@ function drawRightPage(ctx, item, pageNum) {
   // 6. Narrative Description
   ctx.font = "15px/1.6 'Cormorant Garamond', Georgia, serif";
   ctx.fillStyle = '#2c2420';
-  curY = drawWrappedText(ctx, item.description, startX, curY, width, 23, 6);
+  curY = drawWrappedText(ctx, item.description, startX, curY, width, 23, 7);
 
-  curY += 20;
+  curY += 22;
 
   // 7. Highlights / Skill Tags
   ctx.font = "bold 11px -apple-system, BlinkMacSystemFont, sans-serif";
@@ -7874,65 +8326,7 @@ function drawRightPage(ctx, item, pageNum) {
     });
   }
 
-  curY += 36;
-
-  // 8. Interactive Action Link Button(s) (Drawn on canvas)
-  const hasLink1 = !!item.link;
-  const hasLink2 = !!item.link2;
-
-  if (hasLink1 || hasLink2) {
-    ctx.save();
-    ctx.font = "bold 12px -apple-system, BlinkMacSystemFont, sans-serif";
-    const btnH = 32;
-    let bX = startX;
-    let bY = curY;
-
-    if (hasLink1) {
-      const btnText1 = item.linkText || "Visit Coverage ↗";
-      const btnW1 = Math.min(width, ctx.measureText(btnText1).width + 30);
-
-      ctx.fillStyle = 'rgba(194, 59, 34, 0.9)';
-      ctx.strokeStyle = '#c23b22';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      safeRoundRect(ctx, bX, bY, btnW1, btnH, 8);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.fillStyle = '#ffffff';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(btnText1, bX + 15, bY + btnH / 2);
-
-      bX += btnW1 + 12;
-    }
-
-    if (hasLink2) {
-      const btnText2 = item.linkText2 || "Visit Coverage 2 ↗";
-      const btnW2 = Math.min(width, ctx.measureText(btnText2).width + 30);
-
-      if (bX + btnW2 > startX + width) {
-        bX = startX;
-        bY += btnH + 8;
-      }
-
-      ctx.fillStyle = 'rgba(38, 50, 56, 0.9)';
-      ctx.strokeStyle = '#263238';
-      ctx.lineWidth = 1;
-      ctx.beginPath();
-      safeRoundRect(ctx, bX, bY, btnW2, btnH, 8);
-      ctx.fill();
-      ctx.stroke();
-
-      ctx.fillStyle = '#ffffff';
-      ctx.textAlign = 'left';
-      ctx.textBaseline = 'middle';
-      ctx.fillText(btnText2, bX + 15, bY + btnH / 2);
-    }
-    ctx.restore();
-  }
-
-  // 9. Page Footer
+  // 8. Page Footer
   ctx.font = "13px 'Cinzel', serif";
   ctx.fillStyle = '#9e8f86';
   ctx.textAlign = 'center';
@@ -8046,9 +8440,15 @@ function generateSpreadDataUrls(items) {
     const loadedImg = __bookLoadedImages[i] || null;
     list.push({
       id: it.id,
+      category: it.category,
+      badge: it.badge,
       title: it.title,
+      organization: it.organization,
       subtitle: it.subtitle,
       date: it.date,
+      description: it.description,
+      highlights: it.highlights,
+      quote: it.quote,
       link: it.link,
       linkText: it.linkText,
       link2: it.link2,
@@ -8083,10 +8483,12 @@ function initAwardExperienceBook(spreadData) {
   if (!container) return;
 
   const dataList = getSortedAwardsExperiences(spreadData);
-  const newKey = JSON.stringify(dataList.map(d => d.id || d.title));
+  const modeKey = (typeof window !== 'undefined' && window.innerWidth <= 768) ? 'mobile' : 'desktop';
+  const newKey = modeKey + ':' + JSON.stringify(dataList.map(d => d.id || d.title));
   if (__spreadsCacheKey === newKey && __bookPageDataList.length > 0) {
-    return; // Already initialized with exact same data
+    return; // Already initialized with exact same data & viewport mode
   }
+  window.__lastBookSpreadData = spreadData;
   __spreadsCacheKey = newKey;
   __bookPageDataList = generateSpreadDataUrls(dataList);
   if (!__bookPageDataList.length) return;
@@ -8221,16 +8623,6 @@ function initAwardExperienceBook(spreadData) {
       f.appendChild(im);
       book.appendChild(f);
       sb3d.style.setProperty('--shade', '0');
-
-      if (__bookPageDataList[__bookIdx] && __bookPageDataList[__bookIdx].link) {
-        const linkHotspot = el('a', 'sb-book-hotspot');
-        linkHotspot.href = __bookPageDataList[__bookIdx].link;
-        linkHotspot.target = '_blank';
-        linkHotspot.rel = 'noopener noreferrer';
-        linkHotspot.title = __bookPageDataList[__bookIdx].linkText || 'Buka Tautan';
-        linkHotspot.setAttribute('data-cursor', 'pointer');
-        book.appendChild(linkHotspot);
-      }
     } else {
       const next = __bookTurn.dir === 'next';
       book.appendChild(halfEl('left', next ? __bookTurn.from : __bookTurn.to));
@@ -8275,6 +8667,45 @@ function initAwardExperienceBook(spreadData) {
       track.appendChild(p);
     }
     capBox.appendChild(track);
+
+    const mobCard = el('div', 'sb-mobile-details');
+    const metaRow = el('div', 'sb-mob-meta');
+    if (curItem.badge) {
+      const b = el('span', 'sb-mob-badge');
+      b.textContent = curItem.badge;
+      metaRow.appendChild(b);
+    }
+    if (curItem.date) {
+      const d = el('span', 'sb-mob-date');
+      d.textContent = curItem.date;
+      metaRow.appendChild(d);
+    }
+    if (metaRow.children.length) mobCard.appendChild(metaRow);
+    if (curItem.organization) {
+      const org = el('div', 'sb-mob-org');
+      org.textContent = curItem.organization;
+      mobCard.appendChild(org);
+    }
+    if (curItem.subtitle && curItem.subtitle !== curItem.organization) {
+      const sub = el('div', 'sb-mob-sub');
+      sub.textContent = curItem.subtitle;
+      mobCard.appendChild(sub);
+    }
+    if (curItem.description) {
+      const desc = el('p', 'sb-mob-desc');
+      desc.textContent = curItem.description;
+      mobCard.appendChild(desc);
+    }
+    if (Array.isArray(curItem.highlights) && curItem.highlights.length) {
+      const tags = el('div', 'sb-mob-tags');
+      curItem.highlights.forEach((tg) => {
+        const sp = el('span', 'sb-mob-tag');
+        sp.textContent = tg;
+        tags.appendChild(sp);
+      });
+      mobCard.appendChild(tags);
+    }
+    capBox.appendChild(mobCard);
 
     const hasLink1 = !!curItem.link;
     const hasLink2 = !!curItem.link2;
@@ -8723,6 +9154,60 @@ window.addEventListener('message', (ev) => {
   }
 });
 
+function initContactHub() {
+  const timeEl = document.getElementById('contactLocalTime');
+  const updateWib = () => {
+    if (!timeEl) return;
+    try {
+      const t = new Intl.DateTimeFormat('en-GB', {
+        timeZone: 'Asia/Jakarta',
+        hour: '2-digit',
+        minute: '2-digit',
+        hour12: false
+      }).format(new Date());
+      timeEl.textContent = `Banyuwangi, ID · ${t} WIB`;
+    } catch (e) {
+      timeEl.textContent = 'Banyuwangi, ID · UTC+7';
+    }
+  };
+  updateWib();
+  setInterval(updateWib, 30000);
+
+  const copyBtn = document.getElementById('contactCopyBtn');
+  if (copyBtn && !copyBtn.__wired) {
+    copyBtn.__wired = true;
+    copyBtn.addEventListener('click', () => {
+      const email = (document.getElementById('contactEmailText')?.textContent || 'arifahmachi@gmail.com').trim();
+      const done = () => {
+        copyBtn.textContent = 'Copied ✓';
+        setTimeout(() => { copyBtn.textContent = 'Copy'; }, 2000);
+      };
+      if (navigator.clipboard && navigator.clipboard.writeText) {
+        navigator.clipboard.writeText(email).then(done, done);
+      } else {
+        done();
+      }
+    });
+  }
+
+  const form = document.getElementById('contactQuickForm');
+  if (form && !form.__wired) {
+    form.__wired = true;
+    form.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const name = (document.getElementById('cfName')?.value || '').trim();
+      const email = (document.getElementById('cfEmail')?.value || '').trim();
+      const msg = (document.getElementById('cfMessage')?.value || '').trim();
+      const targetEmail = (document.getElementById('contactEmailText')?.textContent || 'arifahmachi@gmail.com').trim();
+      const subject = encodeURIComponent(`Portfolio Inquiry from ${name || 'Visitor'}`);
+      const body = encodeURIComponent(`Hi Arifah,\n\n${msg}\n\nBest regards,\n${name}\n(${email})`);
+      window.location.href = `mailto:${targetEmail}?subject=${subject}&body=${body}`;
+      const note = document.getElementById('cfNote');
+      if (note) note.textContent = 'Email draft opened! Looking forward to connecting.';
+    });
+  }
+}
+
 function start() {
   // 1. Instantly dismiss preloader and unlock screen
   if (preEl) preEl.classList.add('done');
@@ -8749,8 +9234,14 @@ function start() {
   startGreetingRotator();
   startRoleRotator();
   initGpaScramble();
+  initContactHub();
   addEventListener('scroll', () => { updateHorizontalTrack(window.scrollY); }, { passive: true });
-  addEventListener('resize', () => { adjustPathwaysHeight(); updateHorizontalTrack(window.scrollY); resize(); }, { passive: true });
+  addEventListener('resize', () => {
+    adjustPathwaysHeight();
+    updateHorizontalTrack(window.scrollY);
+    resize();
+    try { initAwardExperienceBook(window.__lastBookSpreadData || DEFAULT_AWARDS_EXPERIENCES); } catch (e) {}
+  }, { passive: true });
   addEventListener('orientationchange', () => setTimeout(() => { adjustPathwaysHeight(); resize(); }, 250));
   document.addEventListener('visibilitychange', () => {
     if (document.hidden) { running = false; }

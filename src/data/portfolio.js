@@ -120,7 +120,7 @@ export const portfolioData = {
     chapter: "Chapter 04 — Contact",
     title: "Get in Touch",
     body: "Have an exciting project, collaboration inquiry, or simply want to connect? My inbox is always open.",
-    email: "nura60583@gmail.com",
+    email: "arifahmachi@gmail.com",
     linkedin: "https://linkedin.com/in/arifahnbm",
     github: "https://github.com/arifahnbm",
   },
